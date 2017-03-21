@@ -301,3 +301,8 @@ _:-ms-input-placeholder, :root .demo-graph {
 #dialog{
   width: 400px;
 }
+
+#takeimage{
+    padding-bottom: 10px;
+    padding-left: 50px;
+}
