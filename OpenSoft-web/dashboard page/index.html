@@ -178,9 +178,9 @@
               $AutoPlay: false,
               $AutoPlaySteps: 7,
               $SlideDuration: 100,
-              $SlideWidth: 132,
+              $SlideWidth: 150,
               $SlideSpacing: 3,
-              $Cols: 6,
+              $Cols: 5,
               $ArrowNavigatorOptions: {
                 $Class: $JssorArrowNavigator$,
                 $Steps: 5
@@ -194,12 +194,12 @@
 
             var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
 
-            /*responsive code begin*/
+          /*responsive code begin*/
             /*remove responsive code if you don't want the slider scales while window resizing*/
             function ScaleSlider() {
                 var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
                 if (refSize) {
-                    refSize = Math.min(refSize, 950);
+                    refSize = Math.min(refSize, 900);
                     jssor_1_slider.$ScaleWidth(refSize);
                 }
                 else {
