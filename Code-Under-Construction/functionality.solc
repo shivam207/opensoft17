@@ -1,0 +1,217 @@
+pragma solidity ^0.4.0;
+
+contract binary_search{
+    
+    struct Image{
+        string latitude;
+        string longitude;
+        string hash_image;
+        string category;
+    }
+    
+    Image[] data;
+    uint data_size = data.length;
+    
+    function string_equal(string storage _a, string memory _b) internal returns (bool) {
+		bytes storage a = bytes(_a);
+		bytes memory b = bytes(_b);
+		
+		if (a.length != b.length)
+			return false;
+			
+		for (uint i=0; i<a.length; i++)
+			if (a[i] != b[i])
+				return false;
+				
+		return true;
+	}
+	
+	//still working on this...
+	function greater_than(string storage _a, string memory _b) internal returns (bool) {
+		bytes storage a = bytes(_a);
+		bytes memory b = bytes(_b);
+		
+		if (a.length != b.length)
+			return false;
+			
+		for (uint i=0; i<a.length; i++)
+			if (a[i] != b[i])
+				return false;
+				
+		return true;
+	}
+	//incomplete
+    
+    function cordinate_convert( string storage cordinates) internal returns (uint[2] int_cords){
+        bytes storage str = bytes(cordinates);
+        uint str_size = str.length;
+        
+        uint before_dec;
+        uint after_dec;
+        uint status;
+        
+        status = 0;
+        before_dec = 0;
+        after_dec = 0;
+        
+        for (uint i=0; i<str_size; i++){
+            if(str[i]=='.'){
+                status=1;
+                continue;
+            }
+            if(status==0){
+                before_dec *= 10;
+                before_dec += uint(str[i])-48;
+            }
+            else{
+                after_dec *= 10;
+                after_dec += uint(str[i])-48;
+            }
+        }
+        
+        int_cords[0] = before_dec;
+        int_cords[1] = after_dec;
+    }
+    
+    function divide_rule( string search_lat, string search_long) internal returns (Image[] result){
+        Image start = data[0];
+        Image end = data[data_size-1];
+        string start_latitude = start.latitude;
+        string end_latitude = end.latitude;
+        
+        
+    }
+}
+
+
+pragma solidity ^0.4.7;
+contract SimpleStorage {
+  uint public storedData;
+  uint[2][] private array_int;
+  
+  function SimpleStorage(uint initialValue) {
+    storedData = initialValue;
+  }
+
+  function set(uint x) {
+    storedData = x;
+  }
+
+  function get() constant returns (uint retVal) {
+    return storedData;
+  }
+
+  function push(uint[2] x){
+    array_int.push(x);
+    sort();
+  }
+
+  function ttop() constant returns (uint[2] retVal) {
+    return array_int[array_int.length-1];
+  }
+
+  function returnarr() constant returns (uint[2][] retVal) {
+    return array_int;
+  }
+
+  function retsize() constant returns (uint retVal){
+    return array_int.length;
+  }
+
+  function pop() {
+    // delete array_int[array_int.length-1];
+    remove(array_int.length-1);
+    // array_int.length--;
+  }
+
+
+  // function string_equal(string storage _a, string memory _b) internal returns (bool) {
+  //   bytes storage a = bytes(_a);
+  //   bytes memory b = bytes(_b);
+    
+  //   if (a.length != b.length)
+  //     return false;
+      
+  //   for (uint i=0; i<a.length; i++)
+  //     if (a[i] != b[i])
+  //       return false;
+        
+  //   return true;
+  // }
+
+  // function greater_than(string storage _a, string memory _b) internal returns (bool) {
+  //   bytes storage a = bytes(_a);
+  //   bytes memory b = bytes(_b);
+    
+  //   if (a.length != b.length)
+  //     return false;
+      
+  //   for (uint i=0; i<a.length; i++)
+  //     if (a[i] < b[i])
+  //       return false;
+  //   if (string_equal(a,b) == false)
+  //     return true;
+  //   return false;
+  // }
+
+  function isEmpty() constant returns (bool retVal) {
+    return array_int.length == 0;
+  }
+  
+  function sort() {
+      if (array_int.length == 0)
+          return;
+      quickSort(array_int, 0, array_int.length - 1);
+  }
+  
+  function quickSort(uint[2][] storage arr, uint left, uint right) internal {
+      if(left <= right)
+        return;
+      uint i = left;
+      uint j = right;
+
+      uint[2] pivot = arr[left + (right - left) / 2];
+      while (i <= j) {
+          while (arr[i][0] < pivot[0] || (arr[i][0]==pivot[0] && arr[i][1]<pivot[1])) i++;
+          while (pivot[0] < arr[j][0] || (pivot[0]==arr[j][0] && pivot[1]<arr[j][1])) j--;
+          if (i <= j) {
+              (arr[i], arr[j]) = (arr[j], arr[i]);
+              i++;
+              j--;
+          }
+      }
+      if (left < j)
+          quickSort(arr, left, j);
+      if (i < right)
+          quickSort(arr, i, right);
+  }
+  
+  function remove(uint index)  returns(uint[2][]) {
+        if (index >= array_int.length) return;
+
+        for (uint i = index; i<array_int.length-1; i++){
+            array_int[i] = array_int[i+1];
+        }
+        delete array_int[array_int.length-1];
+        array_int.length--;
+  }
+
+  // function arrreturn(){
+  //   uint arr[2];
+  //   arr[0]=1;
+  //   arr[2]=2;
+  //   return arr;
+  // }
+  // function stringToUint(string s) constant returns (uint result) {
+  //       bytes memory b = bytes(s);
+  //       uint i;
+  //       result = 0;
+  //       for (i = 0; i < b.length; i++) {
+  //           uint c = uint(b[i]);
+  //           if (c >= 48 && c <= 57) {
+  //               result = result * 10 + (c - 48);
+  //           }
+  //       }
+  //   }
+}
+
