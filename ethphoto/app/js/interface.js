@@ -84,12 +84,15 @@ function upload() {
   4. category
   5. hashkey
   ****/
+  console.log("ARBIT")
   var x = 40
   var y = -70
   var file = "file:///home/sayan/Pictures/activityDiagIssueRes.png"
+  var input = $("#takeimage input[type=file]")
+  console.log(input)
   var category = 1
   console.log("Hello");
-  EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+  EmbarkJS.Storage.uploadFile(input).then(function(Hash) {
   });
 
   var value = {lat:x,long:y, img:file, cat:category, hash:Hash};

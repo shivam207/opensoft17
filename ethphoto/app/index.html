@@ -48,8 +48,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
     <link rel="stylesheet" href="css/app.css">
-   
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="js/eth_photo.js"></script>
+
   </head>
   <body>
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -58,7 +59,8 @@
           <span class="mdl-layout-title">Home</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-            <label class="mdl-button mdl-js-button mdl-button--icon" for="search" >
+             <label class="mdl-button mdl-js-button mdl-button--icon" for="search" onclick="upload()">
+
               <i class="material-icons">search</i>
             </label>
           </div>
@@ -130,7 +132,7 @@
     </form>
     </div>
     <div class="mdl-dialog__actions ">
-      <button type="button" class="mdl-button">Ok</button>
+      <button type="button" class="mdl-button" onclick="upload()">Ok</button>
       <button type="button" class="mdl-button close">Cancel</button>
     </div>
   </dialog>
