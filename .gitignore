@@ -42,5 +42,6 @@ jspm_packages
 /ethphoto/.embark
 /ethphoto/.vscode
 /ethphoto/.npmignore
+/ethphoto/.ipfs
 
 
