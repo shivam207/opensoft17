@@ -215,9 +215,20 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .demo-card-wide {
-  margin:50px;
-  height: 500px;
+  margin-top:20px; 
+  margin-left:2px;
+  margin-right: 2px;
+  margin-bottom: 10px;
+  height: 520px;
   width: auto;
+}
+
+.demo-card-wide-slider{
+    margin-left:140px;
+    margin-right: 140px;
+    height:50px;
+    width:auto;
+    color: #00BCD4;
 }
 #map {
   height: 100%;

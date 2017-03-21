@@ -159,12 +159,12 @@
     
 
       <main class="mdl-layout__content mdl-color--grey-100">
+        
         <div class="demo-card-wide mdl-card mdl-shadow--2dp">
           <div id="map"></div>
-
         </div>
-          <div class="demo-card-wide mdl-card mdl-shadow--2dp">
-          <div style="padding:0px; margin:0px; background-color:#fff;font-family:'Open Sans',sans-serif,arial,helvetica,verdana">
+          <div class="demo-card-wide-slider  mdl-shadow--2dp" style="height=100px">
+        <div style="padding:0px; margin:0px; background-color:#fff;font-family:'Open Sans',sans-serif,arial,helvetica,verdana">
 
     <!-- #region Jssor Slider Begin -->
     <!-- Generator: Jssor Slider Maker -->
@@ -175,14 +175,21 @@
         jssor_1_slider_init = function() {
 
             var jssor_1_options = {
-              $AutoPlay: true,
-              $Idle: 0,
-              $AutoPlaySteps: 4,
-              $SlideDuration: 2500,
-              $SlideEasing: $Jease$.$Linear,
-              $PauseOnHover: 4,
-              $SlideWidth: 140,
-              $Cols: 7
+              $AutoPlay: false,
+              $AutoPlaySteps: 7,
+              $SlideDuration: 100,
+              $SlideWidth: 132,
+              $SlideSpacing: 3,
+              $Cols: 6,
+              $ArrowNavigatorOptions: {
+                $Class: $JssorArrowNavigator$,
+                $Steps: 5
+              },
+//              $BulletNavigatorOptions: {
+//                $Class: $JssorBulletNavigator$,
+//                $SpacingX: 1,
+//                $SpacingY: 1
+//              }
             };
 
             var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
@@ -192,7 +199,7 @@
             function ScaleSlider() {
                 var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
                 if (refSize) {
-                    refSize = Math.min(refSize, 809);
+                    refSize = Math.min(refSize, 950);
                     jssor_1_slider.$ScaleWidth(refSize);
                 }
                 else {
@@ -206,86 +213,159 @@
             /*responsive code end*/
         };
     </script>
-    <style></style>
-    <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:980px;height:100px;overflow:hidden;visibility:hidden;">
+    <style>
+        /* jssor slider bullet navigator skin 03 css */
+        /*
+        .jssorb03 div           (normal)
+        .jssorb03 div:hover     (normal mouseover)
+        .jssorb03 .av           (active)
+        .jssorb03 .av:hover     (active mouseover)
+        .jssorb03 .dn           (mousedown)
+        */
+        .jssorb03 {
+            position: absolute;
+        }
+        .jssorb03 div, .jssorb03 div:hover, .jssorb03 .av {
+            position: absolute;
+            /* size of bullet elment */
+            width: 21px;
+            height: 21px;
+            text-align: center;
+            line-height: 21px;
+            color: white;
+            font-size: 12px;
+            background: url('img/b03.png') no-repeat;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .jssorb03 div { background-position: -5px -4px; }
+        .jssorb03 div:hover, .jssorb03 .av:hover { background-position: -35px -4px; }
+        .jssorb03 .av { background-position: -65px -4px; }
+        .jssorb03 .dn, .jssorb03 .dn:hover { background-position: -95px -4px; }
+
+        /* jssor slider arrow navigator skin 03 css */
+        /*
+        .jssora03l                  (normal)
+        .jssora03r                  (normal)
+        .jssora03l:hover            (normal mouseover)
+        .jssora03r:hover            (normal mouseover)
+        .jssora03l.jssora03ldn      (mousedown)
+        .jssora03r.jssora03rdn      (mousedown)
+        .jssora03l.jssora03ldn      (disabled)
+        .jssora03r.jssora03rdn      (disabled)
+        */
+        .jssora03l, .jssora03r {
+            display: block;
+            position: absolute;
+            /* size of arrow element */
+            width: 55px;
+            height: 55px;
+            cursor: pointer;
+            background: url('img/a03.png') no-repeat;
+            overflow: hidden;
+        }
+        .jssora03l { background-position: -3px -33px; }
+        .jssora03r { background-position: -63px -33px; }
+        .jssora03l:hover { background-position: -123px -33px; }
+        .jssora03r:hover { background-position: -183px -33px; }
+        .jssora03l.jssora03ldn { background-position: -243px -33px; }
+        .jssora03r.jssora03rdn { background-position: -303px -33px; }
+        .jssora03l.jssora03lds { background-position: -3px -33px; opacity: .3; pointer-events: none; }
+        .jssora03r.jssora03rds { background-position: -63px -33px; opacity: .3; pointer-events: none; }
+    </style>
+    <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:809px;height:150px;overflow:hidden;visibility:hidden;">
         <!-- Loading Screen -->
         <div data-u="loading" style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.7);">
             <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
             <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
         </div>
-        <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:980px;height:100px;overflow:hidden;">
+        <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:809px;height:150px;overflow:hidden;">
+            <a data-u="any" href="http://www.jssor.com" style="display:none">Carousel</a>
             <div>
-                <img data-u="image" src="img/amazon.jpg" />
+                <img data-u="image" src="img/005.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/android.jpg" />
+                <img data-u="image" src="img/006.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/bitly.jpg" />
+                <img data-u="image" src="img/011.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/blogger.jpg" />
+                <img data-u="image" src="img/013.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/dnn.jpg" />
+                <img data-u="image" src="img/014.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/drupal.jpg" />
-            </div>
-            <a data-u="any" href="http://www.jssor.com" style="display:none">Scrolling Logo Thumbnail Slider</a>
-            <div>
-                <img data-u="image" src="img/ebay.jpg" />
+                <img data-u="image" src="img/019.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/facebook.jpg" />
+                <img data-u="image" src="img/020.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/google.jpg" />
+                <img data-u="image" src="img/021.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/ibm.jpg" />
+                <img data-u="image" src="img/022.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/ios.jpg" />
+                <img data-u="image" src="img/024.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/joomla.jpg" />
+                <img data-u="image" src="img/025.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/linkedin.jpg" />
+                <img data-u="image" src="img/027.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/mac.jpg" />
+                <img data-u="image" src="img/029.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/magento.jpg" />
+                <img data-u="image" src="img/030.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/pinterest.jpg" />
+                <img data-u="image" src="img/031.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/samsung.jpg" />
+                <img data-u="image" src="img/030.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/twitter.jpg" />
+                <img data-u="image" src="img/034.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/windows.jpg" />
+                <img data-u="image" src="img/038.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/wordpress.jpg" />
+                <img data-u="image" src="img/039.jpg" />
             </div>
             <div>
-                <img data-u="image" src="img/youtube.jpg" />
+                <img data-u="image" src="img/043.jpg" />
+            </div>
+            <div>
+                <img data-u="image" src="img/044.jpg" />
+            </div>
+            <div>
+                <img data-u="image" src="img/047.jpg" />
+            </div>
+            <div>
+                <img data-u="image" src="img/050.jpg" />
             </div>
         </div>
+        <!-- Bullet Navigator -->
+        <div data-u="navigator" class="jssorb03" style="bottom:10px;right:10px;">
+            <!-- bullet navigator item prototype -->
+            <div data-u="prototype" style="width:21px;height:21px;">
+                <div data-u="numbertemplate"></div>
+            </div>
+        </div>
+        <!-- Arrow Navigator -->
+        <span data-u="arrowleft" class="jssora03l" style="top:0px;left:8px;width:55px;height:55px;" data-autocenter="2"></span>
+        <span data-u="arrowright" class="jssora03r" style="top:0px;right:8px;width:55px;height:55px;" data-autocenter="2"></span>
     </div>
     <script type="text/javascript">jssor_1_slider_init();</script>
     <!-- #endregion Jssor Slider End -->
+          </div>
 </div>
-
-
-        </div>
           
       </main>
 
@@ -298,7 +378,7 @@
     <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUx5BATTb2TPFBe2gVbIbgqcCjr_TgT5s&libraries=places&callback=initMap">
      </script>
-    </div>
-      
+      </div>
+  
   </body>
 </html>
