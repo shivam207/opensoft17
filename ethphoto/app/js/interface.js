@@ -70,6 +70,31 @@ function zoom(x1,y1,x2,y2) {
 //   });
 //   return flag;
 // }
+// var latitude = 3.4;
+// var longitude = 2.3;
+
+var lat1 = 3.4;
+var long1 = 10.2;
+var lat2 = 20.8;
+var long2 = 50.3;
+
+
+function setScreenPoints(latne,longne,latsw,longsw){
+  lat1 = latne;
+  long1 = longne;
+  lat2 = latsw;
+  long2 = longsw;
+  console.log(lat1);
+  console.log(long1);
+  console.log(lat2);
+  console.log(long2);
+}
+
+// function setLatLang(lat,long) {
+//   latitude = lat;
+//   longitude = long;
+//   // console.log("hiii" + latitude);
+// }
 
 function upload() {
   /**** Upload
@@ -85,11 +110,9 @@ function upload() {
   5. hashkey
   ****/
   console.log("ARBIT")
-  var x = 40
-  var y = -70
-  var file = "file:///home/sayan/Pictures/activityDiagIssueRes.png"
+  // var file = "file:///home/sayan/Pictures/activityDiagIssueRes.png"
   var input = $("#takeimage input[type=file]")
-  console.log(input)
+  // console.log(input)
   var skillsSelect = document.getElementById("tag");
   var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
   var category = 0
@@ -106,12 +129,70 @@ function upload() {
     default:
         category = 0;
   }
-  console.log("Hello");
-  console.log(category_input);
-  console.log(category);
+  // console.log("Hello");
+  // console.log(category_input);
+  // console.log(category);
+  var x = 2.3;
+  var y = 4.1;
+
+
+  // reader.onloadend = function () {
+  // // get EXIF data
+  //   var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
+
+  //   var lat = exif.GPSLatitude;
+  //   var lon = exif.GPSLongitude;
+
+  //   //Convert coordinates to WGS84 decimal
+  //   var latRef = exif.GPSLatitudeRef || "N";  
+  //   var lonRef = exif.GPSLongitudeRef || "W";  
+  //   lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);  
+  //   lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
+  //   console.log(lat)
+  //   console.log(lon)
+  //   x = lat
+  //   y = lon
+  //  //Send the coordinates to your map
+  //   Map.AddMarker(lat,lon);
+  // } 
+  // reader.readAsBinaryString(files);
+  
+  EXIF.getData(input[0].files[0], function() {
+        console.log("Happy");
+        var lat = EXIF.getTag(this, "GPSLatitude");
+        var lon = EXIF.getTag(this, "GPSLongitude");
+        var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+        var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
+        if (lat == undefined){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude
+                };
+                x = pos.lat;
+                y = pos.lng;
+              });
+            }
+            else{
+                x = 1
+                y = 1
+            }
+        }
+        else{
+            
+            lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);  
+            lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
+            x = lat;
+            y = lon;
+        }
+        console.log("GPSlat" + x.toString());
+        console.log("GPSlong" + y.toString());
+  });
   EmbarkJS.Storage.uploadFile(input).then(function(hash) {
     console.log(hash)
     ethPhoto.saveImage(hash,category);
     ethPhoto.saveImage1(x.toString(),y.toString());
   });
 }
+

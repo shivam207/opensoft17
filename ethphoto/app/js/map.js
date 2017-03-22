@@ -90,6 +90,19 @@ function initMap() {
       console.log(event.latLng);
   });
 
+  google.maps.event.addListener(map, 'idle', function() {
+    // zoomLevel = map.getZoom();
+    console.log("Became idle");
+    var bounds = map.getBounds();
+    var NECorner = bounds.getNorthEast();
+    var SWCorner = bounds.getSouthWest();
+    // console.log(NECorner.lat());
+    // console.log(SWCorner.lat());
+    // console.log(NECorner.lng());
+    // console.log(SWCorner.lng());
+     setScreenPoints(NECorner.lat(),NECorner.lng(),SWCorner.lat(),SWCorner.lng());
+});
+
     var locations = [
         {lat: -31.563910, lng: 147.154312},
         {lat: -33.718234, lng: 150.363181},
@@ -124,7 +137,7 @@ function initMap() {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-
+            // setLatLang(pos.lat,pos.lng);
            var marker = new google.maps.Marker({
           position: pos,
           map: map,
@@ -134,9 +147,11 @@ function initMap() {
           //   },
           title: 'User Location'
           });
+            // console.log()
             map.setCenter(pos);
           });
         }
+
   setMarkers(map,locations);
 }
 
@@ -165,3 +180,4 @@ function setMarkers(map,locations) {
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 }
+
