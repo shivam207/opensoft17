@@ -168,7 +168,31 @@ function initMap() {
         {lat: -42.735258, lng: 147.438000},
         {lat: -43.999792, lng: 170.463352}
       ];
+         
+    
+       
 
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+           var marker = new google.maps.Marker({
+          position: pos,
+          map: map,
+          icon: {
+            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+            scale: 4
+            },
+          title: 'User Location'
+          });
+            map.setCenter(pos);
+          });
+        } 
+    
   setMarkers(map,locations);
 }
 
@@ -184,15 +208,17 @@ function setMarkers(map,locations) {
 //      scaledSize: new google.maps.Size(60, 60)
 //      };
       
-
+      
+      
     var marker = new google.maps.Marker({
       position: {lat: location.lat, lng: location.lng},
       map: map,
 //      icon:image
     });
       markers.push(marker);
-      
   }
+
+
     var markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
