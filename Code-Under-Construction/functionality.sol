@@ -204,4 +204,18 @@ contract functionality{
 
         return result;
     }
+
+    function insert( string lat, string long, string hash, uint tag, address userid) {
+        uint index = binary_search_forward(lat);
+        index++;
+
+        for(uint i=data.length; i>index; i--)
+            data[i] = data[i-1];
+
+        data[index].latitude = lat;
+        data[index].longitude = long;
+        data[index].hash = hash;
+        data[index].tag = tag;
+        data[index].userid = userid;
+    }
 }

@@ -45,4 +45,11 @@ describe("functionality", function() {
     });
   });
 
+  it("insert check", function(done) {
+    functionality.compare_cordinates( "102.14538264829", "102.14538264829", "image1hash", 12, 0x12345, function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
 });
