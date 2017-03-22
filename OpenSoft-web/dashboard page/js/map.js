@@ -183,10 +183,10 @@ function initMap() {
            var marker = new google.maps.Marker({
           position: pos,
           map: map,
-          icon: {
-            path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-            scale: 4
-            },
+          // icon: {
+          //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          //   scale: 4
+          //   },
           title: 'User Location'
           });
             map.setCenter(pos);
