@@ -13,6 +13,7 @@ contract functionality{
     
     Image[] data;
     
+
     function functionality() {
         noOfImages = 0;
     }
@@ -98,7 +99,7 @@ contract functionality{
 
         uint start = 0;
         uint end = data.length-1;
-        uint mid;
+        uint mid = 0;
         uint status;
         uint[2] memory elem_lat;
         uint[2] memory new_elem;
@@ -134,7 +135,7 @@ contract functionality{
 
         uint start = 0;
         uint end = data.length-1;
-        uint mid;
+        uint mid = 0;
         uint status;
         uint[2] memory elem_lat;
         uint[2] memory new_elem;
@@ -205,17 +206,40 @@ contract functionality{
         return result;
     }
 
-    function insert( string lat, string long, string hash, uint tag, address userid) {
-        uint index = binary_search_forward(lat);
-        index++;
+    function insertAt( uint index, string lat, string long, string hash, uint tag){
+        data[index] = Image(lat,long,hash,tag,msg.sender);
+    }
 
+    function insert_elem( string lat, string long, string hash, uint tag) {
+        if(data.length > 0){
+            uint index = binary_search_forward(lat);
+            index++;
+        }
+        else{
+            index = 0;
+        }
         for(uint i=data.length; i>index; i--)
             data[i] = data[i-1];
 
-        data[index].latitude = lat;
-        data[index].longitude = long;
-        data[index].hash = hash;
-        data[index].tag = tag;
-        data[index].userid = userid;
+        data.length++;
+        //insertAt(index, lat, long, hash, tag);
+    }
+
+    function delete_elem( string hash){
+        uint i;
+        for(i=0; i<data.length; i++){
+            if(string_equal(data[i].hash,hash)){
+                delete data[i];
+                break;
+            }
+        }
+        for(uint j=i+1; j<data.length; j++){
+            data[j-1] = data[j];
+        }
+        data.length--;
+    }
+
+    function return_size() constant returns (uint){
+        return data.length;
     }
 }
