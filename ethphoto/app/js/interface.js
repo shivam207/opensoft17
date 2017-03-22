@@ -90,13 +90,28 @@ function upload() {
   var file = "file:///home/sayan/Pictures/activityDiagIssueRes.png"
   var input = $("#takeimage input[type=file]")
   console.log(input)
-  var category = 1
+  var skillsSelect = document.getElementById("tag");
+  var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
+  var category = 0
+  switch(category_input) {
+    case "A":
+        category = 1;
+        break;
+    case "B":
+        category = 2;
+        break;
+    case "C":
+      category = 3;
+      break;
+    default:
+        category = 0;
+  }
   console.log("Hello");
-  EmbarkJS.Storage.uploadFile(input).then(function(Hash) {
+  console.log(category_input);
+  console.log(category);
+  EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+    console.log(hash)
+    ethPhoto.saveImage(hash,category);
+    ethPhoto.saveImage1(x.toString(),y.toString());
   });
-
-  var value = {lat:x,long:y, img:file, cat:category, hash:Hash};
-  eth_Photo.insert(x.toString(),y.toString(),cat,hash);
-
-  return value;
 }
