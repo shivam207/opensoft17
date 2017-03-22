@@ -1,0 +1,19 @@
+{
+  "name": "opensoft17",
+  "version": "1.0.0",
+  "description": "Open Soft 2017",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivam207/opensoft17.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shivam207/opensoft17/issues"
+  },
+  "homepage": "https://github.com/shivam207/opensoft17#readme"
+}
