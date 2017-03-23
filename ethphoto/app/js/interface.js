@@ -88,8 +88,27 @@ function setScreenPoints(latne,longne,latsw,longsw){
   console.log(long2);
   // locations = get_locations(lat1,lat2,long1,long2);
   // setMarkers(locations);
-}
 
+  ethPhoto.getTotalImages().then(function(value2) {
+    console.log("total "+value2)
+  });
+
+  ethPhoto.getImHash().then(function(value1) {
+    console.log("Im hash "+value1)
+  });
+
+  ethPhoto.getImLong().then(function(value1) {
+    console.log("long "+value1)
+  });
+
+  ethPhoto.getImLat().then(function(value1) {
+    console.log("lat "+value1)
+  });
+
+  ethPhoto.getImTag().then(function(value1) {
+    console.log("tag "+value1)
+  });
+}
 // function setLatLang(lat,long) {
 //   latitude = lat;
 //   longitude = long;
@@ -211,9 +230,11 @@ function upload() {
               console.log(hash)
               console.log("GPSlat" + x.toString());
               console.log("GPSlong" + y.toString());
+              console.log("category" + category);
               setMarkers([{lat:x,lng:y}]);
-              ethPhoto.saveImage(hash,category);
+              ethPhoto.saveImage("dnskdnsk",category);
               ethPhoto.saveImage1(x.toString(),y.toString());
+
             });
         }
     });

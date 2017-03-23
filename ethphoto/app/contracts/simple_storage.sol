@@ -71,10 +71,25 @@ contract ethPhoto {
 
     //result=noOfImages;
     if (noOfImages == 0)long = "3";
-    else long = _images[0].longitude;
+    else long = _images[noOfImages-1].longitude;
   
   }
 
+  function getImLat() constant returns (string lat){
+
+    //result=noOfImages;
+    if (noOfImages == 0)lat = "3";
+    else lat = _images[noOfImages-1].latitude;
+  
+  }
+
+  function getImTag() constant returns (uint tag1){
+
+    //result=noOfImages;
+    if (noOfImages == 0)tag1 = 15;
+    else tag1 = _images[noOfImages-1].tag;
+  
+  }
 
   function saveImage(string hash1,uint tag1 ){
     //Image tmp(hash1, tag1, tmp, tmp2);
