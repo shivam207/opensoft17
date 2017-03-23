@@ -179,8 +179,12 @@ function setMarkers(map, locations) {
 
 function tagfun(){
   var t;
-  if(document.getElementById("a").checked) t="a";
-  if(document.getElementById("b").checked) t="b";
-  if(document.getElementById("c").checked) t="c";
-  console.log(t)
+  // console.log(document.getElementById("a").checked)
+  // if(document.getElementById("a").checked) t="a";
+  // if(document.getElementById("b").checked) t="b";
+  // if(document.getElementById("c").checked) t="c";
+  // console.log(t)
+  console.log("prasant")
 }
+
+
