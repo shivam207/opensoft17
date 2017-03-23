@@ -102,7 +102,7 @@ function initMap() {
     // console.log(NECorner.lng());
     // console.log(SWCorner.lng());
      setScreenPoints(NECorner.lat(),NECorner.lng(),SWCorner.lat(),SWCorner.lng());
-  });
+});
 
     var locations = [
         {lat: -31.563910, lng: 147.154312},
@@ -129,62 +129,39 @@ function initMap() {
         {lat: -42.735258, lng: 147.438000},
         {lat: -43.999792, lng: 170.463352}
       ];
-     
-      var markers=[];
-      
-      var infoWindow = new google.maps.InfoWindow();
+
+
       // Try HTML5 geolocation.
         if (navigator.geolocation) {
-            console.log('geolocation')
-            // console.log(navigator.geolocation)
-            navigator.geolocation.getCurrentPosition(function(position) {
+          console.log('geolocation')
+          // console.log(navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
             };
-            //infoWindow.setPosition(pos);
-            //console.log("Hello form map init " + pos.lat + pos.lng)
+            console.log("Hello form map init " + pos.lat + pos.lng)
             // setLatLang(pos.lat,pos.lng);
+          //  var marker = new google.maps.Marker({
+          // position: pos,
+          // map: map,
+          // // icon: {
+          // //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          // //   scale: 4
+          // //   },
+          // title: 'User Location'
+          // });
+            // console.log()
             map.setCenter(pos);
-            map.setZoom(10);
-            infoWindow.setPosition(pos);
-            infoWindow.setMap(map);
-            var latlng = new google.maps.LatLng(pos.lat, pos.lng);
-            var geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-        	if (status !== google.maps.GeocoderStatus.OK) {
-            		//alert(status);
-            		infoWindow.setContent('You are here')
-        	}
-        	// This is checking to see if the Geocode Status is OK before proceeding
-        	if (status == google.maps.GeocoderStatus.OK) {
-            		//console.log(results);
-            		var address = (results[0].formatted_address);
-            		infoWindow.setContent(address);
-        	}
-    	    });
-          },function() {
-            handleLocationError(true, infoWindow, map.getCenter());
-            });
-        } 
-        else {
-          // Browser doesn't support Geolocation
-          handleLocationError(false, infoWindow, map.getCenter());
+          });
         }
-        
-        setMarkers(locations);
-}
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                              'Error: The Geolocation blocked.' :
-                              'Error: Your browser doesn\'t support geolocation.');
+    setMarkers(locations);
 }
 
 function setMarkers(locations) {
     
-    console.log(locations);
+    console.log("In Markers")
     var markers=[];
     
     for (var i = 0; i < locations.length; i++) {
