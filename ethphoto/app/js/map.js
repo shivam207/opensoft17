@@ -156,10 +156,10 @@ function initMap() {
           });
         }
 
-    setMarkers(map,locations);
+    setMarkers(locations);
 }
 
-function setMarkers(map,locations) {
+function setMarkers(locations) {
     
     console.log("In Markers")
     var markers=[];
