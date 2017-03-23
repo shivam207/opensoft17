@@ -45,15 +45,80 @@ describe("functionality", function() {
     });
   });
 
-  it("insert check", function(done) {
-    functionality.return_size(function(err,result1) {
-      console.log(result1)
-      functionality.insert_elem( "102.14538264829", "102.14538264829", "image1hash", 12, function(err,result) {
-        functionality.return_size(function(err,result2) {
-          console.log(result2)
-          done();
+  it("insert_elem check", function(done) {
+    functionality.return_size(function(err,result4) {
+      console.log(result4)
+      functionality.insert_elem("102.14538264829", function(err,result) {
+        functionality.insert_elem2("102.14538264829", "image1hash", function(err,result) {
+          functionality.insert_elem3(12, function(err,result) {
+            functionality.return_size(function(err,result2) {
+              console.log(result2)
+              done();
+            });
+          });
         });
       });
+    });
+  });
+
+  it("show_entries check", function(done) {
+    functionality.show_entries(function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
+  it("insert_elem check", function(done) {
+    functionality.insert_elem("102.14538264829", function(err,result) {
+      functionality.insert_elem2("101.14538264829", "image2hash", function(err,result) {
+        functionality.insert_elem3(11, function(err,result) {
+          functionality.return_size(function(err,result2) {
+            console.log(result2)
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it("show_entries check", function(done) {
+    functionality.show_entries(function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
+  it("insert_elem check", function(done) {
+    functionality.insert_elem("102.14538264829", function(err,result) {
+      functionality.insert_elem2("100.14538264829", "image3hash", function(err,result) {
+        functionality.insert_elem3(10, function(err,result) {
+          functionality.return_size(function(err,result2) {
+            console.log(result2)
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it("show_entries check", function(done) {
+    functionality.show_entries(function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
+  it("direct_search check", function(done) {
+    functionality.direct_search("102.14538264829", "120.14538264829", function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
+  it("range_search check", function(done) {
+    functionality.range_search("99.14538264829", "90.14538264829","109.14538264829", "101.14538264829", function(err,result) {
+      console.log(result)
+      done();
     });
   });
 

@@ -9,13 +9,14 @@ contract functionality{
         uint tag;
         address userid;
     }
-    uint private noOfImages;
-    
-    Image[] data;
-    
 
-    function functionality() {
-        noOfImages = 0;
+    uint private globalIndex;
+    uint private size_data;
+    mapping (uint => Image) data;
+    
+    function functionality(){
+        size_data = 0;
+        globalIndex = 0;
     }
 
     function string_equal(string _a, string _b) constant returns (bool) {
@@ -45,7 +46,7 @@ contract functionality{
         return string(babcde);
     }
     
-    function cordinate_convert(string cordinates) constant returns (uint[2] int_cords){
+    function cordinate_convert(string cordinates) constant returns (uint[2] result){
         bytes memory str = bytes(cordinates);
         uint str_size = str.length;
         
@@ -56,6 +57,7 @@ contract functionality{
         status = 0;
         before_dec = 0;
         after_dec = 0;
+        uint[2] memory int_cords;
         
         for (uint i=0; i<str_size; i++){
             if(str[i]=='.'){
@@ -75,36 +77,39 @@ contract functionality{
         int_cords[0] = before_dec;
         int_cords[1] = after_dec;
         
-        return int_cords;
+        result[0] = int_cords[0];
+        result[1] = int_cords[1];
     }
     
     // returns 1 if c1>c2, 0 for c1==c2 and 2 if c1<c2
     function compare_cordinates(uint[2] c1, uint[2] c2) constant returns (uint result){ 
+        uint num;
         if(c1[0]>c2[0])
-            return 1;
+            num = 1;
         else if(c1[0]==c2[0]){
             if(c1[1]>c2[1])
-                return 1;
+                num = 1;
             else if(c1[1]==c2[1])
-                return 0;
+                num = 0;
             else    
-                return 2;
+                num = 2;
         }    
         else 
-            return 2;
+            num = 2;
+        result = num;
     }
 
-    function binary_search_back(string lat1) constant returns (uint i){
+    function binary_search_back( string lat1) constant returns (uint result){
         uint[2] memory search_lat = cordinate_convert(lat1);
 
         uint start = 0;
-        uint end = data.length-1;
+        uint end = size_data-1;
         uint mid = 0;
         uint status;
         uint[2] memory elem_lat;
         uint[2] memory new_elem;
 
-        while(start<end && start<data.length && end>=0){
+        while(start<end && start<size_data && end>=0){
             mid = (start+end)/2;
             elem_lat = cordinate_convert(data[mid].latitude);
             
@@ -120,6 +125,7 @@ contract functionality{
             }
         }
 
+        uint i;
         for(i=mid-1; i>=0; i--){
             new_elem = cordinate_convert(data[i].latitude);
             if(compare_cordinates(new_elem,elem_lat)!=0)
@@ -127,20 +133,21 @@ contract functionality{
         }
 
         i++;
-        return i;
+        result = i;
     }
 
-    function binary_search_forward(string lat1) constant returns (uint i){
+    function binary_search_forward( string lat1) constant returns (uint result){
         uint[2] memory search_lat = cordinate_convert(lat1);
 
+        uint i;
         uint start = 0;
-        uint end = data.length-1;
+        uint end = size_data-1;
         uint mid = 0;
         uint status;
         uint[2] memory elem_lat;
         uint[2] memory new_elem;
 
-        while(start<end && start<data.length && end>=0){
+        while(start<end && start<size_data && end>=0){
             mid = (start+end)/2;
             elem_lat = cordinate_convert(data[mid].latitude);
             
@@ -156,14 +163,14 @@ contract functionality{
             }
         }
 
-        for(i=mid+1; i<data.length; i++){
+        for(i=mid+1; i<size_data; i++){
             new_elem = cordinate_convert(data[i].latitude);
             if(compare_cordinates(new_elem,elem_lat)!=0)
                 break;
         }
 
         i--;
-        return i;
+        result = i;
     }
     
     function range_search( string lat1, string long1, string lat2, string long2) constant returns (string result){
@@ -185,14 +192,14 @@ contract functionality{
         return result;
     }
 
-    function direct_search( string lat, string long) constant returns (string result){
+    function direct_search( string lat, string lon) constant returns (string result){
         uint[2] memory search_lat = cordinate_convert(lat);
-        uint[2] memory search_long = cordinate_convert(long);
+        uint[2] memory search_long = cordinate_convert(lon);
 
         uint i = binary_search_back(lat);
 
         uint[2] memory new_elem;
-        for(uint j=i; j<data.length; j++){
+        for(uint j=i; j<size_data; j++){
             new_elem = cordinate_convert(data[j].latitude);
             if(compare_cordinates(new_elem,search_lat)!=0)
                 break;
@@ -206,40 +213,62 @@ contract functionality{
         return result;
     }
 
-    function insertAt( uint index, string lat, string long, string hash, uint tag){
-        data[index] = Image(lat,long,hash,tag,msg.sender);
-    }
-
-    function insert_elem( string lat, string long, string hash, uint tag) {
-        if(data.length > 0){
-            uint index = binary_search_forward(lat);
+    function insert_elem( string lat) {
+        uint index;
+        if(size_data > 0){
+            index = binary_search_forward(lat);
             index++;
+            for(uint i=size_data; i>index; i--)
+                data[i] = data[i-1];
         }
         else{
             index = 0;
         }
-        for(uint i=data.length; i>index; i--)
-            data[i] = data[i-1];
+        size_data++;
+        data[index].latitude = lat;
+        globalIndex = index;
+    }
 
-        data.length++;
-        //insertAt(index, lat, long, hash, tag);
+    function insert_elem2( string lon, string hash) {
+        data[globalIndex].longitude = lon;
+        data[globalIndex].hash = hash;
+    }
+
+    function insert_elem3( uint tag) {
+        data[globalIndex].tag = tag;
+        data[globalIndex].userid = msg.sender;
     }
 
     function delete_elem( string hash){
         uint i;
-        for(i=0; i<data.length; i++){
+        for(i=0; i<size_data; i++){
             if(string_equal(data[i].hash,hash)){
                 delete data[i];
                 break;
             }
         }
-        for(uint j=i+1; j<data.length; j++){
+        for(uint j=i+1; j<size_data; j++){
             data[j-1] = data[j];
         }
-        data.length--;
+        size_data--;
     }
 
-    function return_size() constant returns (uint){
-        return data.length;
+
+    function incr_size(){
+        size_data++;
+    }
+
+    function show_entries() constant returns (string result) {
+        for(uint i=0; i<size_data; i++){
+            result = strConcat(result," ",data[i].hash);
+        }
+    }
+
+    function return_size() constant returns (uint result){
+        result = size_data;
+    }
+
+    function return_firstele() constant returns (string){
+        return data[0].hash;
     }
 }
