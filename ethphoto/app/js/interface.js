@@ -96,7 +96,8 @@ function setScreenPoints(latne,longne,latsw,longsw){
     {
         var arr = final.split(' ');
         for(var i=0;i<arr.length;i++){
-          console.log(EmbarkJS.Storage.getUrl(arr[i]));
+          arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
+          console.log(arr[i]);
         };
     }
   });
