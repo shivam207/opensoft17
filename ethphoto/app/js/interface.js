@@ -88,6 +88,8 @@ function setScreenPoints(latne,longne,latsw,longsw){
   console.log(long1);
   console.log(lat2);
   console.log(long2);
+  // locations = get_locations(lat1,lat2,long1,long2);
+  // setMarkers(locations);
 }
 
 // function setLatLang(lat,long) {
@@ -163,13 +165,18 @@ function upload() {
         var lon = EXIF.getTag(this, "GPSLongitude");
         var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
         var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
+        console.log(lat)
         if (lat == undefined){
+            console.log(lat)
             if (navigator.geolocation) {
+              // console.log("hello123");
                 navigator.geolocation.getCurrentPosition(function(position) {
+                  // console.log("hello1234");
                 var pos = {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
+                console.log("hi"+pos.lat)
                 x = pos.lat;
                 y = pos.lng;
               });
@@ -188,11 +195,14 @@ function upload() {
         }
         console.log("GPSlat" + x.toString());
         console.log("GPSlong" + y.toString());
-  });
-  EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-    console.log(hash)
-    ethPhoto.saveImage(hash,category);
-    ethPhoto.saveImage1(x.toString(),y.toString());
-  });
+        EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+          console.log(hash)
+          console.log("GPSlat" + x.toString());
+          console.log("GPSlong" + y.toString());
+          setMarkers([{lat:x,lng:y}]);
+          ethPhoto.saveImage(hash,category);
+          ethPhoto.saveImage1(x.toString(),y.toString());
+        });
+        });
 }
 

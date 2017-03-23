@@ -77,10 +77,11 @@
 
 
 
-
+var map;
 
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
     center: {lat: -33.9, lng: 151.2}
   });
@@ -132,30 +133,33 @@ function initMap() {
 
       // Try HTML5 geolocation.
         if (navigator.geolocation) {
+          console.log('geolocation')
+          // console.log(navigator.geolocation)
           navigator.geolocation.getCurrentPosition(function(position) {
             var pos = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
+            console.log("Hello form map init " + pos.lat + pos.lng)
             // setLatLang(pos.lat,pos.lng);
-           var marker = new google.maps.Marker({
-          position: pos,
-          map: map,
-          // icon: {
-          //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          //   scale: 4
-          //   },
-          title: 'User Location'
-          });
+          //  var marker = new google.maps.Marker({
+          // position: pos,
+          // map: map,
+          // // icon: {
+          // //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          // //   scale: 4
+          // //   },
+          // title: 'User Location'
+          // });
             // console.log()
             map.setCenter(pos);
           });
         }
 
-  setMarkers(map,locations);
+  // setMarkers(map,locations);
 }
 
-function setMarkers(map,locations) {
+function setMarkers(locations) {
     
     var markers=[];
     
