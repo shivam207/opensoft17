@@ -122,4 +122,18 @@ describe("functionality", function() {
     });
   });
 
+  it("delete check", function(done) {
+    functionality.delete_elem("image1hash", function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
+  it("show_entries check", function(done) {
+    functionality.show_entries(function(err,result) {
+      console.log(result)
+      done();
+    });
+  });
+
 });
