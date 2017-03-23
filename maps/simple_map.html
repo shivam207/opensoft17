@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      hr { margin: 0px; }
+    </style>
+  </head>
+  <body>
+    <div class="w3-sidebar w3-blue-gray w3-bar-block" style="width:20%">
+  	<h3 class="w3-bar-item w3-light-gray">Menu</h3>
+  	<div class="w3-dropdown-hover">
+            <button class="w3-button"><b>Username</b></button>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+            <a href="#" class="w3-bar-item w3-button">Update Info</a>
+            <a href="#" class="w3-bar-item w3-button">Sign Out</a>
+            </div>
+        <hr>
+        </div>
+  	<a href="#" class="w3-bar-item w3-button">Upload Photo</a>
+  	<hr>
+  	<a href="#" class="w3-bar-item w3-button">Remove Photo</a>
+  	<hr>
+  	<div class = "w3-bar-item"><font size='5'>Search Photos by :</font></div>
+    </div>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 22, lng: 80},
+          zoom: 6
+        });
+        var infoWindow = new google.maps.InfoWindow();
+        
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };	
+            infoWindow.setPosition(pos);
+            infoWindow.setMap(map);
+            // Reverse geocoding to get current location name.
+            
+    	    var latlng = new google.maps.LatLng(pos.lat, pos.lng);
+    	    // This is making the Geocode request
+    	    var geocoder = new google.maps.Geocoder();
+    	    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        	if (status !== google.maps.GeocoderStatus.OK) {
+            	    //alert(status);
+            	    infoWindow.setContent('You are here')
+        	}
+        	// This is checking to see if the Geocode Status is OK before proceeding
+        	if (status == google.maps.GeocoderStatus.OK) {
+            	    //console.log(results);
+            	    var address = (results[0].formatted_address);
+            	    infoWindow.setContent(address);
+        	}
+    	    });
+            // Center the map to current location
+            map.setCenter(pos);
+            map.setZoom(10);
+            }, function() {
+                handleLocationError(true, infoWindow, map.getCenter());
+               });
+         } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+          }
+        
+      }
+      
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc9sSXnBbsaAWDhrbxQtykuFrhPS58Heg&callback=initMap"
+    async defer></script>
+  </body>
+</html>

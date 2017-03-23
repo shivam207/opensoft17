@@ -12,6 +12,7 @@
   "homepage": "",
   "devDependencies": {
     "embark": "^2.4.1",
+    "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-uglify": "^2.2.0",
