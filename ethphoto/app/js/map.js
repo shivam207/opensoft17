@@ -221,7 +221,7 @@ function searchBox(map){
     });
 }
 
-function setMarkers(map,locations) {
+function setMarkers(map, locations) {
     
   console.log("In Markers")
   var markers=[];

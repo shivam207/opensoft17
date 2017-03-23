@@ -176,14 +176,29 @@ function upload() {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
-                console.log("hi"+pos.lat)
                 x = pos.lat;
                 y = pos.lng;
+                EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+                  console.log(hash)
+                  console.log("GPSlat" + x.toString());
+                  console.log("GPSlong" + y.toString());
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
+                })
               });
             }
             else{
-                x = 1
-                y = 1
+                x = 1;
+                y = 1;
+                EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+                  console.log(hash)
+                  console.log("GPSlat" + x.toString());
+                  console.log("GPSlong" + y.toString());
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
+                })  
             }
         }
         else{
@@ -192,17 +207,17 @@ function upload() {
             lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
             x = lat;
             y = lon;
+            console.log("GPSlat" + x.toString());
+            console.log("GPSlong" + y.toString());
+            EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+              console.log(hash)
+              console.log("GPSlat" + x.toString());
+              console.log("GPSlong" + y.toString());
+              setMarkers([{lat:x,lng:y}]);
+              ethPhoto.saveImage(hash,category);
+              ethPhoto.saveImage1(x.toString(),y.toString());
+            });
         }
-        console.log("GPSlat" + x.toString());
-        console.log("GPSlong" + y.toString());
-        EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-          console.log(hash)
-          console.log("GPSlat" + x.toString());
-          console.log("GPSlong" + y.toString());
-          setMarkers([{lat:x,lng:y}]);
-          ethPhoto.saveImage(hash,category);
-          ethPhoto.saveImage1(x.toString(),y.toString());
-        });
-        });
+    });
 }
 
