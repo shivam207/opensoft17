@@ -1,6 +1,5 @@
 
 var map;
-var gmarkers = [];
 
 function initMap() {
   
@@ -25,9 +24,35 @@ function initMap() {
     // console.log(NECorner.lng());
     // console.log(SWCorner.lng());
      setScreenPoints(NECorner.lat(),NECorner.lng(),SWCorner.lat(),SWCorner.lng());
-  });
+});
 
+    var locations = [
+        {lat: -31.563910, lng: 147.154312},
+        {lat: -33.718234, lng: 150.363181},
+        {lat: -33.727111, lng: 150.371124},
+        {lat: -33.848588, lng: 151.209834},
+        {lat: -33.851702, lng: 151.216968},
+        {lat: -34.671264, lng: 150.863657},
+        {lat: -35.304724, lng: 148.662905},
+        {lat: -36.817685, lng: 175.699196},
+        {lat: -36.828611, lng: 175.790222},
+        {lat: -37.750000, lng: 145.116667},
+        {lat: -37.759859, lng: 145.128708},
+        {lat: -37.765015, lng: 145.133858},
+        {lat: -37.770104, lng: 145.143299},
+        {lat: -37.773700, lng: 145.145187},
+        {lat: -37.774785, lng: 145.137978},
+        {lat: -37.819616, lng: 144.968119},
+        {lat: -38.330766, lng: 144.695692},
+        {lat: -39.927193, lng: 175.053218},
+        {lat: -41.330162, lng: 174.865694},
+        {lat: -42.734358, lng: 147.439506},
+        {lat: -42.734358, lng: 147.501315},
+        {lat: -42.735258, lng: 147.438000},
+        {lat: -43.999792, lng: 170.463352}
+      ];
 
+<<<<<<< HEAD
   // Try HTML5 geolocation.
   if (navigator.geolocation) {
     console.log('geolocation')
@@ -102,10 +127,40 @@ function searchBox(){
       });
       map.fitBounds(bounds);
     });
+=======
+
+      // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          console.log('geolocation')
+          // console.log(navigator.geolocation)
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            console.log("Hello form map init " + pos.lat + pos.lng)
+            // setLatLang(pos.lat,pos.lng);
+          //  var marker = new google.maps.Marker({
+          // position: pos,
+          // map: map,
+          // // icon: {
+          // //   path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          // //   scale: 4
+          // //   },
+          // title: 'User Location'
+          // });
+            // console.log()
+            map.setCenter(pos);
+          });
+        }
+
+    setMarkers(locations);
+>>>>>>> parent of e36c359... added get photos url on map
 }
 
-function setMarkers(locations,add=0) {
+function setMarkers(locations) {
     
+<<<<<<< HEAD
   console.log("In Markers")
   if (add==0)
   {
@@ -118,12 +173,20 @@ function setMarkers(locations,add=0) {
   var infowindow = new google.maps.InfoWindow();
   for (var i = 0; i < locations.length; i++) {
     var location = locations[i];  
+=======
+    console.log("In Markers")
+    var markers=[];
+    
+    for (var i = 0; i < locations.length; i++) {
+        var location = locations[i];  
+>>>>>>> parent of e36c359... added get photos url on map
 
     var marker = new google.maps.Marker({
       position: {lat: location.lat, lng: location.lng},
       map: map
     });
 
+<<<<<<< HEAD
     google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
           var x = marker.getPosition().lat();
@@ -135,10 +198,20 @@ function setMarkers(locations,add=0) {
       })(marker, i));
     gmarkers.push(marker);
     
+=======
+    marker.addListener('click',function(){
+                var x = marker.getPosition().lat();
+                var y = marker.getPosition().lng();
+                console.log(x,y,'getImage');
+            });
+    
+    markers.push(marker);
+>>>>>>> parent of e36c359... added get photos url on map
   }
 
-  var markerCluster = new MarkerClusterer(map, gmarkers,
-      {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
+    var markerCluster = new MarkerClusterer(map, markers,
+        {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
 }
 

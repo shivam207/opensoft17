@@ -88,6 +88,7 @@ function setScreenPoints(latne,longne,latsw,longsw){
   console.log(long1);
   console.log(lat2);
   console.log(long2);
+<<<<<<< HEAD
 
 
   ethPhoto.browseImageOnMap(lat2.toString(),long2.toString(),lat1.toString(),long1.toString()).then(function(final) {
@@ -115,6 +116,8 @@ function setScreenPoints(latne,longne,latsw,longsw){
   ethPhoto.getlong().then(function(result){
     console.log("Long: " + result);
   });
+=======
+>>>>>>> parent of e36c359... added get photos url on map
   // locations = get_locations(lat1,lat2,long1,long2);
   // setMarkers(locations);
 }
@@ -163,6 +166,28 @@ function upload() {
   // console.log(category);
   var x = 2.3;
   var y = 4.1;
+
+
+  // reader.onloadend = function () {
+  // // get EXIF data
+  //   var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
+
+  //   var lat = exif.GPSLatitude;
+  //   var lon = exif.GPSLongitude;
+
+  //   //Convert coordinates to WGS84 decimal
+  //   var latRef = exif.GPSLatitudeRef || "N";  
+  //   var lonRef = exif.GPSLongitudeRef || "W";  
+  //   lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);  
+  //   lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
+  //   console.log(lat)
+  //   console.log(lon)
+  //   x = lat
+  //   y = lon
+  //  //Send the coordinates to your map
+  //   Map.AddMarker(lat,lon);
+  // } 
+  // reader.readAsBinaryString(files);
   
   EXIF.getData(input[0].files[0], function() {
         console.log("Happy");
@@ -170,7 +195,7 @@ function upload() {
         var lon = EXIF.getTag(this, "GPSLongitude");
         var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
         var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
-        console.log("Intital Lat " +lat)
+        console.log(lat)
         if (lat == undefined){
             console.log(lat)
             if (navigator.geolocation) {
@@ -187,17 +212,9 @@ function upload() {
                   console.log(hash)
                   console.log("GPSlat" + x.toString());
                   console.log("GPSlong" + y.toString());
-                  setMarkers([{lat:x,lng:y}],1);
-                  var hash1 = hash.substr(0,hash.length/2);
-                  var hash2 = hash.substr(hash.length/2);
-                  ethPhoto.saveImage(hash1,category).then(function(){
-                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                      ethPhoto.saveImage2(hash2).then(function(){
-                      });    
-                    });  
-                  });
-                  
-                  
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
                 })
               });
             }
@@ -208,15 +225,9 @@ function upload() {
                   console.log(hash)
                   console.log("GPSlat" + x.toString());
                   console.log("GPSlong" + y.toString());
-                  setMarkers([{lat:x,lng:y}],1);
-                  var hash1 = hash.substr(0,hash.length/2);
-                  var hash2 = hash.substr(hash.length/2);
-                  ethPhoto.saveImage(hash1,category).then(function(){
-                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                      ethPhoto.saveImage2(hash2).then(function(){
-                      });    
-                    });  
-                  });
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
                 })  
             }
         }
@@ -232,15 +243,9 @@ function upload() {
               console.log(hash)
               console.log("GPSlat" + x.toString());
               console.log("GPSlong" + y.toString());
-              setMarkers([{lat:x,lng:y}],1);
-              var hash1 = hash.substr(0,hash.length/2);
-              var hash2 = hash.substr(hash.length/2);
-              ethPhoto.saveImage(hash1,category).then(function(){
-                ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                  ethPhoto.saveImage2(hash2).then(function(){
-                  });    
-                });  
-              });
+              setMarkers([{lat:x,lng:y}]);
+              ethPhoto.saveImage(hash,category);
+              ethPhoto.saveImage1(x.toString(),y.toString());
             });
         }
     });
