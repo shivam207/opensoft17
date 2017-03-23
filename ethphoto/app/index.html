@@ -89,8 +89,9 @@
             </ul>
           </div>
         </header>
-
-         <button id="show-dialog" type="button" class="mdl-button" style="color:#aaaaaa">Add Photos</button>
+	<form>
+         <input type="button" id="show-dialog" class="mdl-button" style="color:#aaaaaa"  value="Add Photos">
+         </form>
      <dialog id ="dialog" class="mdl-dialog" data-backdrop="false">
     <p >Upload Image</p>
     <div class="mdl-dialog__content">
@@ -118,6 +119,18 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+    function setLocation(category){
+	if(category=="A2"){
+	    console.log("Red flags only");
+	}
+	if(category=="B2"){
+	    console.log("Blue flags only");
+	}
+	if(category=="C2"){
+	    console.log("Green flags only");
+	}
+	 
+     }
     </script>
     <form>
       
@@ -125,11 +138,14 @@
               <label  style="padding-left: 50px;padding-right: 10px" class="mdl-selectfield__label" for="Tags">Tag   </label>
 
         <select style="padding-left: 10px;" class="mdl-selectfield__select" id="tag" name="Tags">
-          <option value="option1">A </option>
-          <option value="option2">B </option>
-          <option value="option3">C </option>  
+          <option value="option2">A1 </option>
+          <option value="option2">B1 </option>
+          <option value="option3">C1 </option>  
           </select>
       </div>
+    </form>
+    <form>
+      Location: <input type="text" id="loc"><br>
     </form>
     </div>
     <div class="mdl-dialog__actions ">
@@ -152,21 +168,25 @@
   </script>
   
         <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flaga</i>A</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flagb</i>B</a>
-          <a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flagc</i>C</a>
+          <!--<a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flaga2</i>A2</a>-->
+          <button onclick="setLocation('A2')">A2</button>
+          <!--<a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flagb2</i>B2</a>-->
+          <button onclick="setLocation('B2')">B2</button>
+          <!--<a class="mdl-navigation__link" href=""><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">flagc2</i>C2</a>-->
+          <button onclick="setLocation('C2')">C2</button>
           <div class="mdl-layout-spacer"></div>
           <span class="visuallyhidden">Help</span>
           <form>
-            <input type="radio" name="vehicle" value="A" id="a"> A<br>
-            <input type="radio" name="vehicle" value="B" id="b"> B<br>
-            <input type="radio" name="vehicle" value="C" id="c" checked> C<br>
+            <input type="radio" name="vehicle" value="A" id="a"> A3<br>
+            <input type="radio" name="vehicle" value="B" id="b"> B3<br>
+            <input type="radio" name="vehicle" value="C" id="c" checked> C3<br>
             <input type="button" value="Submit" onclick="tagfun()"> <br>
             <input type="button" value="ViewPhotos" onclick="viewphotos()"> 
           </form>
 
           
         </nav>
+        
       </div>
     
 
