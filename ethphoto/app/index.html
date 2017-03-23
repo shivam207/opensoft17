@@ -59,7 +59,7 @@
           <span class="mdl-layout-title">Home</span>
           <div class="mdl-layout-spacer"></div>
           <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-             <label class="mdl-button mdl-js-button mdl-button--icon" for="search" onclick="upload()">
+             <label class="mdl-button mdl-js-button mdl-button--icon" for="search" >
 
               <i class="material-icons">search</i>
             </label>
@@ -132,7 +132,7 @@
     </form>
     </div>
     <div class="mdl-dialog__actions ">
-      <button type="button" class="mdl-button" onclick="upload()">Ok</button>
+      <button type="button" class="mdl-button ok">Ok</button>
       <button type="button" class="mdl-button close">Cancel</button>
     </div>
   </dialog>
@@ -146,6 +146,10 @@
       dialog.showModal();
     });
     dialog.querySelector('.close').addEventListener('click', function() {
+      dialog.close();
+    });
+    dialog.querySelector('.ok').addEventListener('click', function() {
+      upload();
       dialog.close();
     });
   </script>
