@@ -1,81 +1,3 @@
-//function initMap() {
-//
-//        var map = new google.maps.Map(document.getElementById('map'), {
-//          zoom: 5,
-//          center: {lat: -28.024, lng: 140.887}
-//        });
-//
-//        // Create an array of alphabetical characters used to label the markers.
-//        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-//
-//        // Add some markers to the map.
-//        // Note: The code uses the JavaScript Array.prototype.map() method to
-//        // create an array of markers based on a given "locations" array.
-//        // The map() method here has nothing to do with the Google Maps API.
-//       
-//            point = new google.maps.LatLng(-28.024,140.887);
-//
-//        // Add a marker clusterer to manage the markers.
-//        var markerCluster = new MarkerClusterer(map, markers,
-//            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-//
-//        var marker = new google.maps.Marker({map: map, position: point, clickable: true});
-//        var infoWindowContent = '<div class="info_content">' +
-//                '<h3>Images</h3>' +
-//                // '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +
-//                // <IMG BORDER="0" ALIGN="Left" SRC='https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'> 
-//                  '<img src="https://openclipart.org/image/2400px/svg_to_png/237816/OrangeLores.png"        width="100" height="100" />'+
-//
-//            '</div>';
-//
-//    // var infoWindowContent = <IMG BORDER="0" ALIGN="Left" SRC="/images/user.jpg"> 
-//
-//    
-//    // Initialise the inforWindow
-//    var infoWindow = new google.maps.InfoWindow({
-//        content: infoWindowContent
-//    });
-//                
-//    // Add a marker to the map based on our coordinates
-//    // var marker = new google.maps.Marker({
-//    //     position: myLatlng,
-//    //     map: map,
-//    //     title: 'London Eye, London'
-//    // });
-//
-//    // Display our info window when the marker is clicked
-//    google.maps.event.addListener(marker, 'mouseover', function() {
-//        infoWindow.open(map, marker);
-//    });
-//    // google.maps.event.addListener(marker, 'mouseout', function() {
-//    //     // infoWindow.open(map, marker);
-//    //     infoWindow.close();
-//    // });
-//
-//    
-////    var image = {
-////        url: 'https://brightcove04pmdo-a.akamaihd.net/5104226627001/5104226627001_5232386545001_5215063851001-vs.jpg?pubId=5104226627001&videoId=5215063851001',
-//////        size: new google.maps.Size(71, 71),
-////        origin: new google.maps.Point(0, 0),
-//////        anchor: new google.maps.Point(17, 34),
-////        scaledSize: new google.maps.Size(60, 60)
-////    };
-//    
-//     var markers = locations.map(function(location, i) {
-//          return new google.maps.Marker({
-//            position: location,
-//            label: labels[i % labels.length],
-//            map: map,
-////            icon:image
-//          });
-//        });
-//
-//     var markerCluster = new MarkerClusterer(map, markers,
-//            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-//
-//}
-
-
 
 var map;
 
@@ -155,7 +77,6 @@ function initMap() {
         map.setCenter(pos);
       });
     }
-
     setMarkers(map,locations);
     searchBox(map);
 }
