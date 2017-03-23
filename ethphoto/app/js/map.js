@@ -83,10 +83,10 @@ function initMap() {
   
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 10,
-    center: {lat: -33.9, lng: 151.2}
+    center: {lat: -37.363, lng: 150.044}
   });
 
-  google.maps.event.addListener(map, 'getLatLonOnClick', function(event) {
+  google.maps.event.addListener(map, 'onclick', function(event) {
       // alert(event.latLng); 
       console.log(event.latLng);
   });
@@ -156,30 +156,32 @@ function initMap() {
           });
         }
 
-  // setMarkers(map,locations);
+    setMarkers(locations);
 }
 
 function setMarkers(locations) {
     
+    console.log("In Markers")
     var markers=[];
     
-  for (var i = 0; i < locations.length; i++) {
-      var location = locations[i];  
-//      var image = {
-//      url: location.url,
-//      origin: new google.maps.Point(0, 0),
-//      scaledSize: new google.maps.Size(60, 60)
-//      };
-      
+    for (var i = 0; i < locations.length; i++) {
+        var location = locations[i];  
 
     var marker = new google.maps.Marker({
       position: {lat: location.lat, lng: location.lng},
-      map: map,
-//      icon:image
+      map: map
     });
-      markers.push(marker);
-      
+
+    marker.addListener('click',function(){
+                var x = marker.getPosition().lat();
+                var y = marker.getPosition().lng();
+                console.log(x,y,'getImage');
+            });
+    
+    markers.push(marker);
   }
+
+
     var markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'})
     

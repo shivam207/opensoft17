@@ -83,29 +83,11 @@ function setScreenPoints(latne,longne,latsw,longsw){
   lat2 = latsw;
   long2 = longsw;
   console.log(lat1);
-  console.log(lat2);
   console.log(long1);
+  console.log(lat2);
   console.log(long2);
   // locations = get_locations(lat1,lat2,long1,long2);
   // setMarkers(locations);
-  ethPhoto.browseImageOnMap(lat2.toString(),long2.toString(),lat1.toString(),long1.toString()).then(function(value1) {
-    console.log(typeof value1);
-    //console.log("image hash "+value1);
-  });
-  ethPhoto.getTotalImages().then(function(value2) {
-    console.log("total "+value2)
-  });
-  ethPhoto.getImage("2.3","4.1").then(function(value1) {
-    console.log("total hash "+value1)
-  });
-
-  ethPhoto.getImHash().then(function(value1) {
-    console.log("Im hash "+value1)
-  });
-
-  ethPhoto.getImLong().then(function(value1) {
-    console.log("long "+value1)
-  });
 }
 
 // function setLatLang(lat,long) {
@@ -192,15 +174,29 @@ function upload() {
                   lat: position.coords.latitude,
                   lng: position.coords.longitude
                 };
-                console.log("hi"+pos.lat)
-                console.log("hi"+pos.lng)
                 x = pos.lat;
                 y = pos.lng;
+                EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+                  console.log(hash)
+                  console.log("GPSlat" + x.toString());
+                  console.log("GPSlong" + y.toString());
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
+                })
               });
             }
             else{
-                x = 1
-                y = 1
+                x = 1;
+                y = 1;
+                EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+                  console.log(hash)
+                  console.log("GPSlat" + x.toString());
+                  console.log("GPSlong" + y.toString());
+                  setMarkers([{lat:x,lng:y}]);
+                  ethPhoto.saveImage(hash,category);
+                  ethPhoto.saveImage1(x.toString(),y.toString());
+                })  
             }
         }
         else{
@@ -209,22 +205,16 @@ function upload() {
             lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
             x = lat;
             y = lon;
+            console.log("GPSlat" + x.toString());
+            console.log("GPSlong" + y.toString());
+            EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+              console.log(hash)
+              console.log("GPSlat" + x.toString());
+              console.log("GPSlong" + y.toString());
+              setMarkers([{lat:x,lng:y}]);
+              ethPhoto.saveImage(hash,category);
+              ethPhoto.saveImage1(x.toString(),y.toString());
+            });
         }
-        
-        //console.log("GPSlat" + x.toString());
-        //console.log("GPSlong" + y.toString());
-        
-        EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-          console.log(hash)
-          
-          
-          ethPhoto.saveImage(hash,category);
-          ethPhoto.saveImage1(x.toString(),y.toString());
-          console.log("GPSlat" + x.toString());
-          console.log("GPSlong" + y.toString());
-          //setMarkers([{lat:x,lng:y}]);
-          
-        });
-        });
-  
+    });
 }
