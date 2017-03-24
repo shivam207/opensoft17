@@ -5,10 +5,6 @@ contract ethPhoto {
   bytes c=new bytes(0);
   bytes d=new bytes(0);
 
-  //used for comparing two values
-  bytes c=new bytes(0);
-  bytes d=new bytes(0);
-
   struct Image{
     string latitude;
     string longitude;
@@ -85,7 +81,7 @@ contract ethPhoto {
    // _images[noOfImages]=Image(hash1,tag1,tmp,tmp2);
     _images[noOfImages].hash1=hash1;
     _images[noOfImages].tag=tag1;
-    //_images[noOfImages].userid=msg.sender;
+    _images[noOfImages].userid=msg.sender;
    // _images[noOfImages].latitude=tmp;
    // _images[noOfImages].longitude=tmp2;
     //noOfImages++;
@@ -329,8 +325,6 @@ contract ethPhoto {
     } 
   }
 
-
-
   function stringToUint(bytes memory b) constant returns (uint result) {
        // bytes memory b=bytes(s);
         uint i;
@@ -405,33 +399,9 @@ contract ethPhoto {
     return false;
   }
 
-  function getTotalImages ()constant returns(uint total){
-    //total = 10;
-    total = noOfImages;
 
   }
-  function browseImageOnMap (string lat1,string long1,string lat2,string long2)constant returns(string _imageHash){
-      uint i=0;
-      uint flag=0;
-      // if(compareValues(lat1,lat2)==false){
-      //   flag=0;
-      // }
 
-      _imageHash=""; //&& compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2);
-      for(i=0;i<noOfImages;i++){
-        _imageHash = _images[0].hash;
-        // if(flag==0 && compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)){
-        //   if (bytes(_imageHash).length == 0)_imageHash = strConcat("","",_images[i].hash);
-        //   else _imageHash=strConcat(_imageHash," ",_images[i].hash);
-        // }
-        //TODO
-        // if(flag==1 && compareValues(lat2,_images[i].latitude) && compareValues(_images[i].latitude,lat1) && compareValues(long2,_images[i].longitude) && compareValues(_images[i].longitude,long1)){
-        //   if (bytes(_imageHash).length == 0)_imageHash = strConcat("","",_images[i].hash);
-        //   else _imageHash=strConcat(_imageHash," ",_images[i].hash);
-        // }
-      
-      }
-      return _imageHash;
 
   }//*/
   //function browse image by topics (list of arrays , boundry might be given)
@@ -454,7 +424,6 @@ contract ethPhoto {
       _result = "Didnt Get";
     } 
   }
-
   /*
   function showMyImages() internal constant returns (string _imageHash,uint[] _imageTag,string[] _imageLat,string[] _imageLong){
     uint size=0;
