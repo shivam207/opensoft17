@@ -125,25 +125,44 @@ contract ethPhoto {
 
     uint flag=0;
 
+
     if(a[0]=='-'){
       _i=1;
     }
-    
+
     uint minLength = a.length;
     if (b.length < minLength) minLength = b.length;
     for(i=_i;i<minLength;i++){
       if(a[i]=='.' && b[i]=='.'){
 
-        if(stringToUint(c) < stringToUint(d))return true;
-        if(stringToUint(c) > stringToUint(d))return false;
+        if(stringToUint(c) < stringToUint(d)){
+            if(_i==0) return true;
+            else return false;
+        }
+        if(stringToUint(c) > stringToUint(d)){
+            if(_i==0) return false;
+            else return true;
+        }
         flag=1;
         continue;
       }
-      if(a[i]=='.')return true;
-      if(b[i]=='.')return false;      
+      if(a[i]=='.'){
+        if(_i==0) return true;
+        else return false;
+      }
+      if(b[i]=='.'){
+        if(_i==0) return false;
+        else return true;
+      }      
       if(flag==1){
-        if(a[i]<b[i])return true;
-        if(a[i]>b[i])return false;
+        if(a[i]<b[i]){
+            if(_i==0) return true;
+            else return false;
+        }
+        if(a[i]>b[i]){
+            if(_i==0) return false;
+            else return true;
+        }
         continue;
       }
       c.push(a[i]);
@@ -153,17 +172,41 @@ contract ethPhoto {
     if(flag==1){
       //return c.length==0;
       //printf("%d",stringToUint(c));
-      if(stringToUint(c) < stringToUint(d))return true;
-      if(stringToUint(c) > stringToUint(d))return false;
+      if(stringToUint(c) < stringToUint(d))
+      {
+            if(_i==0) return true;
+            else return false;
+      }
+      if(stringToUint(c) > stringToUint(d))
+      {
+            if(_i==0) return false;
+            else return true;
+      }
     }
-    if(a.length < b.length)return true;
-    if(a.length > b.length)return false;
+    if(a.length < b.length)
+    {
+        if(_i==0) return true;
+        else return false;
+    }
+    if(a.length > b.length)
+    {
+        if(_i==0) return false;
+        else return true;
+    }
     if(flag==0){
-      if(stringToUint(c) < stringToUint(d))return true;
-      if(stringToUint(c) > stringToUint(d))return false;
+      if(stringToUint(c) < stringToUint(d))
+      {
+        if(_i==0) return true;
+        else return false;
+      }
+      if(stringToUint(c) > stringToUint(d))
+      {
+        if(_i==0) return false;
+        else return true;
+      }
     }
    // val=stringToUint(c);
-   
+    
     return false;
   }
 
@@ -180,7 +223,8 @@ contract ethPhoto {
       _imageHash="";
       lat = "";
       lng = ""; //&& compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2);
-      for(i=0;i<noOfImages;i++){
+      for(i=0;i<noOfImages;i++)
+      {
         if(bytes(_images[i].hash1).length == 0 || bytes(_images[i].hash2).length==0 || bytes(_images[i].latitude).length==0 || bytes(_images[i].longitude).length==0)
         {
             continue;
