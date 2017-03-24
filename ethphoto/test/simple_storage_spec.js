@@ -13,20 +13,23 @@ describe("SimpleStorage", function() {
     EmbarkSpec.deployAll(contractsConfig, done);
   });
 
-  it("should set constructor value", function(done) {
-    SimpleStorage.storedData(function(err, result) {
-      assert.equal(result.toNumber(), 100);
-      done();
-    });
-  });
+  // it("should set constructor value", function(done) {
+  //   SimpleStorage.storedData(function(err, result) {
+  //     assert.equal(result.toNumber(), 100);
+  //     done();
+  //   });
+  // });
 
-  it("set storage value", function(done) {
-    SimpleStorage.set(150, function() {
-      SimpleStorage.get(function(err, result) {
-        assert.equal(result.toNumber(), 150);
-        done();
-      });
-    });
+  // it("set storage value", function(done) {
+  //   SimpleStorage.set(150, function() {
+  //     SimpleStorage.get(function(err, result) {
+  //       assert.equal(result.toNumber(), 150);
+  //       done();
+  //     });
+  //   });
+  // });
+  it("compareValues", function(done) {
+    ethPhoto.compareValues("-82.32","-150.28").then(result,function(final) {
+      console.log(result);
   });
-
 });
