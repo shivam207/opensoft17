@@ -86,29 +86,49 @@ function setScreenPoints(latne,longne,latsw,longsw){
   console.log(long1);
   console.log(lat2);
   console.log(long2);
+
+
+  ethPhoto.browseImageOnMap(lat2.toString(),long2.toString(),lat1.toString(),long1.toString()).then(function(final) {
+    console.log("the url retrieved is :");
+    if(final[0] != "")
+    { var locations = [];
+        var arr = final[0].split(' ');
+        for(var i=0;i<arr.length;i++){
+          arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
+          console.log(arr[i]);
+        };
+        var arr1 = final[1].split(' ');
+        for(var i=0;i<arr1.length;i++){
+          console.log(arr1[i]);
+        };
+        var arr2 = final[2].split(' ');
+        for(var i=0;i<arr2.length;i++){
+          console.log(arr2[i]);
+        };
+        for(var i=0;i<arr2.length;i++){
+          locations.push({lat: Number(arr1[i]), lng: Number(arr2[i])});
+        }
+        setMarkers(locations);
+    }
+  });
+  ethPhoto.getNum().then(function(result){
+    console.log("Total No. of Images " + result.toString());
+  });
+
+  ethPhoto.getLat().then(function(result){
+    console.log("Lat: " + result);
+  });
+
+  ethPhoto.getHash().then(function(result){
+    console.log("Hash: " + result[0] + " " + result[1]);
+  });
+  ethPhoto.getlong().then(function(result){
+    console.log("Long: " + result);
+  });
   // locations = get_locations(lat1,lat2,long1,long2);
   // setMarkers(locations);
-
-  ethPhoto.getTotalImages().then(function(value2) {
-    console.log("total "+value2)
-  });
-
-  ethPhoto.getImHash().then(function(value1) {
-    console.log("Im hash "+value1)
-  });
-
-  ethPhoto.getImLong().then(function(value1) {
-    console.log("long "+value1)
-  });
-
-  ethPhoto.getImLat().then(function(value1) {
-    console.log("lat "+value1)
-  });
-
-  ethPhoto.getImTag().then(function(value1) {
-    console.log("tag "+value1)
-  });
 }
+
 // function setLatLang(lat,long) {
 //   latitude = lat;
 //   longitude = long;
@@ -153,28 +173,6 @@ function upload() {
   // console.log(category);
   var x = 2.3;
   var y = 4.1;
-
-
-  // reader.onloadend = function () {
-  // // get EXIF data
-  //   var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
-
-  //   var lat = exif.GPSLatitude;
-  //   var lon = exif.GPSLongitude;
-
-  //   //Convert coordinates to WGS84 decimal
-  //   var latRef = exif.GPSLatitudeRef || "N";  
-  //   var lonRef = exif.GPSLongitudeRef || "W";  
-  //   lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);  
-  //   lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
-  //   console.log(lat)
-  //   console.log(lon)
-  //   x = lat
-  //   y = lon
-  //  //Send the coordinates to your map
-  //   Map.AddMarker(lat,lon);
-  // } 
-  // reader.readAsBinaryString(files);
   
   EXIF.getData(input[0].files[0], function() {
         console.log("Happy");
@@ -182,7 +180,7 @@ function upload() {
         var lon = EXIF.getTag(this, "GPSLongitude");
         var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
         var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
-        console.log(lat)
+        console.log("Intital Lat " +lat)
         if (lat == undefined){
             console.log(lat)
             if (navigator.geolocation) {
@@ -199,9 +197,17 @@ function upload() {
                   console.log(hash)
                   console.log("GPSlat" + x.toString());
                   console.log("GPSlong" + y.toString());
-                  setMarkers([{lat:x,lng:y}]);
-                  ethPhoto.saveImage(hash,category);
-                  ethPhoto.saveImage1(x.toString(),y.toString());
+                  setMarkers([{lat:x,lng:y}],1);
+                  var hash1 = hash.substr(0,hash.length/2);
+                  var hash2 = hash.substr(hash.length/2);
+                  ethPhoto.saveImage(hash1,category).then(function(){
+                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
+                      ethPhoto.saveImage2(hash2).then(function(){
+                      });    
+                    });  
+                  });
+                  
+                  
                 })
               });
             }
@@ -212,9 +218,15 @@ function upload() {
                   console.log(hash)
                   console.log("GPSlat" + x.toString());
                   console.log("GPSlong" + y.toString());
-                  setMarkers([{lat:x,lng:y}]);
-                  ethPhoto.saveImage(hash,category);
-                  ethPhoto.saveImage1(x.toString(),y.toString());
+                  setMarkers([{lat:x,lng:y}],1);
+                  var hash1 = hash.substr(0,hash.length/2);
+                  var hash2 = hash.substr(hash.length/2);
+                  ethPhoto.saveImage(hash1,category).then(function(){
+                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
+                      ethPhoto.saveImage2(hash2).then(function(){
+                      });    
+                    });  
+                  });
                 })  
             }
         }
@@ -230,11 +242,15 @@ function upload() {
               console.log(hash)
               console.log("GPSlat" + x.toString());
               console.log("GPSlong" + y.toString());
-              console.log("category" + category);
-              setMarkers([{lat:x,lng:y}]);
-              ethPhoto.saveImage("dnskdnsk",category);
-              ethPhoto.saveImage1(x.toString(),y.toString());
-
+              setMarkers([{lat:x,lng:y}],1);
+              var hash1 = hash.substr(0,hash.length/2);
+              var hash2 = hash.substr(hash.length/2);
+              ethPhoto.saveImage(hash1,category).then(function(){
+                ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
+                  ethPhoto.saveImage2(hash2).then(function(){
+                  });    
+                });  
+              });
             });
         }
     });

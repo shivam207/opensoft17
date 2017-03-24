@@ -1,15 +1,15 @@
 pragma solidity ^0.4.7;
 contract ethPhoto {
   uint private noOfImages;
-
-  //used for comparing two values
+ 
   bytes c=new bytes(0);
   bytes d=new bytes(0);
 
   struct Image{
     string latitude;
     string longitude;
-    string hash;
+    string hash1;
+    string hash2;
     uint tag;
     address userid;
   }
@@ -59,53 +59,29 @@ contract ethPhoto {
     return noOfImages;
   }
 
-  function getImHash() constant returns (string hash1){
-
-    //result=noOfImages;
-    if (noOfImages == 0)hash1 = "2";
-    else hash1 = _images[noOfImages-1].hash;
-  
-  }
-
-  function getImLong() constant returns (string long){
-
-    //result=noOfImages;
-    if (noOfImages == 0)long = "3";
-    else long = _images[noOfImages-1].longitude;
-  
-  }
-
-  function getImLat() constant returns (string lat){
-
-    //result=noOfImages;
-    if (noOfImages == 0)lat = "3";
-    else lat = _images[noOfImages-1].latitude;
-  
-  }
-
-  function getImTag() constant returns (uint tag1){
-
-    //result=noOfImages;
-    if (noOfImages == 0)tag1 = 15;
-    else tag1 = _images[noOfImages-1].tag;
-  
-  }
 
   function saveImage(string hash1,uint tag1 ){
     //Image tmp(hash1, tag1, tmp, tmp2);
    // _images[noOfImages]=Image(hash1,tag1,tmp,tmp2);
-    _images[noOfImages].hash=hash1;
+    _images[noOfImages].hash1=hash1;
     _images[noOfImages].tag=tag1;
-    //_images[noOfImages].userid=msg.sender;
+    _images[noOfImages].userid=msg.sender;
    // _images[noOfImages].latitude=tmp;
    // _images[noOfImages].longitude=tmp2;
     //noOfImages++;
   }
 
-  function saveImage1(string long,string lat ){
+  function saveImage1(string lat,string long ){
 
     _images[noOfImages].latitude=lat;
     _images[noOfImages].longitude=long;
+    //_images[noOfImages].latitude=latitude1;
+    //_images[noOfImages].tag=l2;
+    // noOfImages++;
+  }
+  function saveImage2(string hash2){
+
+    _images[noOfImages].hash2=hash2;
     //_images[noOfImages].latitude=latitude1;
     //_images[noOfImages].tag=l2;
     noOfImages++;
@@ -116,50 +92,6 @@ contract ethPhoto {
         result := mload(add(source, 32))
     }
   }
-
-  function getImage(string longitude,string latitude) constant returns (string _imageHash){
-   uint i = 0;
-   
-   _imageHash="";
-   for(i=0;i<noOfImages;i++){
-      string a=_images[i].longitude;
-      string b=_images[i].latitude;
-      if( compare(a,longitude)==true && compare(b,latitude)==true){
-        if (bytes(_imageHash).length == 0)
-          {
-            _imageHash = strConcat("","",_images[i].hash);
-          } 
-        else  
-       _imageHash=strConcat(_imageHash," ",_images[i].hash);
-       //_imageTag[size]=_images[i].tag;
-       
-      }
-    }
-  }
-
-  function deleteImage(string hash) constant returns (uint status){
-    uint i=0;
-    uint deleteIndex;
-    for(i=0;i<noOfImages;i++){
-      if(compare(_images[i].hash,hash)==true){
-        if(_images[i].userid==msg.sender){
-          deleteIndex=i;
-          status=1;
-        }
-        else {
-          status=0;
-        }
-        break;
-      }
-    }
-    if(status==1){
-      for(i=deleteIndex;i<noOfImages-1;i++){
-        _images[i]=_images[i+1];
-      }
-      noOfImages--;
-    }
-  }
-
 
   function stringToUint(bytes memory b) constant returns (uint result) {
        // bytes memory b=bytes(s);
@@ -235,38 +167,160 @@ contract ethPhoto {
     return false;
   }
 
-  function getTotalImages ()constant returns(uint total){
-    //total = 10;
-    total = noOfImages;
-
-  }
-  function browseImageOnMap (string lat1,string long1,string lat2,string long2)constant returns(string _imageHash){
+  function browseImageOnMap (string lat1,string long1,string lat2,string long2)constant returns(string _imageHash,string lat,string lng){
       uint i=0;
-      uint flag=0;
-      // if(compareValues(lat1,lat2)==false){
-      //   flag=0;
-      // }
-
-      _imageHash=""; //&& compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2);
-      for(i=0;i<noOfImages;i++){
-        _imageHash = _images[0].hash;
-        // if(flag==0 && compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)){
-        //   if (bytes(_imageHash).length == 0)_imageHash = strConcat("","",_images[i].hash);
-        //   else _imageHash=strConcat(_imageHash," ",_images[i].hash);
-        // }
-        //TODO
-        // if(flag==1 && compareValues(lat2,_images[i].latitude) && compareValues(_images[i].latitude,lat1) && compareValues(long2,_images[i].longitude) && compareValues(_images[i].longitude,long1)){
-        //   if (bytes(_imageHash).length == 0)_imageHash = strConcat("","",_images[i].hash);
-        //   else _imageHash=strConcat(_imageHash," ",_images[i].hash);
-        // }
-      
+      uint flag1=0;
+      uint flag2=0;
+      if(compareValues(lat1,lat2)==false){
+          flag1=1;
       }
-      return _imageHash;
+      if(compareValues(long1,long2)==false){
+          flag2=1;
+      }
+      _imageHash="";
+      lat = "";
+      lng = ""; //&& compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2);
+      for(i=0;i<noOfImages;i++){
+        if(flag1 == 0 && flag2==0)
+        {
+          if(compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)){
+            if (bytes(_imageHash).length == 0)
+            {_imageHash = strConcat("",_images[i].hash1,_images[i].hash2);
+            lat = strConcat("","",_images[i].latitude);
+            lng = strConcat("","",_images[i].longitude);
+            }
+            else
+            { 
+                _imageHash=strConcat(_imageHash," ",_images[i].hash1);
+                _imageHash = strConcat(_imageHash,_images[i].hash2,"");
+                lat =strConcat(lat," ",_images[i].latitude);
+                lng = strConcat(lng," ",_images[i].longitude);
 
-  }//*/
-  //function browse image by topics (list of arrays , boundry might be given)
- // function showMyImages
-  
+            }
+          }
+        }
+        else {
+              
+              if( (flag1==1 && (compareValues(lat1,_images[i].latitude) || compareValues(_images[i].latitude,lat2)) ) || (flag1==0 && (compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2)) ) )
+              {
+                if( (flag2==1 && (compareValues(long1,_images[i].longitude) || compareValues(_images[i].longitude,long2)) ) || (flag2==0 && (compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)) ) )  
+                {
+                    if (bytes(_imageHash).length == 0)
+                     {_imageHash = strConcat("",_images[i].hash1,_images[i].hash2);
+                      lat = strConcat("","",_images[i].latitude);
+                      lng = strConcat("","",_images[i].longitude);
+                    }
+                    else
+                    {_imageHash=strConcat(_imageHash," ",_images[i].hash1);
+                      _imageHash = strConcat(_imageHash,_images[i].hash2,"");
+                      lat =strConcat(lat," ",_images[i].latitude);
+                      lng = strConcat(lng," ",_images[i].longitude);
+                    }   
+                }
+              }
+        }
+
+    }
+  }
+  // function getImage(string longitude,string latitude) constant returns (string _imageHash){
+  //  uint i = 0;
+   
+  //  _imageHash="";
+  //  for(i=0;i<noOfImages;i++){
+  //     string a=_images[i].longitude;
+  //     string b=_images[i].latitude;
+  //     if( compare(a,longitude)==true && compare(b,latitude)==true){
+  //       if (bytes(_imageHash).length == 0)
+  //         {
+  //           _imageHash = strConcat("","",_images[i].hash);
+  //         } 
+  //       else  
+  //      _imageHash=strConcat(_imageHash," ",_images[i].hash);
+  //      //_imageTag[size]=_images[i].tag;
+       
+  //     }
+  //   }
+  // }
+
+  // function deleteImage(string hash) constant returns (uint status){
+  //   uint i=0;
+  //   uint deleteIndex;
+  //   for(i=0;i<noOfImages;i++){
+  //     if(compare(_images[i].hash,hash)==true){
+  //       if(_images[i].userid==msg.sender){
+  //         deleteIndex=i;
+  //         status=1;
+  //       }
+  //       else {
+  //         status=0;
+  //       }
+  //       break;
+  //     }
+  //   }
+  //   if(status==1){
+  //     for(i=deleteIndex;i<noOfImages-1;i++){
+  //       _images[i]=_images[i+1];
+  //     }
+  //     noOfImages--;
+  //   }
+  // }
+
+  function getNum() constant returns(uint _result){
+    // if(noOfImages > 0){
+
+    //   _result = _images[noOfImages-1].hash;
+    // }
+    // else{
+    //   _result = "Notset";
+    // }
+    _result = noOfImages;
+  }
+  function getHash() constant returns(string _result1,string _result2){
+    // if(noOfImages > 0){
+
+    //   _result = _images[noOfImages-1].hash;
+    // }
+    // else{
+    //   _result = "Notset";
+    // }
+    if(noOfImages>0)
+    {
+       _result1 = _images[noOfImages-1].hash1;
+       _result2 = _images[noOfImages-1].hash2;
+    }
+    else{
+      _result1 = "Didnt Get 1";
+      _result2 = "Didnt Get 2";
+    } 
+  }
+
+  function getlong() constant returns(string _result){
+    if(noOfImages>0)
+    {
+       _result = _images[noOfImages-1].longitude;
+
+    }
+    else{
+      _result = "Didnt Get";
+    } 
+  }
+
+  function getLat() constant returns(string _result){
+    // if(noOfImages > 0){
+
+    //   _result = _images[noOfImages-1].hash;
+    // }
+    // else{
+    //   _result = "Notset";
+    // }
+    if(noOfImages>0)
+    {
+       _result = _images[noOfImages-1].latitude;
+    }
+    else{
+      _result = "Didnt Get";
+    } 
+  }
   /*
   function showMyImages() internal constant returns (string _imageHash,uint[] _imageTag,string[] _imageLat,string[] _imageLong){
     uint size=0;
