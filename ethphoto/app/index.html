@@ -44,119 +44,8 @@
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-light_blue.min.css">
     <link rel="stylesheet" href="css/app.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="js/eth_photo.js"></script>
-    <style>
-    /* jssor slider bullet navigator skin 03 css */
-    /*
-        .jssorb03 div           (normal)
-        .jssorb03 div:hover     (normal mouseover)
-        .jssorb03 .av           (active)
-        .jssorb03 .av:hover     (active mouseover)
-        .jssorb03 .dn           (mousedown)
-        */
-    /* <!--[if IE]>
-    <link rel="stylesheet" type="text/css" href="all-ie-only.css" />
-<![endif]-->*/
-    
-    .jssorb03 {
-        position: absolute;
-    }
-    
-    .jssorb03 div,
-    .jssorb03 div:hover,
-    .jssorb03 .av {
-        position: absolute;
-        /* size of bullet elment */
-        width: 21px;
-        height: 21px;
-        text-align: center;
-        line-height: 21px;
-        color: white;
-        font-size: 12px;
-        /*background: url('img/b03.png') no-repeat;*/
-        overflow: hidden;
-        cursor: pointer;
-    }
-    
-    .jssorb03 div {
-        background-position: -5px -4px;
-    }
-    
-    .jssorb03 div:hover,
-    .jssorb03 .av:hover {
-        background-position: -35px -4px;
-    }
-    
-    .jssorb03 .av {
-        background-position: -65px -4px;
-    }
-    
-    .jssorb03 .dn,
-    .jssorb03 .dn:hover {
-        background-position: -95px -4px;
-    }
-    /* jssor slider arrow navigator skin 03 css */
-    /*
-        .jssora03l                  (normal)
-        .jssora03r                  (normal)
-        .jssora03l:hover            (normal mouseover)
-        .jssora03r:hover            (normal mouseover)
-        .jssora03l.jssora03ldn      (mousedown)
-        .jssora03r.jssora03rdn      (mousedown)
-        .jssora03l.jssora03ldn      (disabled)
-        .jssora03r.jssora03rdn      (disabled)
-        */
-    
-    .jssora03l,
-    .jssora03r {
-        display: block;
-        position: absolute;
-        /* size of arrow element */
-        width: 55px;
-        height: 55px;
-        cursor: pointer;
-        /*background: url('img/a03.png') no-repeat;*/
-        overflow: hidden;
-    }
-    
-    .jssora03l {
-        background-position: -3px -33px;
-    }
-    
-    .jssora03r {
-        background-position: -63px -33px;
-    }
-    
-    .jssora03l:hover {
-        background-position: -123px -33px;
-    }
-    
-    .jssora03r:hover {
-        background-position: -183px -33px;
-    }
-    
-    .jssora03l.jssora03ldn {
-        background-position: -243px -33px;
-    }
-    
-    .jssora03r.jssora03rdn {
-        background-position: -303px -33px;
-    }
-    
-    .jssora03l.jssora03lds {
-        background-position: -3px -33px;
-        opacity: .3;
-        pointer-events: none;
-    }
-    
-    .jssora03r.jssora03rds {
-        background-position: -63px -33px;
-        opacity: .3;
-        pointer-events: none;
-    }
-    </style>
     <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <!-- <script src="js/map.js" type="text/javascript"></script> -->
+    <script type="text/javascript" src="js/eth_photo.js"></script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUx5BATTb2TPFBe2gVbIbgqcCjr_TgT5s&libraries=places&callback=initMap">
@@ -167,20 +56,6 @@
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
         <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
             <input id="pac-input" style="width: auto;" class="controls" type="text" placeholder="Search any location">
-            <!-- <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">Home</span>
-          <div class="mdl-layout-spacer"></div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-             <label class="mdl-button mdl-js-button mdl-button--icon" for="search" onclick="upload()">
-
-              <i class="material-icons">search</i>
-            </label>
-          </div>
-             <div class="mdl-textfield__expandable-holder">
-              <input class="mdl-textfield__input" type="text" id="search">
-              <label class="mdl-textfield__label" for="search">Enter your query...</label>
-            </div>
-        </div>  -->
         </header>
         <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
             <header class="demo-drawer-header">
@@ -221,8 +96,8 @@
                     </form>
                 </div>
                 <div class="mdl-dialog__actions ">
-                    <button type="button" class="mdl-button" onclick="upload()">Ok</button>
-                    <button type="button" class="mdl-button close">Cancel</button>
+                    <button type="button" class="mdl-button" id="ok_button">OK</button>
+                    <button type="button" class="mdl-button" id="cancel_button">Cancel</button>
                 </div>
             </dialog>
             <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
@@ -250,7 +125,8 @@
                     </tbody>
                 </table>
                 <form>
-                    <button id="categoryBtn" type="button" class="mdl-button" style="color:#aaaaaa" onclick="tagfun()">Submit</button>
+                    <!-- Dont write event handlers here. Write using jquery with proper validation so-->
+                    <button id="categoryBtn" type="button" class="mdl-button" style="color:#aaaaaa">Submit</button>
                     <br>
                     <button id="viewphotoBtn" type="button" class="mdl-button" style="color:#aaaaaa">View Photos</button>
                 </form>
@@ -267,7 +143,6 @@
                     <!-- Source: http://www.jssor.com -->
                     <!-- This code works without jquery library. -->
                     <!-- <script src="js/_vendor/jssor.slider-22.2.16.min.js" type="text/javascript"></script> -->
-                    <style></style>
                     <form action="">
                         <input type="button" value="Show/Hide">
                     </form>
@@ -278,21 +153,14 @@
                         <span data-u="arrowleft" class="jssora03l" style="top:50%;left:8px;width:55px;height:55px;" data-autocenter="2"></span>
                         <span data-u="arrowright" class="jssora03r" style="top:50%;right:8px;width:55px;height:55px;" data-autocenter="2"></span>
                     </div>
-                    <div id="container">
+                    <div id="slider_container">
                         <div id="jssor_1" style="position:relative;margin:0 auto;top:0px;left:0px;width:809px;height:150px;overflow:hidden;visibility:hidden;">
                             <!-- Loading Screen -->
                             <div data-u="loading" style="position:absolute;top:0px;left:0px;background-color:rgba(0,0,0,0.7);">
                                 <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
-                                <div style="position:absolute;display:block;top:0px;left:0px;width:100%;height:100%;"></div>
+                                <div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
                             </div>
                             <div data-u="slides" style="cursor:default;position:relative;top:0px;left:0px;width:809px;height:150px;overflow:hidden;" id="images">
-                                <a data-u="any" href="http://www.jssor.com" style="display:none">Carousel</a>
-                                <!-- <div>
-                <img data-u="image" src="img/047.jpg" />
-            </div>
-            <div>
-                <img data-u="image" src="img/050.jpg" />
-            </div> -->
                             </div>
                             <!-- Bullet Navigator -->
                             <div data-u="navigator" class="jssorb03" style="bottom:10px;right:10px;">
@@ -306,103 +174,11 @@
                             <span data-u="arrowright" class="jssora03r" style="top:0px;right:8px;width:55px;height:55px;" data-autocenter="2"></span>
                         </div>
                     </div>
-                    <!-- <script src="js/slider.js"> </script> -->
-                    <!-- #endregion Jssor Slider End -->
-                    <!--     </div>
-</div> -->
-                    <!-- <script type="text/javascript">jssor_1_slider_init();</script> -->
                     <!-- #endregion Jssor Slider End -->
                 </div>
             </div>
         </main>
     </div>
 </body>
-<script type="text/javascript">
-jssor_1_slider_init = function() {
-
-    var jssor_1_options = {
-        $AutoPlay: true,
-        $Idle: 0,
-        $AutoPlaySteps: 4,
-        $SlideDuration: 2500,
-        $SlideEasing: $Jease$.$Linear,
-        $PauseOnHover: 4,
-        $SlideWidth: 140,
-        $Cols: 7
-    };
-
-    var jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
-
-    /*responsive code begin*/
-    /*remove responsive code if you don't want the slider scales while window resizing*/
-    function ScaleSlider() {
-        var refSize = jssor_1_slider.$Elmt.parentNode.clientWidth;
-        if (refSize) {
-            refSize = Math.min(refSize, 809);
-            jssor_1_slider.$ScaleWidth(refSize);
-        } else {
-            window.setTimeout(ScaleSlider, 30);
-        }
-    }
-    ScaleSlider();
-    $Jssor$.$AddEvent(window, "load", ScaleSlider);
-    $Jssor$.$AddEvent(window, "resize", ScaleSlider);
-    $Jssor$.$AddEvent(window, "orientationchange", ScaleSlider);
-    /*responsive code end*/
-};
-</script>
-<script>
-var dialog = document.querySelector('dialog');
-var showDialogButton = document.querySelector('#show-dialog');
-if (!dialog.showModal) {
-    dialogPolyfill.registerDialog(dialog);
-}
-showDialogButton.addEventListener('click', function() {
-    dialog.showModal();
-});
-dialog.querySelector('.close').addEventListener('click', function() {
-    dialog.close();
-});
-</script>
-<script>
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function(e) {
-            $('#blah')
-                .attr('src', e.target.result)
-                .width(150)
-                .height(200);
-        };
-
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-</script>
-<script defer>
-var modal = document.getElementById('myModal');
-var i;
-
-function showimg(img) {
-    // var imag = document.getElementById(img.id);
-    var modalImg = document.getElementById("img01");
-    var captionText = document.getElementById("caption");
-    document.getElementById(img.id).onclick = function() {
-        modal.style.display = "block";
-        modalImg.src = img.src;
-        captionText.innerHTML = img.alt;
-    }
-}
-
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-    modal.style.display = "none";
-}
-</script>
 
 </html>

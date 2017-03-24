@@ -1,7 +1,7 @@
 {
   "contracts": ["app/contracts/**"],
   "app": {
-    "css/app.css": ["app/css/**"],
+    "css/app.css": ["app/css/**", "!app/css/modal.css"],
     "js/app.js": ["embark.js"],
 	  "js/app_name.min.js":[],
     "index.html": "app/index.html"
