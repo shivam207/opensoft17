@@ -14,17 +14,71 @@ function readURL(input) {
     }
 };
 
+function load_slider(images) {
+
+    // $("#mycarousel").destroy();
+
+    var len = images.length
+
+    var template = '<div class="mdl-card">  \
+                        <div class="mdl-card__media"><img data-lazy={{src}} width="180" height="180" border="10"  alt="" >\
+                        </div>\
+                    </div> ';
+
+
+
+    accumulator = "<div id='mycarousel'>";
+    $(images).each(function(index) {
+        element = Mustache.render(template, { "src": this, "text": "Some random shit" });
+        // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
+        accumulator += element;
+    });
+    accumulator += "</div>";
+
+    $("#carousel_container").html(accumulator);
+    // Slider
+    if (len > 0) {
+        var initialSlide = 2;
+        if(len < 5)
+            initialSlide = 0;
+        else if(len == 5)
+            initialSlide = 1;
+        $('#mycarousel').slick({
+            initialSlide: initialSlide,
+            infinite: true,
+            centerMode: true,
+            centerPadding: '60px',
+            slidesToShow: 5,
+            lazyLoad: 'ondemand',
+            slidesToScroll: 4,
+            autoplay: false,
+            autoplaySpeed: 2000,
+            responsive: [{
+                breakpoint: 768,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 3
+                }
+            }, {
+                breakpoint: 480,
+                settings: {
+                    arrows: false,
+                    centerMode: true,
+                    centerPadding: '40px',
+                    slidesToShow: 1
+                }
+            }]
+        });
+    }
+}
+
 var savedhtml = "";
 
 $(function() {
 
-    // Slider
-    savedhtml = $('#container').html();
-    var images = []; //"005.jpg", "006.jpg"];
 
-
-    load_slider(images);
-    
     //Dialog
 
     var dialog = document.querySelector('dialog');
@@ -45,7 +99,7 @@ $(function() {
 
 
     // Zoom Modal
-    var modal = document.getElementById('myModal');
+    /*var modal = document.getElementById('myModal');
     var i;
 
     function showimg(img) {
@@ -67,14 +121,6 @@ $(function() {
     span.onclick = function() {
         modal.style.display = "none";
     }
-
+*/
     // End Modal
-});
-
-
-
-$(function() {
-
-
-
 });

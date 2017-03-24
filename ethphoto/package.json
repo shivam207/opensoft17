@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "google-maps": "^3.2.1"
+    "google-maps": "^3.2.1",
+    "moustache": "0.0.2"
   },
   "directories": {
     "test": "test"

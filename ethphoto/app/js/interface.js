@@ -97,13 +97,14 @@ function setScreenPoints(latne, longne, latsw, longsw) {
                 console.log(arr[i]);
             };
             load_slider(arr);
+            console.log("slider loaded")
             var arr1 = final[1].split(' ');
             for (var i = 0; i < arr1.length; i++) {
-                console.log(arr1[i]);
+                console.log("latitude "+arr1[i]);
             };
             var arr2 = final[2].split(' ');
             for (var i = 0; i < arr2.length; i++) {
-                console.log(arr2[i]);
+                console.log("longitude "+arr2[i]);
             };
             for (var i = 0; i < arr2.length; i++) {
                 locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
@@ -112,6 +113,7 @@ function setScreenPoints(latne, longne, latsw, longsw) {
         } else {
             load_slider([]);
         }
+        return false;
     });
     ethPhoto.getNum().then(function(result) {
         console.log("Total No. of Images " + result.toString());

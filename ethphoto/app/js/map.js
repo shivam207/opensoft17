@@ -117,12 +117,13 @@ function setMarkers(locations, add = 0) {
                 infowindow.open(map, marker);
             }
         })(marker, i));
-
+        console.log(location);
         gmarkers.push(marker);
     }
 
-
+    console.log("setMap");
     var markerCluster = new MarkerClusterer(map, gmarkers,
      { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' });
+    console.log("bdbfd");
 
 }
