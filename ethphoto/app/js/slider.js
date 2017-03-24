@@ -6,7 +6,7 @@ function refresh(images) {
 
     $(images).each(function(index) {
         element = '<div> \
-                    <a data-toggle="modal" data-target="#myModal" href=#><img id="id" data-u="image" src="images/' + this + '" onclick="showimg(this)"/> \
+                    <a data-toggle="modal" data-target="#myModal" href=#><img id="id" data-u="image" src=" ' + this + '" onclick="showimg(this)"/> \
                     </a> \
                 </div>';
         $("#images").append(element);
@@ -23,7 +23,7 @@ $(function() {
 
     $(images).each(function(index) {
         element = '<div> \
-                 <a data-toggle="modal" data-target="#myModal" href=#><img id="id" data-u="image" src="images/' + this + '" onclick="showimg(this)"/> \
+                 <a data-toggle="modal" data-target="#myModal" href=#><img id="id" data-u="image" src=" ' + this + '" onclick="showimg(this)"/> \
                     </a> \
             </div>';
         $("#images").append(element);
