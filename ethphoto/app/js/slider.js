@@ -35,15 +35,13 @@ jssor_1_slider_init = function() {
 
 function load_slider(images) {
     // $("#jssor_1").remove();
-    $('#container').html(savedhtml);
+    $('#slider_container').html(savedhtml);
 
-    
+    console.log("here");
 
     $(images).each(function(index) {
         element = '<div> \
-                    <a data-toggle="modal" data-target="#myModal" href=#> \
-                        <img  data-u="image" src="images/' + this + '" onclick="showimg(this)"/> \
-                    </a> \
+                        <img  data-u="image" src="' + this + '" /> \
                 </div>';
         $("#images").append(element);
 

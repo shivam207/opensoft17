@@ -77,60 +77,58 @@ var lat2 = 20.8;
 var long2 = 50.3;
 
 
-function setScreenPoints(latne,longne,latsw,longsw){
-  lat1 = latne;
-  long1 = longne;
-  lat2 = latsw;
-  long2 = longsw;
-  console.log(lat1);
-  console.log(long1);
-  console.log(lat2);
-  console.log(long2);
+function setScreenPoints(latne, longne, latsw, longsw) {
+    lat1 = latne;
+    long1 = longne;
+    lat2 = latsw;
+    long2 = longsw;
+    console.log(lat1);
+    console.log(long1);
+    console.log(lat2);
+    console.log(long2);
 
-  ethPhoto.browseImageOnMap(lat2.toString(),long2.toString(),lat1.toString(),long1.toString()).then(function(final) {
-    console.log("the url retrieved is :");
-    if(final[0] != "")
-    { var locations = [];
-        var arr = final[0].split(' ');
-        for(var i=0;i<arr.length;i++){
-          arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
-          console.log(arr[i]);
-        };
-        refresh(arr);
-        var arr1 = final[1].split(' ');
-        for(var i=0;i<arr1.length;i++){
-          console.log(arr1[i]);
-        };
-        var arr2 = final[2].split(' ');
-        for(var i=0;i<arr2.length;i++){
-          console.log(arr2[i]);
-        };
-        for(var i=0;i<arr2.length;i++){
-          locations.push({lat: Number(arr1[i]), lng: Number(arr2[i])});
+    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString()).then(function(final) {
+        console.log("the url retrieved is :");
+        if (final[0] != "") {
+            var locations = [];
+            var arr = final[0].split(' ');
+            for (var i = 0; i < arr.length; i++) {
+                arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
+                console.log(arr[i]);
+            };
+            load_slider(arr);
+            var arr1 = final[1].split(' ');
+            for (var i = 0; i < arr1.length; i++) {
+                console.log(arr1[i]);
+            };
+            var arr2 = final[2].split(' ');
+            for (var i = 0; i < arr2.length; i++) {
+                console.log(arr2[i]);
+            };
+            for (var i = 0; i < arr2.length; i++) {
+                locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
+            }
+            setMarkers(locations);
+        } else {
+            load_slider([]);
         }
-        setMarkers(locations);
-    }
-    else
-    {
-        refresh([]);
-    }
-  });
-  ethPhoto.getNum().then(function(result){
-    console.log("Total No. of Images " + result.toString());
-  });
+    });
+    ethPhoto.getNum().then(function(result) {
+        console.log("Total No. of Images " + result.toString());
+    });
 
-  ethPhoto.getLat().then(function(result){
-    console.log("Lat: " + result);
-  });
+    ethPhoto.getLat().then(function(result) {
+        console.log("Lat: " + result);
+    });
 
-  ethPhoto.getHash().then(function(result){
-    console.log("Hash: " + result[0] + " " + result[1]);
-  });
-  ethPhoto.getlong().then(function(result){
-    console.log("Long: " + result);
-  });
-  // locations = get_locations(lat1,lat2,long1,long2);
-  // setMarkers(locations);
+    ethPhoto.getHash().then(function(result) {
+        console.log("Hash: " + result[0] + " " + result[1]);
+    });
+    ethPhoto.getlong().then(function(result) {
+        console.log("Long: " + result);
+    });
+    // locations = get_locations(lat1,lat2,long1,long2);
+    // setMarkers(locations);
 }
 
 // function setLatLang(lat,long) {
@@ -139,119 +137,113 @@ function setScreenPoints(latne,longne,latsw,longsw){
 //   // console.log("hiii" + latitude);
 // }
 
-function upload() 
-{
-  /**** Upload
-  Upload function is called by the arguments latitude,longitude, file, category.
-  Hash of the image uploaded is obtained by calling the function eth_Photo.uploadFile()
-  The uploaded image data is sent through the function eth_Photo.insert() so that the contracts
-  can be appended in solidity.
-  Finally the object returned has the following:
-  1. latitude
-  2. longitude
-  3. file URL
-  4. category
-  5. hashkey
-  ****/
-  console.log("ARBIT")
-  var input = $("#takeimage input[type=file]")
-  // console.log(input)
-  var skillsSelect = document.getElementById("tag");
-  var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
-  var category = 0
-  switch(category_input) {
-    case "A":
-        category = 1;
-        break;
-    case "B":
-        category = 2;
-        break;
-    case "C":
-      category = 3;
-      break;
-    default:
-        category = 0;
-  }
-  var x = 2.3;
-  var y = 4.1;
-  
-  EXIF.getData(input[0].files[0], function() {
+function upload() {
+    /**** Upload
+    Upload function is called by the arguments latitude,longitude, file, category.
+    Hash of the image uploaded is obtained by calling the function eth_Photo.uploadFile()
+    The uploaded image data is sent through the function eth_Photo.insert() so that the contracts
+    can be appended in solidity.
+    Finally the object returned has the following:
+    1. latitude
+    2. longitude
+    3. file URL
+    4. category
+    5. hashkey
+    ****/
+    console.log("ARBIT")
+    var input = $("#takeimage input[type=file]")
+        // console.log(input)
+    var skillsSelect = document.getElementById("tag");
+    var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
+    var category = 0
+    switch (category_input) {
+        case "A":
+            category = 1;
+            break;
+        case "B":
+            category = 2;
+            break;
+        case "C":
+            category = 3;
+            break;
+        default:
+            category = 0;
+    }
+    var x = 2.3;
+    var y = 4.1;
+
+    EXIF.getData(input[0].files[0], function() {
         console.log("Happy");
         var lat = EXIF.getTag(this, "GPSLatitude");
         var lon = EXIF.getTag(this, "GPSLongitude");
         var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
         var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
-        console.log("Intital Lat " +lat)
-        if (lat == undefined){
+        console.log("Intital Lat " + lat)
+        if (lat == undefined) {
             console.log(lat)
             if (navigator.geolocation) {
-              // console.log("hello123");
+                // console.log("hello123");
                 navigator.geolocation.getCurrentPosition(function(position) {
-                  // console.log("hello1234");
-                var pos = {
-                  lat: position.coords.latitude,
-                  lng: position.coords.longitude
-                };
-                x = pos.lat;
-                y = pos.lng;
-                EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                  console.log(hash)
-                  console.log("GPSlat" + x.toString());
-                  console.log("GPSlong" + y.toString());
-                  // setMarkers([{lat:x,lng:y}],1);
-                  var hash1 = hash.substr(0,hash.length/2);
-                  var hash2 = hash.substr(hash.length/2);
-                  ethPhoto.saveImage(hash1,category).then(function(){
-                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                      ethPhoto.saveImage2(hash2).then(function(){
-                      });    
-                    });  
-                  });
-                  
-                  
-                })
-              });
-            }
-            else{
+                    // console.log("hello1234");
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    x = pos.lat;
+                    y = pos.lng;
+                    EmbarkJS.Storage.uploadFile(input).then(function(hash) {
+                        console.log(hash)
+                        console.log("GPSlat" + x.toString());
+                        console.log("GPSlong" + y.toString());
+                        // setMarkers([{lat:x,lng:y}],1);
+                        var hash1 = hash.substr(0, hash.length / 2);
+                        var hash2 = hash.substr(hash.length / 2);
+                        ethPhoto.saveImage(hash1, category).then(function() {
+                            ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
+                                ethPhoto.saveImage2(hash2).then(function() {});
+                            });
+                        });
+
+
+                    })
+                });
+            } else {
                 x = 1;
                 y = 1;
                 EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                  console.log(hash)
-                  console.log("GPSlat" + x.toString());
-                  console.log("GPSlong" + y.toString());
-                  // setMarkers([{lat:x,lng:y}],1);
-                  var hash1 = hash.substr(0,hash.length/2);
-                  var hash2 = hash.substr(hash.length/2);
-                  ethPhoto.saveImage(hash1,category).then(function(){
-                    ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                      ethPhoto.saveImage2(hash2).then(function(){
-                      });    
-                    });  
-                  });
-                })  
+                    console.log(hash)
+                    console.log("GPSlat" + x.toString());
+                    console.log("GPSlong" + y.toString());
+                    // setMarkers([{lat:x,lng:y}],1);
+                    var hash1 = hash.substr(0, hash.length / 2);
+                    var hash2 = hash.substr(hash.length / 2);
+                    ethPhoto.saveImage(hash1, category).then(function() {
+                        ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
+                            ethPhoto.saveImage2(hash2).then(function() {});
+                        });
+                    });
+                })
             }
-        }
-        else{
-            
-            lat = (lat[0] + lat[1]/60 + lat[2]/3600) * (latRef == "N" ? 1 : -1);  
-            lon = (lon[0] + lon[1]/60 + lon[2]/3600) * (lonRef == "W" ? -1 : 1); 
+        } else {
+
+            lat = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef == "N" ? 1 : -1);
+            lon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef == "W" ? -1 : 1);
             x = lat;
             y = lon;
             console.log("GPSlat" + x.toString());
             console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-              console.log(hash)
-              console.log("GPSlat" + x.toString());
-              console.log("GPSlong" + y.toString());
-              // setMarkers([{lat:x,lng:y}],1);
-              var hash1 = hash.substr(0,hash.length/2);
-              var hash2 = hash.substr(hash.length/2);
-              ethPhoto.saveImage(hash1,category).then(function(){
-                ethPhoto.saveImage1(x.toString(),y.toString()).then(function(){
-                  ethPhoto.saveImage2(hash2).then(function(){
-                  });    
-                });  
-              });
+                console.log(hash)
+                console.log("GPSlat" + x.toString());
+                console.log("GPSlong" + y.toString());
+                // setMarkers([{lat:x,lng:y}],1);
+                var hash1 = hash.substr(0, hash.length / 2);
+                var hash2 = hash.substr(hash.length / 2);
+                ethPhoto.saveImage(hash1, category).then(function() {
+                    ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
+                        ethPhoto.saveImage2(hash2).then(function() {});
+                    });
+                });
             });
         }
     });
