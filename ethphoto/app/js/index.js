@@ -50,7 +50,7 @@ function load_slider(images) {
             centerPadding: '60px',
             slidesToShow: 5,
             lazyLoad: 'ondemand',
-            slidesToScroll: 3,
+            slidesToScroll: 4,
             autoplay: false,
             autoplaySpeed: 2000,
             responsive: [{
