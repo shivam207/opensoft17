@@ -76,58 +76,70 @@ var long1 = 10.2;
 var lat2 = 20.8;
 var long2 = 50.3;
 
+function retParam(){
+    return {
+        lat1 : lat1,
+        long1 : long1,
+        lat2 : lat2,
+        long2 : long2
+
+    };
+}
 
 function setScreenPoints(latne, longne, latsw, longsw) {
     lat1 = latne;
     long1 = longne;
     lat2 = latsw;
     long2 = longsw;
-    console.log(lat1);
-    console.log(long1);
-    console.log(lat2);
-    console.log(long2);
+    // console.log(lat1);
+    // console.log(long1);
+    // console.log(lat2);
+    // console.log(long2);
 
-    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString()).then(function(final) {
-        console.log("the url retrieved is :");
+    var elm = document.getElementById("viewphotoBtn");
+    var isAdmin = elm.checked;
+    //console.log("\n\n Admin\n\n" + isAdmin);
+
+    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString(),isAdmin).then(function(final) {
+        // console.log("the url retrieved is :");
         if (final[0] != "") {
             var locations = [];
             var arr = final[0].split(' ');
             for (var i = 0; i < arr.length; i++) {
                 arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
-                console.log(arr[i]);
+                // console.log(arr[i]);
             };
             load_slider(arr);
-            console.log("slider loaded")
+            // console.log("slider loaded")
             var arr1 = final[1].split(' ');
             for (var i = 0; i < arr1.length; i++) {
-                console.log("latitude "+arr1[i]);
+                // console.log("latitude "+arr1[i]);
             };
             var arr2 = final[2].split(' ');
             for (var i = 0; i < arr2.length; i++) {
-                console.log("longitude "+arr2[i]);
+                // console.log("longitude "+arr2[i]);
             };
             for (var i = 0; i < arr2.length; i++) {
                 locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
             }
-            setMarkers(locations);
+            // console.log("the locations is ")
+            // console.log(locations);
+            setMarkers(locations)
         } else {
             load_slider([]);
         }
         return false;
     });
     ethPhoto.getNum().then(function(result) {
-        console.log("Total No. of Images " + result.toString());
+         console.log("Total No. of Images " + result.toString());
     });
 
     ethPhoto.getLat().then(function(result) {
-        console.log("Lat: " + result);
+         console.log("Lat: " + result);
     });
 
     ethPhoto.getHash().then(function(result) {
-        console.log("Hash: " + result[0] + " " + result[1]);
-    });
-    ethPhoto.getlong().then(function(result) {
-        console.log("Long: " + result);
+         console.log("Hash: " + result[0] + " " + result[1]);
     });
     // locations = get_locations(lat1,lat2,long1,long2);
     // setMarkers(locations);
@@ -152,7 +164,7 @@ function upload() {
     4. category
     5. hashkey
     ****/
-    console.log("ARBIT")
+    // console.log("ARBIT")
     var input = $("#takeimage input[type=file]")
         // console.log(input)
     var skillsSelect = document.getElementById("tag");
@@ -175,12 +187,12 @@ function upload() {
     var y = 4.1;
 
     EXIF.getData(input[0].files[0], function() {
-        console.log("Happy");
+        // console.log("Happy");
         var lat = EXIF.getTag(this, "GPSLatitude");
         var lon = EXIF.getTag(this, "GPSLongitude");
         var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
         var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
-        console.log("Intital Lat " + lat)
+        // console.log("Intital Lat " + lat)
         if (lat == undefined) {
             console.log(lat)
             if (navigator.geolocation) {
@@ -194,9 +206,9 @@ function upload() {
                     x = pos.lat;
                     y = pos.lng;
                     EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                        console.log(hash)
-                        console.log("GPSlat" + x.toString());
-                        console.log("GPSlong" + y.toString());
+                        // console.log(hash)
+                        // console.log("GPSlat" + x.toString());
+                        // console.log("GPSlong" + y.toString());
                         // setMarkers([{lat:x,lng:y}],1);
                         var hash1 = hash.substr(0, hash.length / 2);
                         var hash2 = hash.substr(hash.length / 2);
@@ -213,9 +225,9 @@ function upload() {
                 x = 1;
                 y = 1;
                 EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                    console.log(hash)
-                    console.log("GPSlat" + x.toString());
-                    console.log("GPSlong" + y.toString());
+                    // console.log(hash)
+                    // console.log("GPSlat" + x.toString());
+                    // console.log("GPSlong" + y.toString());
                     // setMarkers([{lat:x,lng:y}],1);
                     var hash1 = hash.substr(0, hash.length / 2);
                     var hash2 = hash.substr(hash.length / 2);
@@ -232,12 +244,12 @@ function upload() {
             lon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef == "W" ? -1 : 1);
             x = lat;
             y = lon;
-            console.log("GPSlat" + x.toString());
-            console.log("GPSlong" + y.toString());
+            // console.log("GPSlat" + x.toString());
+            // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                console.log(hash)
-                console.log("GPSlat" + x.toString());
-                console.log("GPSlong" + y.toString());
+                // console.log(hash)
+                // console.log("GPSlat" + x.toString());
+                // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
                 var hash1 = hash.substr(0, hash.length / 2);
                 var hash2 = hash.substr(hash.length / 2);

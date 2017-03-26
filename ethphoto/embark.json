@@ -4,7 +4,8 @@
     "css/app.css": ["app/css/**", "!app/css/modal.css"],
     "js/app.js": ["embark.js"],
 	  "js/app_name.min.js":[],
-    "index.html": "app/index.html"
+    "index.html": "app/index.html",
+    "index_new.html": "app/index_mcss.html"
   },
   "buildDir": "dist/",
   "config": "config/",

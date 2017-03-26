@@ -34,14 +34,6 @@ contract ethPhoto {
     return string(babcde);
   }
 
-  /*function set(uint x) {
-    storedData = x;
-  }
-
-  function get() constant returns (uint retVal) {
-    return storedData;
-  }*/
-
   function compare(string _a, string _b) returns (bool) {
     bytes memory a = bytes(_a);
     bytes memory b = bytes(_b);
@@ -87,11 +79,6 @@ contract ethPhoto {
     noOfImages++;
   }
 
-  function stringToBytes32(string memory source) returns (bytes32 result) {
-    assembly {
-        result := mload(add(source, 32))
-    }
-  }
 
   function stringToUint(bytes memory b) constant returns (uint result) {
        // bytes memory b=bytes(s);
@@ -210,7 +197,7 @@ contract ethPhoto {
     return false;
   }
 
-  function browseImageOnMap (string lat1,string long1,string lat2,string long2)constant returns(string _imageHash,string lat,string lng){
+  function browseImageOnMap (string lat1,string long1,string lat2,string long2,bool isAdmin)constant returns(string _imageHash,string lat,string lng){
       uint i=0;
       uint flag1=0;
       uint flag2=0;
@@ -224,7 +211,8 @@ contract ethPhoto {
       lat = "";
       lng = ""; //&& compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2);
       for(i=0;i<noOfImages;i++)
-      {
+      { 
+        if (isAdmin == true && msg.sender != _images[i].userid)continue;
         if(bytes(_images[i].hash1).length == 0 || bytes(_images[i].hash2).length==0 || bytes(_images[i].latitude).length==0 || bytes(_images[i].longitude).length==0)
         {
             continue;
@@ -270,67 +258,13 @@ contract ethPhoto {
 
     }
   }
-  // function getImage(string longitude,string latitude) constant returns (string _imageHash){
-  //  uint i = 0;
-   
-  //  _imageHash="";
-  //  for(i=0;i<noOfImages;i++){
-  //     string a=_images[i].longitude;
-  //     string b=_images[i].latitude;
-  //     if( compare(a,longitude)==true && compare(b,latitude)==true){
-  //       if (bytes(_imageHash).length == 0)
-  //         {
-  //           _imageHash = strConcat("","",_images[i].hash);
-  //         } 
-  //       else  
-  //      _imageHash=strConcat(_imageHash," ",_images[i].hash);
-  //      //_imageTag[size]=_images[i].tag;
-       
-  //     }
-  //   }
-  // }
-
-  // function deleteImage(string hash) constant returns (uint status){
-  //   uint i=0;
-  //   uint deleteIndex;
-  //   for(i=0;i<noOfImages;i++){
-  //     if(compare(_images[i].hash,hash)==true){
-  //       if(_images[i].userid==msg.sender){
-  //         deleteIndex=i;
-  //         status=1;
-  //       }
-  //       else {
-  //         status=0;
-  //       }
-  //       break;
-  //     }
-  //   }
-  //   if(status==1){
-  //     for(i=deleteIndex;i<noOfImages-1;i++){
-  //       _images[i]=_images[i+1];
-  //     }
-  //     noOfImages--;
-  //   }
-  // }
+ 
 
   function getNum() constant returns(uint _result){
-    // if(noOfImages > 0){
-
-    //   _result = _images[noOfImages-1].hash;
-    // }
-    // else{
-    //   _result = "Notset";
-    // }
     _result = noOfImages;
   }
   function getHash() constant returns(string _result1,string _result2){
-    // if(noOfImages > 0){
-
-    //   _result = _images[noOfImages-1].hash;
-    // }
-    // else{
-    //   _result = "Notset";
-    // }
+    
     if(noOfImages>0)
     {
        _result1 = _images[noOfImages-1].hash1;
@@ -342,25 +276,8 @@ contract ethPhoto {
     } 
   }
 
-  function getlong() constant returns(string _result){
-    if(noOfImages>0)
-    {
-       _result = _images[noOfImages-1].longitude;
-
-    }
-    else{
-      _result = "Didnt Get";
-    } 
-  }
-
   function getLat() constant returns(string _result){
-    // if(noOfImages > 0){
-
-    //   _result = _images[noOfImages-1].hash;
-    // }
-    // else{
-    //   _result = "Notset";
-    // }
+    
     if(noOfImages>0)
     {
        _result = _images[noOfImages-1].latitude;
@@ -369,20 +286,68 @@ contract ethPhoto {
       _result = "Didnt Get";
     } 
   }
-  /*
-  function showMyImages() internal constant returns (string _imageHash,uint[] _imageTag,string[] _imageLat,string[] _imageLong){
-    uint size=0;
-    uint i;
+
+  function deleteImage(string hash1,string hash2){
+    uint i=0;
+    uint deleteIndex;
+    uint status = 0;
+    // result1 = false;
+    // result2 = false;
+    // result3 = false;
     for(i=0;i<noOfImages;i++){
-      if(_images[i].userid==msg.sender){
-        _imageHash[size]=_images[i].hash;
-        _imageTag[size]=_images[i].tag;
-        _imageLong[size]=_images[i].longitude;
-        _imageLat[size]=_images[i].latitude;
-        size++;
+      if(compare(_images[i].hash1,hash1)==true && compare(_images[i].hash2,hash2)==true &&_images[i].userid==msg.sender){
+        // if(_images[i].userid==msg.sender){
+        //   deleteIndex=i;
+        //   status=1;
+        // }
+        // else {
+        //   status=0;
+        // }
+        //break;
+         deleteIndex = i;
+         status = 1;
       }
     }
+  //   if(noOfImages>0)
+  //   {
+  //   result1 = compare(_images[0].hash1,hash1);
+  //   result2 = compare(_images[0].hash2,hash2);
+
+  // }
+    //result1 = status;
+    if(status==1){
+      // for(i=deleteIndex;i<noOfImages-1;i++){
+      //   _images[i]=_images[i+1];
+      // }
+      noOfImages = noOfImages - 1;
+    }
+
   }
-  */
+
+  
+  // function showMyImages() constant returns (string _imageHash,string _imageLat,string _imageLong){
+  //   uint i;
+
+  //   _imageHash="";
+  //   _imageLat="";
+  //   _imageLong="";
+
+  //   for(i=0;i<noOfImages;i++){
+  //     if(_images[i].userid==msg.sender){
+  //       if (bytes(_imageHash).length == 0){
+  //         _imageHash  =  strConcat("",_images[i].hash1,_images[i].hash2);
+  //         _imageLat=strConcat("","",_images[i].latitude);
+  //         _imageLong=strConcat("","",_images[i].longitude);
+  //       }
+  //       else{ 
+  //         _imageHash = strConcat(_imageHash," ",_images[i].hash1);
+  //         _imageHash = strConcat(_imageHash,_images[i].hash2,"");
+  //         _imageLat=strConcat(_imageLat,"",_images[i].latitude);
+  //         _imageLong=strConcat(_imageLong,"",_images[i].longitude);
+        
+  //       }
+  //     }
+  //   }
+  // }
 
 }
