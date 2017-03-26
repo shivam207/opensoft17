@@ -191,7 +191,7 @@
       var hash2 = hash.substr(hash.length / 2);
       console.log(hash1);
       console.log(hash2);
-      ethPhoto.deleteImage(hash1.toString(),hash2.toString());
+      deleteImage(hash1,hash2);
       //   console.log("the value of status is " + result);
       // });
       console.log("deleted image");

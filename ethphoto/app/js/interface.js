@@ -76,6 +76,7 @@ var long1 = 10.2;
 var lat2 = 20.8;
 var long2 = 50.3;
 
+var deleted = []
 function retParam(){
     return {
         lat1 : lat1,
@@ -127,6 +128,7 @@ function setScreenPoints(latne, longne, latsw, longsw) {
             setMarkers(locations)
         } else {
             load_slider([]);
+            setMarkers([]);
         }
         return false;
     });
@@ -247,7 +249,7 @@ function upload() {
             // console.log("GPSlat" + x.toString());
             // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
-                // console.log(hash)
+                console.log("BEFORE")
                 // console.log("GPSlat" + x.toString());
                 // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
@@ -255,10 +257,36 @@ function upload() {
                 var hash2 = hash.substr(hash.length / 2);
                 ethPhoto.saveImage(hash1, category).then(function() {
                     ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
-                        ethPhoto.saveImage2(hash2).then(function() {});
+                        ethPhoto.saveImage2(hash2).then(function() {
+                                console.log("AFTER")
+                        });
                     });
                 });
             });
         }
     });
+    
+}
+
+function deleteImage(hash1,hash2)
+{
+    // ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
+    //           ethPhoto.deleteImage_2(index).then(function(){
+    //            ethPhoto.deleteImage_3(index).then(function(){
+    //             ethPhoto.deleteImage_4(index).then(function(){
+    //           });
+    //           });
+    //       });
+    //   });
+    ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
+              ethPhoto.deleteImage_2(index).then(function(){
+               ethPhoto.deleteImage_3(index).then(function(){
+                ethPhoto.deleteImage_4(index).then(function(){
+                    var x = retParam();
+                    setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
+                    
+              });
+              });
+          });
+      }); 
 }

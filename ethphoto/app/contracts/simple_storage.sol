@@ -287,43 +287,68 @@ contract ethPhoto {
     } 
   }
 
-  function deleteImage(string hash1,string hash2){
+  // function deleteImage_1(string hash1,string hash2,string lat,string long) constant returns (uint index){
+  //   uint i=0;
+  //   uint deleteIndex;
+  //   uint status = 0;
+  //   for(i=0;i<noOfImages;i++)
+  //   {
+  //     if(compare(_images[i].hash1,hash1) && compare(_images[i].hash2,hash2) &&_images[i].userid==msg.sender && compare(_images[i].latitude,lat) && compare(_images[i].longitude,long)){
+  //       _images[i].hash1 = "";
+  //       index = i;
+  //       break;
+  //     }
+  //   }
+  // }
+
+  function deleteImage_1(string hash1,string hash2) constant returns (uint index){
     uint i=0;
     uint deleteIndex;
     uint status = 0;
-    // result1 = false;
-    // result2 = false;
-    // result3 = false;
-    for(i=0;i<noOfImages;i++){
-      if(compare(_images[i].hash1,hash1)==true && compare(_images[i].hash2,hash2)==true &&_images[i].userid==msg.sender){
-        // if(_images[i].userid==msg.sender){
-        //   deleteIndex=i;
-        //   status=1;
-        // }
-        // else {
-        //   status=0;
-        // }
-        //break;
-         deleteIndex = i;
-         status = 1;
+    for(i=0;i<noOfImages;i++)
+    {
+      if(compare(_images[i].hash1,hash1) && compare(_images[i].hash2,hash2) &&_images[i].userid==msg.sender){
+        _images[i].hash1 = "";
+        index = i;
+        break;
       }
     }
-  //   if(noOfImages>0)
-  //   {
-  //   result1 = compare(_images[0].hash1,hash1);
-  //   result2 = compare(_images[0].hash2,hash2);
-
-  // }
-    //result1 = status;
-    if(status==1){
-      // for(i=deleteIndex;i<noOfImages-1;i++){
-      //   _images[i]=_images[i+1];
-      // }
-      noOfImages = noOfImages - 1;
-    }
-
   }
 
+  function deleteImage_2(uint index){
+    _images[index].tag = _images[noOfImages-1].tag;
+    _images[index].hash2 = _images[noOfImages-1].hash2;
+  }
+
+  function deleteImage_3(uint index){
+      _images[index].latitude = _images[noOfImages-1].latitude;
+      _images[index].longitude = _images[noOfImages-1].longitude;
+  }
+
+  function deleteImage_4(uint index){
+    _images[index].userid = _images[noOfImages-1].userid;
+    _images[index].hash1 = _images[noOfImages-1].hash1;
+    noOfImages--;
+  }
+
+  
+
+
+
+  // function deleteImage(string hash1,string hash2){
+  //   uint i=0;
+  //   uint deleteIndex;
+  //   uint status = 0;
+  //   for(i=0;i<noOfImages;i++)
+  //   {
+  //     if(compare(_images[i].hash1,hash1)==true && compare(_images[i].hash2,hash2)==true &&_images[i].userid==msg.sender){
+  //       _images[i].hash1 = _images[noOfImages-1].hash1;
+  //       _images[i].hash2 = _images[noOfImages-1].hash2;
+  //       break;
+  //     }
+  //   }
+
+  // }
   
   // function showMyImages() constant returns (string _imageHash,string _imageLat,string _imageLong){
   //   uint i;
