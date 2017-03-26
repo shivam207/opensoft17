@@ -11,6 +11,9 @@ function readURL(input) {
         };
 
         reader.readAsDataURL(input.files[0]);
+        $("#filename").text(input.files[0].name);
+        console.log(input.files[0].name);
+        $("#filename").removeClass("hidden");
     }
 };
 
@@ -20,16 +23,20 @@ function load_slider(images) {
 
     var len = images.length
 
-    var template = '<div class="mdl-card">  \
-                        <div class="mdl-card__media"><img data-lazy={{src}} width="180" height="180" border="10"  alt="" >\
+    var template = '<div>  \
+                        <div class="thumbnails_map" data-markerid={{idx}}><a class = "slider" data-lightbox="example-set" href={{href}}><img  data-lazy={{src}} height="130" alt="" /></a>\
                         </div>\
                     </div> ';
 
+    // var template = '<div class="mdl-card">  \
+    //                     <div class="mdl-card__media thumbnails_map" data-markerid={{idx}}><a class="slider" data-lightbox="example-set" href={{href}}><img  data-lazy={{src}} width="180" height="180" border="10"  alt="" /></a>\
+    //                     </div>\
+    //                 </div> ';                
 
 
     accumulator = "<div id='mycarousel'>";
     $(images).each(function(index) {
-        element = Mustache.render(template, { "src": this, "text": "Some random shit" });
+       element = Mustache.render(template, { "src": this, "text": "Some random shit", "idx": index, "href": this});
         // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
         accumulator += element;
     });
@@ -45,34 +52,64 @@ function load_slider(images) {
             initialSlide = 1;
         $('#mycarousel').slick({
             initialSlide: initialSlide,
-            infinite: true,
-            centerMode: true,
-            centerPadding: '60px',
+            infinite: false,
             slidesToShow: 5,
             lazyLoad: 'ondemand',
             slidesToScroll: 4,
             autoplay: false,
             autoplaySpeed: 2000,
+            variableWidth: true,
             responsive: [{
                 breakpoint: 768,
                 settings: {
                     arrows: false,
-                    centerMode: true,
-                    centerPadding: '40px',
                     slidesToShow: 3
                 }
             }, {
                 breakpoint: 480,
                 settings: {
                     arrows: false,
-                    centerMode: true,
-                    centerPadding: '40px',
                     slidesToShow: 1
                 }
             }]
         });
+        $(".thumbnails_map").on("mouseenter", function(){
+            //console.log("hovered");
+            gmarkers[$(this).data('markerid')].setAnimation(google.maps.Animation.BOUNCE);
+
+        });
+        $(".thumbnails_map").on("click", function(){
+            //console.log("hovered");
+            //gmarkers[$(this).data('markerid')].setAnimation(google.maps.Animation.BOUNCE);
+            //console.log("hidshdi");
+            // var hash1 = "QmdT2KSpm8ZxV1rCof3hxGV";
+            // var hash2 = "2McNrEo8dYJzr1MhNVHdf4q";
+            // //var hash1 = "QmUAUoEKfBjHyoyyuqxBaDw";
+            // //var hash2 = "rXfZPS9re9Pp6VVY1nvvGSE";
+            // ethPhoto.deleteImage(hash1.toString(),hash2.toString());
+            // console.log("deleting image");
+            //QmQZeXbWrUvvcq3CTRFZeiv hSosywphAsCc69LY15inWaq
+
+        });
+        $(".thumbnails_map").on("mouseleave", function(){
+            //console.log("hovered");
+            gmarkers[$(this).data('markerid')].setAnimation(null);
+
+        });
+
+
+
     }
 }
+
+
+// function toggleBounce(marker) {
+//   console.log(marker.getAnimation())
+//   if (marker.getAnimation() !== null) {
+    
+
+//   }
+// }
 
 var savedhtml = "";
 
@@ -97,7 +134,7 @@ $(function() {
         dialog.close();
     });
 
-
+    $("#viewphotoBtn").on('click', myImages);
     // Zoom Modal
     /*var modal = document.getElementById('myModal');
     var i;
@@ -124,3 +161,15 @@ $(function() {
 */
     // End Modal
 });
+
+function myImages()
+{
+    var x = retParam();
+    console.log("received")
+    var elm = document.getElementById("viewphotoBtn");
+    // if(elm.checked){
+    //     //console.log("setScreenPoints")
+    //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+    // }
+    setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+}
