@@ -544,3 +544,7 @@ button.toast-close-button {
     width: 25em;
   }
 }
+
+.select2-selection__choice {
+    color:#000;
+}

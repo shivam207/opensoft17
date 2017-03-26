@@ -185,7 +185,8 @@
     this.$lightbox.find('.lb-loader, .lb-close').on('click', function() {
       console.log("Call Delete function (lightbox.js line:187)");
       var link = self.$image[0].currentSrc;
-      console.log(link);
+      var lat = self.album[self.currentImageIndex].lat;
+      console.log(link, lat);
       var hash = link.split("/")[4];
       var hash1 = hash.substr(0, hash.length / 2);
       var hash2 = hash.substr(hash.length / 2);
@@ -232,7 +233,8 @@
     function addToAlbum($link) {
       self.album.push({
         link: $link.attr('href'),
-        title: $link.attr('data-title') || $link.attr('title')
+        title: $link.attr('data-title') || $link.attr('title'),
+        lat: $link.data('eth_lat')
       });
     }
 
