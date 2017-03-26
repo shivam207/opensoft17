@@ -24,7 +24,10 @@ function load_slider(images) {
     var len = images.length
 
     var template = '<div>  \
-                        <div class="thumbnails_map" data-markerid={{idx}}><a class = "slider" data-lightbox="example-set" href={{href}}><img  data-lazy={{src}} height="130" alt="" /></a>\
+                        <div class="thumbnails_map" data-markerid={{idx}}>\
+                            <a class = "slider" data-lightbox="example-set" data-eth_lat={{lat}} href={{href}}>\
+                                <img  data-lazy={{src}} height="130" alt="" />\
+                            </a>\
                         </div>\
                     </div> ';
 
@@ -36,7 +39,7 @@ function load_slider(images) {
 
     accumulator = "<div id='mycarousel'>";
     $(images).each(function(index) {
-       element = Mustache.render(template, { "src": this, "text": "Some random shit", "idx": index, "href": this});
+       element = Mustache.render(template, { "src": this, "lat": "'Some random shit'", "idx": index, "href": this});
         // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
         accumulator += element;
     });
@@ -135,6 +138,14 @@ $(function() {
     });
 
     $("#viewphotoBtn").on('click', myImages);
+
+
+    // turn the element to select2 select style
+    $('#select2').select2();
+
+    $('#select2').select2({
+        placeholder: "Search By Tags"
+    });
     // Zoom Modal
     /*var modal = document.getElementById('myModal');
     var i;
@@ -172,4 +183,16 @@ function myImages()
     //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
     // }
     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+}
+
+function getTagImages() {
+    var i;
+
+    //data contains an object where data[i].text contains name of tags
+    var data = $('#select2').select2('data');
+
+    for (i = 0; i < data.length; ++i) {
+        console.log(data[i].text + "\n");
+    }
+
 }

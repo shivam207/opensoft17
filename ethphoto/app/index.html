@@ -125,29 +125,19 @@
                 </div>
             </dialog>
             <nav class="demo-navigation mdl-navigation">
-                <a class="mdl-navigation__link" href=""><i class=" material-icons" role="presentation">flaga</i>A</a>
-                <a class="mdl-navigation__link" href=""><i class=" material-icons" role="presentation">flagb</i>B</a>
-                <a class="mdl-navigation__link" href=""><i class=" material-icons" role="presentation">flagc</i>C</a>
-                <div class="mdl-layout-spacer"></div>
-                <span class="visuallyhidden">Help</span>
-                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-                    <thead>
-                        <tr>
-                            <th class="mdl-data-table__cell--non-numeric">Select All</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric"  id="a">Cat - A</td>
-                        </tr>
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric" id="b">Cat - B</td>
-                        </tr>
-                        <tr>
-                            <td class="mdl-data-table__cell--non-numeric"  id="c">Cat - C</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <select class="js-example-responsive" id="select2" style="width:100%; color:#000" multiple="multiple" onchange="getTagImages()">
+                  <optgroup label="All">
+                    <option value="0">All</option>
+                  </optgroup>
+                  <optgroup label="Categories">
+                    <option value="1">Animals</option>
+                    <option value="2">Nature</option>
+                    <option value="3">Objects</option>
+                    <option value="4">People</option>
+                    <option value="5">Birds</option>
+                    <option value="6">Other</option>
+                  </optgroup>
+                </select>
                 <form>
                     <!-- Dont write event handlers here. Write using jquery with proper validation so-->
                     <button id="categoryBtn" type="button" class="mdl-button">Submit</button>
