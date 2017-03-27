@@ -73,12 +73,13 @@ function initMap() {
             map.setCenter(pos);
         });
     }
+    searchBox("manualLocation")
 
 }
 
-function searchBox() {
+function searchBox(id="pac-input") {
 
-    var input = document.getElementById('pac-input');
+    var input = document.getElementById(id);
     var searchBox = new google.maps.places.SearchBox(input);
     // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
