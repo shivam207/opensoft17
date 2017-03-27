@@ -257,8 +257,13 @@ function getTags() {
 
     for (i = 0; i < data.length; ++i) {
         tags.push(data[i].text);
+        console.log(data[i].value)
+        // switch (data[i].text){
+        //     case "An"
+        // }
+
     }
 
-    console.log(tags);
+    // console.log(tags);
 
 }
