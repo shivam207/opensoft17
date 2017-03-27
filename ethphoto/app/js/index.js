@@ -140,6 +140,8 @@ $(function() {
 
     $("#viewphotoBtn").on('click', myImages);
 
+    $("#categoryBtn").on('click', getTags);
+
 
     // turn the element to select2 select style
     $('#select2').select2();
@@ -151,14 +153,14 @@ $(function() {
     /*For managing Searchbox Locations*/
     document.getElementById("manualLocation").addEventListener('click', function() {
         $(".pac-container").appendTo("#upload_box");
-        $(".pac-container").removeClass('otherclass');
-        $(".pac-container").addClass('class');
+        // $(".pac-container").removeClass('otherclass');
+        // $(".pac-container").addClass('class');
     });
 
     document.getElementById("pac-input").addEventListener('click', function() {
         $(".pac-container").appendTo("body");
-        $(".pac-container").removeClass('class');
-        $(".pac-container").addClass('otherclass');
+        // $(".pac-container").removeClass('class');
+        // $(".pac-container").addClass('otherclass');
     });
 
     // Zoom Modal
@@ -247,14 +249,16 @@ function notifyMe(message, bodytext, icon_loc) {
   // want to be respectful there is no need to bother them any more.
 }
 
-function getTagImages() {
+function getTags() {
     var i;
-
+    var tags = [];
     //data contains an object where data[i].text contains name of tags
     var data = $('#select2').select2('data');
 
     for (i = 0; i < data.length; ++i) {
-        console.log(data[i].text + "\n");
+        tags.push(data[i].text);
     }
+
+    console.log(tags);
 
 }
