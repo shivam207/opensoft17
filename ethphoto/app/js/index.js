@@ -216,7 +216,7 @@ function myImages()
     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
 }
 
-function notifyMe(message, bodytext) {
+function notifyMe(message, bodytext, icon_loc) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     console.log("received1")
@@ -228,7 +228,7 @@ function notifyMe(message, bodytext) {
     // If it's okay let's create a notification
     var notification = new Notification(message, { 
             body: bodytext,
-            icon: '../images/upload2.png'});
+            icon: icon_loc});
   }
 
   // Otherwise, we need to ask the user for permission
@@ -237,8 +237,8 @@ function notifyMe(message, bodytext) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
         var notification = new Notification(message, { 
-            bodytext: 'shdsjjsjhd sdshh',
-            icon: '../images/upload2.png'});
+            bodytext: bodytext,
+            icon: icon_loc});
       }
     });
   }

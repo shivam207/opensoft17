@@ -242,7 +242,7 @@ function upload() {
             // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
                 console.log("BEFORE")
-                notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.")
+                notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.", '../images/upload2.png')
                 // console.log("GPSlat" + x.toString());
                 // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
@@ -252,7 +252,7 @@ function upload() {
                     ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
                         ethPhoto.saveImage2(hash2).then(function() {
                                 console.log("AFTER")
-                                notifyMe("Photo Uploaded", input[0].files[0].name)
+                                notifyMe("Photo Uploaded", input[0].files[0].name, '../images/upload2.png')
                         });
                     });
                 });
@@ -273,13 +273,13 @@ function deleteImage(hash1,hash2)
     //       });
     //   });
     console.log("before delete");
-    notifyMe("Deleting Photo", "You will be notified after the photo is deleted.")
+    notifyMe("Deleting Photo", "You will be notified after the photo is deleted.", '../images/delete1.png')
     ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
               ethPhoto.deleteImage_2(index).then(function(){
                ethPhoto.deleteImage_3(index).then(function(){
                 ethPhoto.deleteImage_4(index).then(function(){
                     console.log("after delete");
-                    notifyMe("Photo Deleted", "")
+                    notifyMe("Photo Deleted", "", '../images/delete1.png')
                     var x = retParam();
                     setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
                     
