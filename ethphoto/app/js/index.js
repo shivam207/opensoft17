@@ -252,15 +252,30 @@ function notifyMe(message, bodytext, icon_loc) {
 function getTags() {
     var i;
     var tags = [];
+    var hashes=[]
     //data contains an object where data[i].text contains name of tags
     var data = $('#select2').select2('data');
 
     for (i = 0; i < data.length; ++i) {
         tags.push(data[i].text);
-        console.log(data[i].value)
-        // switch (data[i].text){
-        //     case "An"
-        // }
+        console.log(data[i].text);
+        switch (data[i].text){
+            case "Animals":
+                hashes.push(ethPhoto.searchImageByCategory(0));
+                break;
+            case "Nature":
+                hashes.push(ethPhoto.searchImageByCategory(1));
+                break;
+            case "Objects":
+                hashes.push(ethPhoto.searchImageByCategory(2));
+                break;
+            case "People":
+                hashes.push(ethPhoto.searchImageByCategory(3));
+                break;
+            case "Birds":
+                hashes.push(ethPhoto.searchImageByCategory(4));
+                break;
+        }
 
     }
 

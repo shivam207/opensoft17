@@ -132,9 +132,7 @@ function setScreenPoints(latne, longne, latsw, longsw) {
         }
         return false;
     });
-    ethPhoto.getNum().then(function(result) {
-         console.log("Total No. of Images " + result.toString());
-    });
+    
     // locations = get_locations(lat1,lat2,long1,long2);
     // setMarkers(locations);
 }
