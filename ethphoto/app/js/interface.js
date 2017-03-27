@@ -242,7 +242,7 @@ function upload() {
             // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
                 console.log("BEFORE")
-                notifyMe("Uploading Photo", input[0].files[0].name)
+                notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.")
                 // console.log("GPSlat" + x.toString());
                 // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
@@ -272,12 +272,14 @@ function deleteImage(hash1,hash2)
     //           });
     //       });
     //   });
-    console.log("before");
+    console.log("before delete");
+    notifyMe("Deleting Photo", "You will be notified after the photo is deleted.")
     ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
               ethPhoto.deleteImage_2(index).then(function(){
                ethPhoto.deleteImage_3(index).then(function(){
                 ethPhoto.deleteImage_4(index).then(function(){
-                    console.log("after");
+                    console.log("after delete");
+                    notifyMe("Photo Deleted", "")
                     var x = retParam();
                     setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
                     

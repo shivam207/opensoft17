@@ -37,17 +37,18 @@ function load_slider(images) {
     //                 </div> ';                
 
 
-    accumulator = "<div id='mycarousel'>";
+    accumulator = "<div><label id='hidebuttonclass' class='image_input_button mdl-button mdl-js-button mdl-js-ripple-effect' onclick='hide_slider()'>\
+    <i class='material-icons' id='hidebutton'>expand_more</i></label></div><div id='mycarousel'>";
     $(images).each(function(index) {
        element = Mustache.render(template, { "src": this, "lat": "'Some random shit'", "idx": index, "href": this});
         // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
         accumulator += element;
     });
     accumulator += "</div>";
-
-    $("#carousel_container").html(accumulator);
+    $("#carousel_container").html("");
     // Slider
     if (len > 0) {
+        $("#carousel_container").html(accumulator);
         var initialSlide = 2;
         if(len < 5)
             initialSlide = 0;
@@ -186,6 +187,23 @@ $(function() {
 */
     // End Modal
 });
+
+function hide_slider(){
+
+    console.log("In hide");
+    var text = document.getElementById("hidebutton").innerHTML
+    if(text == "expand_more"){
+        document.getElementById("hidebutton").innerHTML = "expand_less";
+        document.getElementById("mycarousel").style.display = "none";
+        //document.getElementById('hidebuttonclass').style.width='6px';
+        //document.getElementById("floating-panel").style.background = "rgba(255, 255, 255, 0);"
+    } 
+    else{
+        document.getElementById("hidebutton").innerHTML = "expand_more";
+        document.getElementById("mycarousel").style.display = "block";
+        //document.getElementById('hidebuttonclass').style.width='6px';
+    }
+}
 
 function myImages()
 {

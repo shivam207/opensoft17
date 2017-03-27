@@ -32,18 +32,33 @@ body {
         /*display: table;*/
         bottom:0px;
         /*background-color: #fff;*/
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0);
         padding: 1px;
-        border: 1px solid #999;
-        /*text-align: center;
+        /*border: 1px solid #999;
+        text-align: center;
         align-content: center;*/
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
-        width:90%;
+        /*width:90%;
         left:50%;
         margin-left: -46%
-        /*height:20%;*/
+        height:20%;*/
 }
+
+#hidebuttonclass{
+  background: rgba(0,0,0,0.6);
+  min-width: initial;
+}
+
+#hidebutton{
+  color: rgba(255,255,255,1);
+  font-size: 36px;
+}
+
+#mycarousel{
+  background: rgba(0,0,0,0.6);
+}
+
 #pac-card {
     margin: 10px;
     outline: none;
