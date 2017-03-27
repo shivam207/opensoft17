@@ -166,7 +166,10 @@ function setMarkers(locations, add = 0) {
             return function() {
                 var x = marker.getPosition().lat();
                 var y = marker.getPosition().lng();
+                console.log("marker clicked");
                 ethPhoto.getByLocation(x.toString(),y.toString()).then(function(final) {
+                    console.log("the retrieved string is")
+                    //console.log(final);
                     if(final!="")
                     {   console.log(final)
                     link = EmbarkJS.Storage.getUrl(final);
@@ -176,6 +179,12 @@ function setMarkers(locations, add = 0) {
                     infowindow.open(map,marker);
                     
                     }
+                    // console.log(x)
+                    // console.log(y);
+                    // console.log(final[0])
+                    // console.log(final[1])
+                    // console.log(final[2])
+                    // console.log(final[3])
 
                 });
 

@@ -272,10 +272,12 @@ function deleteImage(hash1,hash2)
     //           });
     //       });
     //   });
+    console.log("before");
     ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
               ethPhoto.deleteImage_2(index).then(function(){
                ethPhoto.deleteImage_3(index).then(function(){
                 ethPhoto.deleteImage_4(index).then(function(){
+                    console.log("after");
                     var x = retParam();
                     setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
                     

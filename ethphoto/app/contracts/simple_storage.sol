@@ -324,6 +324,11 @@ contract ethPhoto {
       }   
       }
     }
+    // result1 = _images[0].latitude;
+    // result2 = _images[0].longitude;
+    // result3 = _images[1].latitude;
+    // result4 = _images[1].longitude;
   }
+
 
 }
