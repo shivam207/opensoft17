@@ -1,6 +1,7 @@
 var map;
 var gmarkers = [];
 
+var infowindow = null;
 // console.log("REACHED HERE!!!");
 
 function initMap() {
@@ -47,6 +48,9 @@ function initMap() {
       // infowindowContent.children['place-address'].textContent = address;
       // infowindow.open(map, marker);
     });
+    infowindow = new google.maps.InfoWindow({
+                content: "loading..."
+            });
     google.maps.event.addListener(map, 'onclick', function(event) {
         // alert(event.latLng); 
         console.log(event.latLng);
@@ -157,15 +161,25 @@ function setMarkers(locations, add = 0) {
             map: map
         });
 
-        // google.maps.event.addListener(marker, 'click', (function(marker, i) {
-        //     return function() {
-        //         var x = marker.getPosition().lat();
-        //         var y = marker.getPosition().lng();
-        //         //console.log(x, y, 'getImage');
-        //         //infowindow.setContent("Get Username from Backend");
-        //         //infowindow.open(map, marker);
-        //     }
-        // })(marker, i));
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                var x = marker.getPosition().lat();
+                var y = marker.getPosition().lng();
+                ethPhoto.getByLocation(x.toString(),y.toString()).then(function(final) {
+                    if(final!="")
+                    {   console.log(final)
+                    link = EmbarkJS.Storage.getUrl(final);
+                    console.log(link);
+
+                    infowindow.setContent("<p> hello  </p> <IMG width = '100' height = '100' SRC="+link+">");
+                    infowindow.open(map,marker);
+                    
+                    }
+
+                });
+
+            }
+        })(marker, i));
         // console.log(location);
         gmarkers.push(marker);
     }

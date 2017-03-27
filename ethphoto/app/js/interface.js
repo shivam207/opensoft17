@@ -135,14 +135,6 @@ function setScreenPoints(latne, longne, latsw, longsw) {
     ethPhoto.getNum().then(function(result) {
          console.log("Total No. of Images " + result.toString());
     });
-
-    ethPhoto.getLat().then(function(result) {
-         console.log("Lat: " + result);
-    });
-
-    ethPhoto.getHash().then(function(result) {
-         console.log("Hash: " + result[0] + " " + result[1]);
-    });
     // locations = get_locations(lat1,lat2,long1,long2);
     // setMarkers(locations);
 }
