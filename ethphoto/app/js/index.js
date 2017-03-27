@@ -37,17 +37,18 @@ function load_slider(images) {
     //                 </div> ';                
 
 
-    accumulator = "<div id='mycarousel'>";
+    accumulator = "<div><label id='hidebuttonclass' class='image_input_button mdl-button mdl-js-button mdl-js-ripple-effect' onclick='hide_slider()'>\
+    <i class='material-icons' id='hidebutton'>expand_more</i></label></div><div id='mycarousel'>";
     $(images).each(function(index) {
        element = Mustache.render(template, { "src": this, "lat": "'Some random shit'", "idx": index, "href": this});
         // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
         accumulator += element;
     });
     accumulator += "</div>";
-
-    $("#carousel_container").html(accumulator);
+    $("#carousel_container").html("");
     // Slider
     if (len > 0) {
+        $("#carousel_container").html(accumulator);
         var initialSlide = 2;
         if(len < 5)
             initialSlide = 0;
@@ -139,6 +140,8 @@ $(function() {
 
     $("#viewphotoBtn").on('click', myImages);
 
+    $("#categoryBtn").on('click', getTags);
+
 
     // turn the element to select2 select style
     $('#select2').select2();
@@ -150,14 +153,14 @@ $(function() {
     /*For managing Searchbox Locations*/
     document.getElementById("manualLocation").addEventListener('click', function() {
         $(".pac-container").appendTo("#upload_box");
-        $(".pac-container").removeClass('otherclass');
-        $(".pac-container").addClass('class');
+        // $(".pac-container").removeClass('otherclass');
+        // $(".pac-container").addClass('class');
     });
 
     document.getElementById("pac-input").addEventListener('click', function() {
         $(".pac-container").appendTo("body");
-        $(".pac-container").removeClass('class');
-        $(".pac-container").addClass('otherclass');
+        // $(".pac-container").removeClass('class');
+        // $(".pac-container").addClass('otherclass');
     });
 
     // Zoom Modal
@@ -187,6 +190,23 @@ $(function() {
     // End Modal
 });
 
+function hide_slider(){
+
+    console.log("In hide");
+    var text = document.getElementById("hidebutton").innerHTML
+    if(text == "expand_more"){
+        document.getElementById("hidebutton").innerHTML = "expand_less";
+        document.getElementById("mycarousel").style.display = "none";
+        //document.getElementById('hidebuttonclass').style.width='6px';
+        //document.getElementById("floating-panel").style.background = "rgba(255, 255, 255, 0);"
+    } 
+    else{
+        document.getElementById("hidebutton").innerHTML = "expand_more";
+        document.getElementById("mycarousel").style.display = "block";
+        //document.getElementById('hidebuttonclass').style.width='6px';
+    }
+}
+
 function myImages()
 {
     var x = retParam();
@@ -198,7 +218,7 @@ function myImages()
     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
 }
 
-function notifyMe(message, bodytext) {
+function notifyMe(message, bodytext, icon_loc) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     console.log("received1")
@@ -210,7 +230,7 @@ function notifyMe(message, bodytext) {
     // If it's okay let's create a notification
     var notification = new Notification(message, { 
             body: bodytext,
-            icon: '../images/upload2.png'});
+            icon: icon_loc});
   }
 
   // Otherwise, we need to ask the user for permission
@@ -219,8 +239,8 @@ function notifyMe(message, bodytext) {
       // If the user accepts, let's create a notification
       if (permission === "granted") {
         var notification = new Notification(message, { 
-            bodytext: 'shdsjjsjhd sdshh',
-            icon: '../images/upload2.png'});
+            bodytext: bodytext,
+            icon: icon_loc});
       }
     });
   }
@@ -229,14 +249,16 @@ function notifyMe(message, bodytext) {
   // want to be respectful there is no need to bother them any more.
 }
 
-function getTagImages() {
+function getTags() {
     var i;
-
+    var tags = [];
     //data contains an object where data[i].text contains name of tags
     var data = $('#select2').select2('data');
 
     for (i = 0; i < data.length; ++i) {
-        console.log(data[i].text + "\n");
+        tags.push(data[i].text);
     }
+
+    console.log(tags);
 
 }
