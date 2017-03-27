@@ -242,6 +242,7 @@ function upload() {
             // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
                 console.log("BEFORE")
+                notifyMe("Uploading Photo", input[0].files[0].name)
                 // console.log("GPSlat" + x.toString());
                 // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
@@ -251,6 +252,7 @@ function upload() {
                     ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
                         ethPhoto.saveImage2(hash2).then(function() {
                                 console.log("AFTER")
+                                notifyMe("Photo Uploaded", input[0].files[0].name)
                         });
                     });
                 });

@@ -146,6 +146,20 @@ $(function() {
     $('#select2').select2({
         placeholder: "Search By Tags"
     });
+
+    /*For managing Searchbox Locations*/
+    document.getElementById("manualLocation").addEventListener('click', function() {
+        $(".pac-container").appendTo("#upload_box");
+        $(".pac-container").removeClass('otherclass');
+        $(".pac-container").addClass('class');
+    });
+
+    document.getElementById("pac-input").addEventListener('click', function() {
+        $(".pac-container").appendTo("body");
+        $(".pac-container").removeClass('class');
+        $(".pac-container").addClass('otherclass');
+    });
+
     // Zoom Modal
     /*var modal = document.getElementById('myModal');
     var i;
@@ -176,13 +190,43 @@ $(function() {
 function myImages()
 {
     var x = retParam();
-    console.log("received")
     var elm = document.getElementById("viewphotoBtn");
     // if(elm.checked){
     //     //console.log("setScreenPoints")
     //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
     // }
     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+}
+
+function notifyMe(message, bodytext) {
+  // Let's check if the browser supports notifications
+  if (!("Notification" in window)) {
+    console.log("received1")
+    alert("This browser does not support desktop notification");
+  }
+
+  // Let's check whether notification permissions have already been granted
+  else if (Notification.permission === "granted") {
+    // If it's okay let's create a notification
+    var notification = new Notification(message, { 
+            body: bodytext,
+            icon: '../images/upload2.png'});
+  }
+
+  // Otherwise, we need to ask the user for permission
+  else if (Notification.permission !== "denied") {
+    Notification.requestPermission(function (permission) {
+      // If the user accepts, let's create a notification
+      if (permission === "granted") {
+        var notification = new Notification(message, { 
+            bodytext: 'shdsjjsjhd sdshh',
+            icon: '../images/upload2.png'});
+      }
+    });
+  }
+
+  // At last, if the user has denied notifications, and you 
+  // want to be respectful there is no need to bother them any more.
 }
 
 function getTagImages() {
