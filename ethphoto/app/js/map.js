@@ -4,12 +4,72 @@ var gmarkers = [];
 var infowindow = null;
 // console.log("REACHED HERE!!!");
 
+function CenterControl(controlDiv, map) {
+
+  // Set CSS for the control border.
+  var controlUI = document.createElement('div');
+  controlUI.style.backgroundColor = '#fff';
+  controlUI.style.border = '2px solid #fff';
+  controlUI.style.borderRadius = '3px';
+  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+  controlUI.style.cursor = 'pointer';
+  controlUI.style.marginTop = '2px';
+  controlUI.style.marginLeft = '10px';
+  controlUI.style.textAlign = 'center';
+  controlUI.title = 'My Location';
+  controlDiv.appendChild(controlUI);
+
+  // Set CSS for the control interior.
+  var controlText = document.createElement('div');
+  controlText.style.color = 'rgb(25,25,25)';
+  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+  controlText.style.fontSize = '16px';
+  controlText.style.lineHeight = '20px';
+  controlText.style.paddingLeft = '3px';
+  controlText.style.paddingRight = '3px';
+  controlText.style.paddingBottom= '3px';
+  controlText.innerHTML = '<img src="../images/myloc.png" width="auto" height="17" >';
+  controlUI.appendChild(controlText);
+
+  // Setup the click event listeners: simply set the map to Chicago.
+  controlUI.addEventListener('click', function() {
+    //map.setCenter(chicago);
+    if (navigator.geolocation) {
+        console.log('geolocation')
+            // console.log(navigator.geolocation)
+        navigator.geolocation.getCurrentPosition(function(position) {
+            console.log(position.coords.latitude);
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            map.setCenter(pos);
+            map.setZoom(15);
+        });
+    }
+  });
+
+}
+
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
-        center: { lat: -37.363, lng: 150.044 }
+        center: { lat: -37.363, lng: 150.044 },
+        zoomControlOptions: {
+              position: google.maps.ControlPosition.LEFT_TOP
+        },
+        streetViewControlOptions: {
+              position: google.maps.ControlPosition.LEFT_TOP
+        }
     });
+
+    var centerControlDiv = document.createElement('div');
+    var centerControl = new CenterControl(centerControlDiv, map);
+
+    centerControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(centerControlDiv);
+
     console.log("REACHED HERE!!!");
     //searchBox();
     var card = document.getElementById('pac-card');
@@ -187,6 +247,24 @@ function setMarkers(locations, add = 0) {
                 //     // console.log(final[3])
 
                 // });
+
+                images = getImage1();
+                
+                console.log(locations.length)
+                console.log(x,y);
+                for(var i=0;i<locations.length;i++){
+                    click_x=Number(locations[i].lat);
+                    click_y=Number(locations[i].lng);
+                    console.log(Number(click_x.toFixed(7)),Number(click_y.toFixed(7)))
+                    if(Number(click_x.toFixed(7)) == Number(x.toFixed(7)) && Number(click_y.toFixed(7))==Number(y.toFixed(7))){
+                        console.log("MARKER FOUND"+images[i]);
+                        break;
+                    } 
+                }
+                
+                        
+                infowindow.setContent("<p>Username</p><IMG width = 'auto' height = '150' SRC="+images[i]+">");
+                infowindow.open(map,marker);
 
             }
         })(marker, i));
