@@ -167,26 +167,26 @@ function setMarkers(locations, add = 0) {
                 var x = marker.getPosition().lat();
                 var y = marker.getPosition().lng();
                 console.log("marker clicked");
-                ethPhoto.getByLocation(x.toString(),y.toString()).then(function(final) {
-                    console.log("the retrieved string is")
-                    //console.log(final);
-                    if(final!="")
-                    {   console.log(final)
-                    link = EmbarkJS.Storage.getUrl(final);
-                    console.log(link);
+                // ethPhoto.getByLocation(x.toString(),y.toString()).then(function(final) {
+                //     console.log("the retrieved string is")
+                //     //console.log(final);
+                //     if(final!="")
+                //     {   console.log(final)
+                //     link = EmbarkJS.Storage.getUrl(final);
+                //     console.log(link);
 
-                    infowindow.setContent("<p> hello  </p> <IMG width = '100' height = '100' SRC="+link+">");
-                    infowindow.open(map,marker);
+                //     infowindow.setContent("<p> hello  </p> <IMG width = '100' height = '100' SRC="+link+">");
+                //     infowindow.open(map,marker);
                     
-                    }
-                    // console.log(x)
-                    // console.log(y);
-                    // console.log(final[0])
-                    // console.log(final[1])
-                    // console.log(final[2])
-                    // console.log(final[3])
+                //     }
+                //     // console.log(x)
+                //     // console.log(y);
+                //     // console.log(final[0])
+                //     // console.log(final[1])
+                //     // console.log(final[2])
+                //     // console.log(final[3])
 
-                });
+                // });
 
             }
         })(marker, i));

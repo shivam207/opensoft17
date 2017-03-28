@@ -3,19 +3,69 @@ function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
 
-        reader.onload = function(e) {
-            $('#blah')
-                .attr('src', e.target.result)
-                .width(150)
-                .height(200);
-        };
+        // reader.onload = function(e) {
+        //     $('#blah')
+        //         .attr('src', e.target.result)
+        //         .width(150)
+        //         .height(200);
+        // };
 
         reader.readAsDataURL(input.files[0]);
         $("#filename").text(input.files[0].name);
         console.log(input.files[0].name);
         $("#filename").removeClass("hidden");
+        photoLocation(input);
     }
+
 };
+
+function photoLocation(input){
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+        function() {
+            console.log("Location Available");
+            var elm = document.getElementById("current_loc");
+            if (true != elm.checked) {
+                elm.click();
+            }
+        },
+        function() { 
+            console.log("Location Blocked"); 
+            document.querySelector('#current_loc').parentElement.MaterialCheckbox.disable();
+        });
+            
+    } 
+    else {
+        document.querySelector('#current_loc').parentElement.MaterialCheckbox.disable();
+        console.log("Location Not.");
+    }
+
+    EXIF.getData(input.files[0], function() {
+        // console.log("Happy");
+        var lat = EXIF.getTag(this, "GPSLatitude");
+        var lon = EXIF.getTag(this, "GPSLongitude");
+        var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+        var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
+        console.log(lat)
+        console.log("----------")
+        if (lat == undefined) {
+            toggle(false, "geotag_loc");
+            document.querySelector('#geotag_loc').parentElement.MaterialCheckbox.disable();
+        }
+        else {
+            document.querySelector('#geotag_loc').parentElement.MaterialCheckbox.enable();
+            toggle(true, "geotag_loc");
+        }
+    })
+}
+
+function toggle(checked, checkboxId) {
+    var elm = document.getElementById(checkboxId);
+    if (checked != elm.checked) {
+        elm.click();
+    }
+}
 
 function load_slider(images) {
 
@@ -128,15 +178,14 @@ $(function() {
         dialogPolyfill.registerDialog(dialog);
     }
     showDialogButton.addEventListener('click', function() {
+        $("#manualLocation").addClass("hidden");
         dialog.showModal();
     });
     dialog.querySelector('#cancel_button').addEventListener('click', function() {
         dialog.close();
+        dialogOriginalState();
     });
-    dialog.querySelector('#ok_button').addEventListener('click', function() {
-        upload();
-        dialog.close();
-    });
+    dialog.querySelector('#ok_button').addEventListener('click', okclicked);
 
     $("#viewphotoBtn").on('click', myImages);
 
@@ -150,6 +199,10 @@ $(function() {
         placeholder: "Search By Tags"
     });
 
+    $("#geotag_loc").on('click', clearGroup);
+    $("#enter_loc").on('click', clearGroup);
+    $("#current_loc").on('click', clearGroup);
+
     /*For managing Searchbox Locations*/
     document.getElementById("manualLocation").addEventListener('click', function() {
         $(".pac-container").appendTo("#upload_box");
@@ -161,6 +214,16 @@ $(function() {
         $(".pac-container").appendTo("body");
         // $(".pac-container").removeClass('class');
         // $(".pac-container").addClass('otherclass');
+    });
+
+    document.getElementById("enter_loc").addEventListener('click', function() {
+        if (this.checked){
+            $("#manualLocation").removeClass("hidden");
+        }
+        else{
+            $("#manualLocation").addClass("hidden");
+            
+        }
     });
 
     // Zoom Modal
@@ -190,6 +253,87 @@ $(function() {
     // End Modal
 });
 
+function clearGroup() {
+    var checkbox = ['geotag_loc', 'enter_loc', 'current_loc'];
+    for (var i = 0; i < 3; i++) {
+        if (this != checkbox[i])
+            toggle(false, checkbox[i]);
+    }
+
+}
+
+function okclicked(){
+    console.log("ok...")
+    var final_checked;
+    var lat, lon;
+    var input = $("#takeimage input[type=file]")
+    if (document.getElementById('geotag_loc').checked == true){
+        final_checked = 1;
+        EXIF.getData(input[0].files[0], function() {
+            lat = EXIF.getTag(this, "GPSLatitude");
+            lon = EXIF.getTag(this, "GPSLongitude");
+            var latRef = EXIF.getTag(this, "GPSLatitudeRef") || "N";
+            var lonRef = EXIF.getTag(this, "GPSLongitudeRef") || "W";
+            lat = (lat[0] + lat[1] / 60 + lat[2] / 3600) * (latRef == "N" ? 1 : -1);
+            lon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef == "W" ? -1 : 1);
+        })
+        upload(lat, lon);
+    }
+    else if (document.getElementById('current_loc').checked == true){
+        final_checked = 2;
+        navigator.geolocation.getCurrentPosition(function(position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                lat=pos.lat;
+                lon=pos.lng;
+                console.log(lat, lon, "nav");
+
+                upload(lat, pos.lon);
+            })
+    }
+    else if (document.getElementById('enter_loc').  checked == true) {
+        var address = document.getElementById('manualLocation').value;
+        var geocoder = new google.maps.Geocoder();
+        console.log(address)
+        //Not handled when address is empty case
+        geocoder.geocode({ 'address': address }, function(results, status) {
+            if (status == 'OK') {
+                lat=results[0].geometry.location.lat();
+                lon=results[0].geometry.location.lng();
+                console.log(lat, lon, "Enter");
+                upload(lat, lon);
+            }
+        });
+        final_checked = 3;
+    }
+    console.log(final_checked);
+    console.log(lat, lon);
+    dialog.close();  
+    dialogOriginalState();
+}
+
+function dialogOriginalState(){
+    var checkbox = ['geotag_loc', 'enter_loc', 'current_loc'];
+    document.getElementById('manualLocation').value="";
+    $("#filename").addClass("hidden");
+    document.querySelector('#geotag_loc').parentElement.MaterialCheckbox.enable();
+    document.querySelector('#current_loc').parentElement.MaterialCheckbox.enable();
+    document.querySelector('#enter_loc').parentElement.MaterialCheckbox.enable();
+
+    if (document.getElementById("geotag_loc").checked)
+        toggle(false, "geotag_loc");
+    if (document.getElementById("enter_loc").checked)
+        toggle(false, "enter_loc");
+    if (document.getElementById("current_loc").checked)
+        toggle(false, "current_loc");
+
+
+}
+
+ 
+
 function hide_slider(){
 
     console.log("In hide");
@@ -211,6 +355,11 @@ function myImages()
 {
     var x = retParam();
     var elm = document.getElementById("viewphotoBtn");
+    if (elm.checked)
+        $(".lb-close").removeClass("myhidden");
+    else
+        $(".lb-close").addClass("myhidden");
+    
     // if(elm.checked){
     //     //console.log("setScreenPoints")
     //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);

@@ -576,3 +576,9 @@ button.toast-close-button {
     top:7.5% !important;
     left:82% !important;
 }
+
+
+/*To hide delete button in Lightbox */
+.myhidden {
+  display: none !important;
+}

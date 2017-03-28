@@ -93,7 +93,8 @@
   // Attach event handlers to the new DOM elements. click click click
   Lightbox.prototype.build = function() {
     var self = this;
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
+
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light myhidden">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
 
     // Cache jQuery objects
     this.$lightbox       = $('#lightbox');
@@ -183,6 +184,11 @@
 
 
     this.$lightbox.find('.lb-loader, .lb-close').on('click', function() {
+      var myphotos = document.getElementById("viewphotoBtn").checked;
+      if(!myphotos){
+        console.log("not my photos ----");
+        return false;
+      }
       console.log("Call Delete function (lightbox.js line:187)");
       var link = self.$image[0].currentSrc;
       var lat = self.album[self.currentImageIndex].lat;
@@ -438,6 +444,20 @@
   // Display caption, image number, and closing button.
   Lightbox.prototype.updateDetails = function() {
     var self = this;
+    console.log("clicked................11")
+    var myphotosIsChecked = document.getElementById("viewphotoBtn").checked;
+    if (myphotosIsChecked){
+      console.log("muPhotos !!! ")
+      this.$lightbox.find('.lb-close').disabled=false;
+    }
+    else{
+      console.log("Not muPhotos !!! ")
+      this.$lightbox.find('.lb-loader, .lb-close').onclick = null;
+      // this.$lightbox.find('.lb-loader, .lb-close').on('click', function(){
+      //   console.log("Not ur photo u ");
+
+      // });
+    }
 
     // Enable anchor clicks in the injected caption html.
     // Thanks Nate Wright for the fix. @https://github.com/NateWr
@@ -451,6 +471,7 @@
       }
       $caption.fadeIn('fast')
         .find('a').on('click', function(event) {
+          console.log("clicked................")
           if ($(this).attr('target') !== undefined) {
             window.open($(this).attr('href'), $(this).attr('target'));
           } else {
