@@ -96,12 +96,14 @@
                     </div>
                     <form id=upload_box>
                     <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-                        <select class="mdl-selectfield__select" id="tag" name="Tags">
-                            <option value="option1">A </option>
-                            <option value="option2">B </option>
-                            <option value="option3">C </option>
+                        <select class="mdl-selectfield__select" id="tag">
+                            <option value="option1">Animals </option>
+                            <option value="option2">Nature </option>
+                            <option value="option3">Objects </option>
+                            <option value="option3">People </option>
+                            <option value="option3">Birds </option>
                         </select>
-                        <label for="tag" class="mdl-selectfield__label">Tags</label>
+                        <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="geotag_chk">
                             <input type="checkbox" id="geotag_chk" name="loc_selector" class="mdl-checkbox__input">
                             <span class="mdl-checkbox__label">Geotag</span>
@@ -128,9 +130,9 @@
             </dialog>
             <nav class="demo-navigation mdl-navigation">
                 <select class="js-example-responsive" id="select2" style="width:100%; color:#000" multiple="multiple">
-                  <optgroup label="All">
+                  <!-- <optgroup label="All">
                     <option value="0">All</option>
-                  </optgroup>
+                  </optgroup> -->
                   <optgroup label="Categories">
                     <option value="1">Animals</option>
                     <option value="2">Nature</option>
@@ -140,12 +142,12 @@
                     <!-- <option value="6">Other</option> -->
                   </optgroup>
                 </select>
-                <form>
-                    <!-- Dont write event handlers here. Write using jquery with proper validation so-->
+                <!-- <form>
+                    
                     <button id="categoryBtn" type="button" class="mdl-button">Submit</button>
                     <br>
-                    <!-- <button id="viewphotoBtn" type="button" class="mdl-button" style="color:#aaaaaa">View Photos</button> -->
-                </form>
+                    <button id="viewphotoBtn" type="button" class="mdl-button" style="color:#aaaaaa">View Photos</button>
+                </form> -->
                 <form>
                     <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="viewphotoBtn">
                         <input type="checkbox" id="viewphotoBtn" class="mdl-checkbox__input">

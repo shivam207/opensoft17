@@ -8,13 +8,13 @@ contract ethPhoto {
   struct Image{
     string latitude;
     string longitude;
-    string hash1;
-    string hash2;
+    string hash;
     uint tag;
     address userid;
   }
 
   mapping (uint => Image) _images;
+
   function ethPhoto() {
     noOfImages = 0;
   }
@@ -44,24 +44,19 @@ contract ethPhoto {
         return true;
   }
 
-  function saveImage(string hash1,uint tag1 ){
-    _images[noOfImages].hash1=hash1;
+  
+
+  function saveImage(string hash,string lat,string long,uint tag1){
+    _images[noOfImages].hash=hash;
     _images[noOfImages].tag=tag1;
-    _images[noOfImages].userid=msg.sender;
-  }
-
-  function saveImage1(string lat,string long ){
-
     _images[noOfImages].latitude=lat;
     _images[noOfImages].longitude=long;
-  }
-  function saveImage2(string hash2){
-
-    _images[noOfImages].hash2=hash2;
+    _images[noOfImages].userid=msg.sender;
     noOfImages++;
+    //
   }
     
-    function stringToUint(bytes memory b) constant returns (uint result) {
+  function stringToUint(bytes memory b) constant returns (uint result) {
         result = 0;
         for (uint i = 0; i < b.length; i++) {
             uint c = uint(b[i]);
@@ -171,7 +166,7 @@ contract ethPhoto {
     return false;
   }
 
-  function browseImageOnMap (string lat1,string long1,string lat2,string long2,bool isAdmin)constant returns(string _imageHash,string lat,string lng){
+  function browseImageOnMap (string lat1,string long1,string lat2,string long2,bool isAdmin,uint[] tags)constant returns(string _imageHash,string lat,string lng){
       uint i=0;
       uint flag1=0;
       uint flag2=0;
@@ -187,7 +182,15 @@ contract ethPhoto {
       for(i=0;i<noOfImages;i++)
       { 
         if (isAdmin == true && msg.sender != _images[i].userid)continue;
-        if(bytes(_images[i].hash1).length == 0 || bytes(_images[i].hash2).length==0 || bytes(_images[i].latitude).length==0 || bytes(_images[i].longitude).length==0)
+        if (tags.length>0)
+        {
+          for(uint j=0;j<tags.length;j++)
+          {
+            if(_images[i].tag == tags[j]) break;
+          }
+          if(j == tags.length) continue;
+        }
+        if(bytes(_images[i].hash).length == 0 || bytes(_images[i].latitude).length==0 || bytes(_images[i].longitude).length==0)
         {
             continue;
         }
@@ -196,14 +199,13 @@ contract ethPhoto {
           if(compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)){
             if (bytes(_imageHash).length == 0)
             {
-              _imageHash = strConcat("",_images[i].hash1,_images[i].hash2);
+              _imageHash = strConcat("","",_images[i].hash);
               lat = strConcat("","",_images[i].latitude);
               lng = strConcat("","",_images[i].longitude);
             }
             else
             { 
-              _imageHash=strConcat(_imageHash," ",_images[i].hash1);
-              _imageHash = strConcat(_imageHash,_images[i].hash2,"");
+              _imageHash=strConcat(_imageHash," ",_images[i].hash);
               lat =strConcat(lat," ",_images[i].latitude);
               lng = strConcat(lng," ",_images[i].longitude);
 
@@ -217,14 +219,13 @@ contract ethPhoto {
                 {
                     if (bytes(_imageHash).length == 0)
                     {
-                      _imageHash = strConcat("",_images[i].hash1,_images[i].hash2);
-                      lat = strConcat("","",_images[i].latitude);
-                      lng = strConcat("","",_images[i].longitude);
+                     _imageHash = strConcat("","",_images[i].hash);
+                    lat = strConcat("","",_images[i].latitude);
+                    lng = strConcat("","",_images[i].longitude);
                     }
                     else
                     {
-                      _imageHash=strConcat(_imageHash," ",_images[i].hash1);
-                      _imageHash = strConcat(_imageHash,_images[i].hash2,"");
+                      _imageHash=strConcat(_imageHash," ",_images[i].hash);
                       lat =strConcat(lat," ",_images[i].latitude);
                       lng = strConcat(lng," ",_images[i].longitude);
                     }   
@@ -235,73 +236,22 @@ contract ethPhoto {
     }
   }
   
-  function deleteImage_1(string hash1,string hash2) constant returns (uint index){
+  function deleteImage_1(string hash){
     uint deleteIndex;
     uint status = 0;
     for(uint i=0;i<noOfImages;i++)
     {
-      if(compare(_images[i].hash1,hash1) && compare(_images[i].hash2,hash2) &&_images[i].userid==msg.sender){
-        _images[i].hash1 = "";
-        index = i;
+      if(compare(_images[i].hash,hash) && _images[i].userid==msg.sender){
+        _images[i].hash = _images[noOfImages-1].hash;
+        _images[i].latitude = _images[noOfImages-1].latitude;
+        _images[i].longitude = _images[noOfImages-1].longitude;
+        _images[i].userid = _images[noOfImages-1].userid;
+        _images[i].tag = _images[noOfImages-1].tag;
+        //index = i;
+        noOfImages--;
         break;
       }
     }
-  }
-
-  function deleteImage_2(uint index){
-    _images[index].tag = _images[noOfImages-1].tag;
-    _images[index].hash2 = _images[noOfImages-1].hash2;
-  }
-
-  function deleteImage_3(uint index){
-      _images[index].latitude = _images[noOfImages-1].latitude;
-      _images[index].longitude = _images[noOfImages-1].longitude;
-  }
-
-  function deleteImage_4(uint index){
-    _images[index].userid = _images[noOfImages-1].userid;
-    _images[index].hash1 = _images[noOfImages-1].hash1;
-    noOfImages--;
-  }
-
-  
-  function getByLocation(string latitude,string longitude) constant returns(string _imageHash)
-  { 
-    _imageHash="";
-    for(uint i=0;i<noOfImages;i++)
-    {
-      if(compare(latitude,_images[i].latitude) && compare(longitude,_images[i].longitude))
-      {
-        if (bytes(_imageHash).length == 0) _imageHash = strConcat("",_images[i].hash1,_images[i].hash2);
-        else
-        {
-          _imageHash=strConcat(_imageHash," ",_images[i].hash1);
-          _imageHash = strConcat(_imageHash,_images[i].hash2,"");
-        }   
-      }
-    }
-  }
-
-  function searchImageByCategory(uint tag) constant returns (string _imageHash,string lat,string lng)
-  {
-      _imageHash = "";
-      for(uint j=0;j<noOfImages;j++)
-      {
-          if(tag == _images[j].tag){
-            if (bytes(_imageHash).length == 0){
-              _imageHash = strConcat("",_images[j].hash1,_images[j].hash2);
-              lat = strConcat("","",_images[j].latitude);
-              lng = strConcat("","",_images[j].longitude);
-            }
-          else{
-            _imageHash=strConcat(_imageHash," ",_images[j].hash1);
-            _imageHash = strConcat(_imageHash,_images[j].hash2,""); 
-            lat =strConcat(lat," ",_images[j].latitude);
-            lng = strConcat(lng," ",_images[j].longitude);
-          } 
-        }
-      }
-    
   }
 
 }

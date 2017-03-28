@@ -1,4 +1,6 @@
 // File Upload
+var user_hide=false;
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -101,7 +103,7 @@ function load_slider(images) {
 
         });
 
-
+        checkUserCommand();
 
     }
 }
@@ -140,15 +142,22 @@ $(function() {
 
     $("#viewphotoBtn").on('click', myImages);
 
-    $("#categoryBtn").on('click', getTags);
+    //$("#categoryBtn").on('click', getTags);
 
 
     // turn the element to select2 select style
     $('#select2').select2();
 
-    $('#select2').select2({
-        placeholder: "Search By Tags"
-    });
+    // $('#select2').select2({
+    //     placeholder: "Search By Tags"
+    // });
+
+    $('#select2').select2({placeholder: "Search By Tags"})
+        .on("change", function(e) {
+          // mostly used event, fired to the original element when the value changes
+          console.log("CHANGE_VALUE=" + e.val);
+          callScreenAgain();
+        })
 
     /*For managing Searchbox Locations*/
     document.getElementById("manualLocation").addEventListener('click', function() {
@@ -190,19 +199,43 @@ $(function() {
     // End Modal
 });
 
+function checkUserCommand(){
+    console.log("IN_CHECK_USER_COMMAND");
+    var text = document.getElementById("hidebutton").innerHTML
+    if(user_hide==true){
+        document.getElementById("hidebutton").innerHTML = "expand_less";
+        document.getElementById("mycarousel").style.display = "none";
+        document.getElementById("hidebuttonclass").setAttribute('title','Show Images');
+    }
+    else{
+        document.getElementById("hidebutton").innerHTML = "expand_more";
+        document.getElementById("mycarousel").style.display = "block";
+        if(text=='expand_more'){
+            document.getElementById("hidebuttonclass").setAttribute('title','Hide Images');
+        }
+        else{
+            document.getElementById("hidebuttonclass").setAttribute('title','Show Images');
+        }
+    }
+}
+
 function hide_slider(){
 
     console.log("In hide");
     var text = document.getElementById("hidebutton").innerHTML
     if(text == "expand_more"){
+        user_hide=true;
         document.getElementById("hidebutton").innerHTML = "expand_less";
         document.getElementById("mycarousel").style.display = "none";
+        document.getElementById("hidebuttonclass").setAttribute('title','Show Images');
         //document.getElementById('hidebuttonclass').style.width='6px';
         //document.getElementById("floating-panel").style.background = "rgba(255, 255, 255, 0);"
     } 
     else{
+        user_hide=false;
         document.getElementById("hidebutton").innerHTML = "expand_more";
         document.getElementById("mycarousel").style.display = "block";
+        document.getElementById("hidebuttonclass").setAttribute('title','Hide Images');
         //document.getElementById('hidebuttonclass').style.width='6px';
     }
 }
@@ -249,36 +282,45 @@ function notifyMe(message, bodytext, icon_loc) {
   // want to be respectful there is no need to bother them any more.
 }
 
-function getTags() {
-    var i;
-    var tags = [];
-    var hashes=[]
-    //data contains an object where data[i].text contains name of tags
-    var data = $('#select2').select2('data');
+function callScreenAgain() {
+    // var i;
+    // var tags = [];
+    // var hashes=[]
+    // //data contains an object where data[i].text contains name of tags
+    // var data = $('#select2').select2('data');
+    // console.log("inside get tags");
+    // for (i = 0; i < data.length; ++i) {
+    //     tags.push(data[i].text);
+    //     //console.log(data[i].text);
+    //     switch (data[i].text){
+    //         case "Animals":
+    //             hashes.push(ethPhoto.searchImageByCategory(0)[0]);
+    //             break;
+    //         case "Nature":
+    //             ethPhoto.searchImageByCategory(1).then(function(final) {
+    //                 //console.log(final[0]);
+    //                 hashes.push(final[0]);
+                
+                
 
-    for (i = 0; i < data.length; ++i) {
-        tags.push(data[i].text);
-        console.log(data[i].text);
-        switch (data[i].text){
-            case "Animals":
-                hashes.push(ethPhoto.searchImageByCategory(0));
-                break;
-            case "Nature":
-                hashes.push(ethPhoto.searchImageByCategory(1));
-                break;
-            case "Objects":
-                hashes.push(ethPhoto.searchImageByCategory(2));
-                break;
-            case "People":
-                hashes.push(ethPhoto.searchImageByCategory(3));
-                break;
-            case "Birds":
-                hashes.push(ethPhoto.searchImageByCategory(4));
-                break;
-        }
+                
+    //             });
+    //             break;
+    //         case "Objects":
+    //             hashes.push(ethPhoto.searchImageByCategory(2)[0]);
+    //             break;
+    //         case "People":
+    //             hashes.push(ethPhoto.searchImageByCategory(3)[0]);
+    //             break;
+    //         case "Birds":
+    //             hashes.push(ethPhoto.searchImageByCategory(4)[0]);
+    //             break;
+    //     }
 
-    }
+    // }
+    // console.log(hashes[0]);
 
     // console.log(tags);
-
+    var x = retParam();
+    setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
 }

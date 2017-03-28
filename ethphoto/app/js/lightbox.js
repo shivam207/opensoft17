@@ -188,11 +188,11 @@
       var lat = self.album[self.currentImageIndex].lat;
       console.log(link, lat);
       var hash = link.split("/")[4];
-      var hash1 = hash.substr(0, hash.length / 2);
-      var hash2 = hash.substr(hash.length / 2);
-      console.log(hash1);
-      console.log(hash2);
-      deleteImage(hash1,hash2);
+      //var hash1 = hash.substr(0, hash.length / 2);
+      //var hash2 = hash.substr(hash.length / 2);
+      //console.log(hash1);
+      //console.log(hash2);
+      deleteImage(hash);
       //   console.log("the value of status is " + result);
       // });
       console.log("deleted image");

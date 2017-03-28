@@ -77,6 +77,12 @@ var lat2 = 20.8;
 var long2 = 50.3;
 
 var deleted = []
+var arr=[];
+
+function getImage1(){
+    return arr;
+}
+
 function retParam(){
     return {
         lat1 : lat1,
@@ -87,6 +93,16 @@ function retParam(){
     };
 }
 
+function beforeUpload(){
+    document.querySelector('#show-dialog').disabled = true;
+                notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.", '../images/upload2.png');   
+}
+
+function afterUpload(fileName){
+    document.querySelector('#show-dialog').disabled = false;
+    notifyMe("Photo Uploaded", fileName, '../images/upload2.png');
+    callScreenAgain();
+}
 function setScreenPoints(latne, longne, latsw, longsw) {
     lat1 = latne;
     long1 = longne;
@@ -100,12 +116,23 @@ function setScreenPoints(latne, longne, latsw, longsw) {
     var elm = document.getElementById("viewphotoBtn");
     var isAdmin = elm.checked;
     //console.log("\n\n Admin\n\n" + isAdmin);
+    var data = $('#select2').select2('data');
+    var tags = []
+    for(var i=0;i<data.length;i++)
+    {   if(data[i].text=='Animals') tags.push(0);
+        else if(data[i].text == 'Nature') tags.push(1);
+        else if(data[i].text == 'Objects') tags.push(2);
+        else if(data[i].text == 'People') tags.push(3);
+        else if(data[i].text == 'Birds') tags.push(4);
 
-    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString(),isAdmin).then(function(final) {
+    }
+    console.log("printing tags");
+    console.log(tags)
+    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString(),isAdmin,tags).then(function(final) {
         // console.log("the url retrieved is :");
         if (final[0] != "") {
             var locations = [];
-            var arr = final[0].split(' ');
+            arr = final[0].split(' ');
             for (var i = 0; i < arr.length; i++) {
                 arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
                 // console.log(arr[i]);
@@ -163,17 +190,21 @@ function upload() {
     var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
     var category = 0
     switch (category_input) {
-        case "A":
-            category = 1;
+        case "Animals":
+            category=0;
             break;
-        case "B":
-            category = 2;
+        case "Nature":
+            category=1;
             break;
-        case "C":
-            category = 3;
+        case "Objects":
+            category=2;
             break;
-        default:
-            category = 0;
+        case "People":
+            category=3;
+            break;
+        case "Birds":
+            category=4;
+            break;
     }
     var x = 2.3;
     var y = 4.1;
@@ -202,12 +233,13 @@ function upload() {
                         // console.log("GPSlat" + x.toString());
                         // console.log("GPSlong" + y.toString());
                         // setMarkers([{lat:x,lng:y}],1);
-                        var hash1 = hash.substr(0, hash.length / 2);
-                        var hash2 = hash.substr(hash.length / 2);
-                        ethPhoto.saveImage(hash1, category).then(function() {
-                            ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
-                                ethPhoto.saveImage2(hash2).then(function() {});
-                            });
+                        // var hash1 = hash.substr(0, hash.length / 2);
+                        // var hash2 = hash.substr(hash.length / 2);
+                        console.log(category);
+                        beforeUpload();
+                        ethPhoto.saveImage(hash,x.toString(), y.toString(),category,{"gas":4712388}).then(function() {
+                            console.log("uploaded1");
+                            afterUpload(input[0].files[0].name);
                         });
 
 
@@ -221,13 +253,13 @@ function upload() {
                     // console.log("GPSlat" + x.toString());
                     // console.log("GPSlong" + y.toString());
                     // setMarkers([{lat:x,lng:y}],1);
-                    var hash1 = hash.substr(0, hash.length / 2);
-                    var hash2 = hash.substr(hash.length / 2);
-                    ethPhoto.saveImage(hash1, category).then(function() {
-                        ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
-                            ethPhoto.saveImage2(hash2).then(function() {});
+                    // var hash1 = hash.substr(0, hash.length / 2);
+                    // var hash2 = hash.substr(hash.length / 2);
+                    beforeUpload();
+                    ethPhoto.saveImage(hash,x.toString(), y.toString(),category,{"gas":4712388}).then(function() {
+                            console.log("uploaded1");
+                            afterUpload(input[0].files[0].name);
                         });
-                    });
                 })
             }
         } else {
@@ -240,27 +272,25 @@ function upload() {
             // console.log("GPSlong" + y.toString());
             EmbarkJS.Storage.uploadFile(input).then(function(hash) {
                 console.log("BEFORE")
-                notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.", '../images/upload2.png')
+                // document.querySelector('#show-dialog').disabled = true;
+                // notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.", '../images/upload2.png')
                 // console.log("GPSlat" + x.toString());
                 // console.log("GPSlong" + y.toString());
                 // setMarkers([{lat:x,lng:y}],1);
-                var hash1 = hash.substr(0, hash.length / 2);
-                var hash2 = hash.substr(hash.length / 2);
-                ethPhoto.saveImage(hash1, category).then(function() {
-                    ethPhoto.saveImage1(x.toString(), y.toString()).then(function() {
-                        ethPhoto.saveImage2(hash2).then(function() {
-                                console.log("AFTER")
-                                notifyMe("Photo Uploaded", input[0].files[0].name, '../images/upload2.png')
+                beforeUpload();
+                // var hash1 = hash.substr(0, hash.length / 2);
+                // var hash2 = hash.substr(hash.length / 2);
+                ethPhoto.saveImage(hash,x.toString(), y.toString(),category,{"gas":4712388}).then(function() {
+                            console.log("uploaded1");
+                            afterUpload(input[0].files[0].name);
                         });
-                    });
-                });
             });
         }
     });
     
 }
 
-function deleteImage(hash1,hash2)
+function deleteImage(hash)
 {
     // ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
     //           ethPhoto.deleteImage_2(index).then(function(){
@@ -272,17 +302,22 @@ function deleteImage(hash1,hash2)
     //   });
     console.log("before delete");
     notifyMe("Deleting Photo", "You will be notified after the photo is deleted.", '../images/delete1.png')
-    ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
-              ethPhoto.deleteImage_2(index).then(function(){
-               ethPhoto.deleteImage_3(index).then(function(){
-                ethPhoto.deleteImage_4(index).then(function(){
-                    console.log("after delete");
-                    notifyMe("Photo Deleted", "", '../images/delete1.png')
-                    var x = retParam();
-                    setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
-                    
-              });
-              });
-          });
-      }); 
+    // ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
+    //           ethPhoto.deleteImage_2(index).then(function(){
+    //            ethPhoto.deleteImage_3(index).then(function(){
+    //             ethPhoto.deleteImage_4(index).then(function(){
+    //                 console.log("after delete");
+    //                 notifyMe("Photo Deleted", "", '../images/delete1.png')
+    //                 var x = retParam();
+    //                 //setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
+    //                 callScreenAgain();
+    //           });
+    //           });
+    //       });
+    //   });
+    ethPhoto.deleteImage_1(hash.toString(),{"gas":4712388}).then(function() {
+        console.log("after delete");
+        notifyMe("Photo Deleted", "", '../images/delete1.png');
+        callScreenAgain();
+    });
 }
