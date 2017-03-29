@@ -78,11 +78,28 @@ var long2 = 50.3;
 
 var deleted = []
 var arr=[];
-
+var actualTags = []
 function getImage1(){
     return arr;
 }
 
+function getTags(){
+    return actualTags;
+}
+
+function InverseTag(tag)
+{
+    if(tag==0)
+        return 'Animals';
+    else if(tag==1)
+        return 'Nature';
+    else if(tag==2)
+        return 'Objects';
+    else if(tag==3)
+        return 'People';
+    else if(tag==4)
+        return 'Birds';
+}
 function retParam(){
     return {
         lat1 : lat1,
@@ -138,17 +155,20 @@ function setScreenPoints(latne, longne, latsw, longsw) {
             };
             load_slider(arr);
             // console.log("slider loaded")
+            // var arr1 = final[1].split(' ');
+            // for (var i = 0; i < arr1.length; i++) {
+            //     // console.log("latitude "+arr1[i]);
+            // };
+            // var arr2 = final[2].split(' ');
+            // for (var i = 0; i < arr2.length; i++) {
+            //     // console.log("longitude "+arr2[i]);
+            // };
             var arr1 = final[1].split(' ');
-            for (var i = 0; i < arr1.length; i++) {
-                // console.log("latitude "+arr1[i]);
-            };
             var arr2 = final[2].split(' ');
-            for (var i = 0; i < arr2.length; i++) {
-                // console.log("longitude "+arr2[i]);
-            };
             for (var i = 0; i < arr2.length; i++) {
                 locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
             }
+            actualTags = final[3];
             // console.log("the locations is ")
             // console.log(locations);
             setMarkers(locations)
