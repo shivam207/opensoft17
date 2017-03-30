@@ -4,7 +4,7 @@ contract ethPhoto {
  
   bytes c=new bytes(0);
   bytes d=new bytes(0);
-
+  uint[] _finalTags;
   struct Image{
     string latitude;
     string longitude;
@@ -166,10 +166,11 @@ contract ethPhoto {
     return false;
   }
 
-  function browseImageOnMap (string lat1,string long1,string lat2,string long2,bool isAdmin,uint[] tags)constant returns(string _imageHash,string lat,string lng){
+  function browseImageOnMap (string lat1,string long1,string lat2,string long2,bool isAdmin,uint[] tags)constant returns(string _imageHash,string lat,string lng,uint[] _actualTags){
       uint i=0;
       uint flag1=0;
       uint flag2=0;
+      _finalTags.length = 0;
       if(compareValues(lat1,lat2)==false){
           flag1=1;
       }
@@ -194,6 +195,7 @@ contract ethPhoto {
         {
             continue;
         }
+        
         if(flag1 == 0 && flag2==0)
         {
           if(compareValues(lat1,_images[i].latitude) && compareValues(_images[i].latitude,lat2) && compareValues(long1,_images[i].longitude) && compareValues(_images[i].longitude,long2)){
@@ -210,6 +212,8 @@ contract ethPhoto {
               lng = strConcat(lng," ",_images[i].longitude);
 
             }
+            _finalTags.push(_images[i].tag);
+            
           }
         }   
         else {
@@ -228,20 +232,23 @@ contract ethPhoto {
                       _imageHash=strConcat(_imageHash," ",_images[i].hash);
                       lat =strConcat(lat," ",_images[i].latitude);
                       lng = strConcat(lng," ",_images[i].longitude);
-                    }   
+                    }
+                    _finalTags.push(_images[i].tag);   
                 }
               }
         }
 
+
     }
+    _actualTags = _finalTags;
   }
-  
-  function deleteImage_1(string hash){
+
+  function deleteImage_1(string hash,string lat,string lng){
     uint deleteIndex;
     uint status = 0;
     for(uint i=0;i<noOfImages;i++)
     {
-      if(compare(_images[i].hash,hash) && _images[i].userid==msg.sender){
+      if(compare(_images[i].hash,hash) && compare(_images[i].latitude,lat) && compare(_images[i].longitude,lng) && _images[i].userid==msg.sender){
         _images[i].hash = _images[noOfImages-1].hash;
         _images[i].latitude = _images[noOfImages-1].latitude;
         _images[i].longitude = _images[noOfImages-1].longitude;
