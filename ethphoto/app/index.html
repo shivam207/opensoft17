@@ -101,15 +101,15 @@
                             <option value="option3">Birds </option>
                         </select>
                         <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="geotag_loc">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect geotag" for="geotag_loc">
                             <input type="checkbox" id="geotag_loc" name="loc_selector" class="mdl-checkbox__input">
                             <span class="mdl-checkbox__label">Geotag</span>
                         </label>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="current_loc">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect current" for="current_loc">
                             <input type="checkbox" id="current_loc" name="loc_selector" class="mdl-checkbox__input">
                             <span class="mdl-checkbox__label">Current Location</span>
                         </label>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="enter_loc">
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect manual" for="enter_loc">
                             <input type="checkbox" id="enter_loc" name="loc_selector" class="mdl-checkbox__input">
                             <span class="mdl-checkbox__label">Enter Location</span>
                         </label>
@@ -126,7 +126,7 @@
                 </div>
             </dialog>
             <nav class="demo-navigation mdl-navigation">
-                <select class="js-example-responsive" id="select2" style="width:100%; color:#000" multiple="multiple">
+                <select class="js-example-responsive searchBytags" id="select2" style="width:100%; color:#000" multiple="multiple">
                   <!-- <optgroup label="All">
                     <option value="0">All</option>
                   </optgroup> -->
@@ -146,12 +146,14 @@
                     <button id="viewphotoBtn" type="button" class="mdl-button" style="color:#aaaaaa">View Photos</button>
                 </form> -->
                 <form>
-                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="viewphotoBtn">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect myphoto" for="viewphotoBtn">
                         <input type="checkbox" id="viewphotoBtn" class="mdl-checkbox__input">
                         <span class="mdl-checkbox__label">View only my photos</span>
                     </label>
                 </form>
+
             </nav>
+                <button id="tourbtn" type="button" class="mdl-button">Take website tour</button>
         </div>
         <main class="mdl-layout__content">
             <div class="demo-card-wide mdl-card mdl-shadow--2dp">

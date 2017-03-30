@@ -224,6 +224,13 @@ $(function() {
         $("#manualLocation").addClass("hidden");
         dialog.showModal();
     });
+
+    document.querySelector('#tourbtn').addEventListener('click', function() {
+        console.log("dsds")
+        // tour_website.init();
+        tour_website.start();
+    });
+
     dialog.querySelector('#cancel_button').addEventListener('click', function() {
         dialog.close();
         dialogOriginalState();
@@ -274,6 +281,7 @@ $(function() {
             
         }
     });
+
 
     // test();
 

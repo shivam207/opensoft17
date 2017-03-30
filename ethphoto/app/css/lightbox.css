@@ -219,3 +219,9 @@ body.lb-disable-scrolling {
   opacity: 1;
 }
 
+.lb-data .lb-download:hover {
+  cursor: pointer;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+

@@ -94,7 +94,7 @@
   Lightbox.prototype.build = function() {
     var self = this;
 
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light myhidden">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span><span class="lb-download"><i class="material-icons md-36 md-light">  file_download</i></span></div><div class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light myhidden">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
 
     // Cache jQuery objects
     this.$lightbox       = $('#lightbox');
@@ -180,6 +180,17 @@
           }.bind(self), 0);
         });
       }
+    });
+
+    this.$lightbox.find('.lb-download').on('click', function() {
+      console.log("download");
+      console.log(self.$image[0].currentSrc);
+      var temp = document.createElement('a');
+      temp.href = self.$image[0].currentSrc;
+      temp.download = 'image.jpg';
+      document.body.appendChild(temp);
+      temp.click();
+      document.body.removeChild(temp);
     });
 
 
