@@ -192,13 +192,16 @@
       console.log("Call Delete function (lightbox.js line:187)");
       var link = self.$image[0].currentSrc;
       var lat = self.album[self.currentImageIndex].lat;
-      console.log(link, lat);
+      var lng = self.album[self.currentImageIndex].lng;
+      console.log(link);
+      console.log(lat);
+      console.log(lng);
       var hash = link.split("/")[4];
       //var hash1 = hash.substr(0, hash.length / 2);
       //var hash2 = hash.substr(hash.length / 2);
       //console.log(hash1);
       //console.log(hash2);
-      deleteImage(hash);
+      deleteImage(hash,lat,lng);
       //   console.log("the value of status is " + result);
       // });
       console.log("deleted image");
@@ -240,7 +243,8 @@
       self.album.push({
         link: $link.attr('href'),
         title: $link.attr('data-title') || $link.attr('title'),
-        lat: $link.data('eth_lat')
+        lat: $link.data('eth_lat'),
+        lng: $link.data('eth_lng')
       });
     }
 

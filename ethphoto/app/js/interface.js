@@ -76,16 +76,23 @@ var long1 = 10.2;
 var lat2 = 20.8;
 var long2 = 50.3;
 
-var deleted = []
+var deleted = [];
 var arr=[];
 var actualTags = []
+// var tagImage = [];
+// var tagLocation = [];
+// var tagCategory = [];
 function getImage1(){
     return arr;
+    //return tagImage;
 }
 
 function getTags(){
     return actualTags;
+    //return tagCategory;
 }
+
+
 
 function InverseTag(tag)
 {
@@ -129,7 +136,6 @@ function setScreenPoints(latne, longne, latsw, longsw) {
     // console.log(long1);
     // console.log(lat2);
     // console.log(long2);
-
     var elm = document.getElementById("viewphotoBtn");
     var isAdmin = elm.checked;
     //console.log("\n\n Admin\n\n" + isAdmin);
@@ -148,32 +154,46 @@ function setScreenPoints(latne, longne, latsw, longsw) {
         // console.log("the url retrieved is :");
         if (final[0] != "") {
             var locations = [];
+
+            actualTags = final[3];
             arr = final[0].split(' ');
             for (var i = 0; i < arr.length; i++) {
                 arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
                 // console.log(arr[i]);
             };
-            load_slider(arr);
-            // console.log("slider loaded")
-            // var arr1 = final[1].split(' ');
-            // for (var i = 0; i < arr1.length; i++) {
-            //     // console.log("latitude "+arr1[i]);
-            // };
-            // var arr2 = final[2].split(' ');
-            // for (var i = 0; i < arr2.length; i++) {
-            //     // console.log("longitude "+arr2[i]);
-            // };
             var arr1 = final[1].split(' ');
             var arr2 = final[2].split(' ');
             for (var i = 0; i < arr2.length; i++) {
                 locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
             }
-            actualTags = final[3];
-            // console.log("the locations is ")
-            // console.log(locations);
+            
+             
+            // if(tags.length == 0 )
+            //     {tagImage = arr;
+            //      tagLocation = locations;  
+            //      tagCategory = actualTags; 
+            //  }
+            //     else
+            //     {   for(var i=0;i<arr.length;i++)
+            //         {
+            //         for(var j=0;j<tags.length;j++)
+            //         {
+            //             if(actualTags[i] == tags[j])
+            //                 break;
+            //         }
+            //         if(j<tags.length)
+            //         {
+            //             tagImage.push(arr[i]);
+            //             tagLocation.push(locations[i]);
+            //             tagCategory.push(actualTags[i]);
+            //         }
+            //         }
+            //     } 
+            
+            load_slider(arr,locations);
             setMarkers(locations)
         } else {
-            load_slider([]);
+            load_slider([],[]);
             setMarkers([]);
         }
         return false;
@@ -229,45 +249,21 @@ function upload(x, y) {
     EmbarkJS.Storage.uploadFile(input).then(function(hash) {
         console.log("BEFORE")
         beforeUpload();
-        // console.log("GPSlat" + x.toString());
-        // console.log("GPSlong" + y.toString());
-        // setMarkers([{lat:x,lng:y}],1);
-        // var hash1 = hash.substr(0, hash.length / 2);
-        // var hash2 = hash.substr(hash.length / 2);
+        singleSetMarker({lat:Number(x),lng:Number(y)});
         ethPhoto.saveImage(hash,x.toString(), y.toString(),category,{"gas":4712388}).then(function() {
             console.log("uploaded1");
+            deleteSingleMarker();
             afterUpload(input[0].files[0].name);
         });
 
     });
 }
 
-function deleteImage(hash)
+function deleteImage(hash,lat,lng)
 {
-    // ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
-    //           ethPhoto.deleteImage_2(index).then(function(){
-    //            ethPhoto.deleteImage_3(index).then(function(){
-    //             ethPhoto.deleteImage_4(index).then(function(){
-    //           });
-    //           });
-    //       });
-    //   });
     console.log("before delete");
     notifyMe("Deleting Photo", "You will be notified after the photo is deleted.", '../images/delete1.png')
-    // ethPhoto.deleteImage_1(hash1.toString(),hash2.toString()).then(function(index) {
-    //           ethPhoto.deleteImage_2(index).then(function(){
-    //            ethPhoto.deleteImage_3(index).then(function(){
-    //             ethPhoto.deleteImage_4(index).then(function(){
-    //                 console.log("after delete");
-    //                 notifyMe("Photo Deleted", "", '../images/delete1.png')
-    //                 var x = retParam();
-    //                 //setScreenPoints(x.lat1,x.long1,x.lat2,x.long2);
-    //                 callScreenAgain();
-    //           });
-    //           });
-    //       });
-    //   });
-    ethPhoto.deleteImage_1(hash.toString(),{"gas":4712388}).then(function() {
+    ethPhoto.deleteImage_1(hash.toString(),lat.toString(),lng.toString(),{"gas":4712388}).then(function() {
         console.log("after delete");
         notifyMe("Photo Deleted", "", '../images/delete1.png');
         callScreenAgain();

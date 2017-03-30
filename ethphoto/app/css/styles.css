@@ -39,8 +39,8 @@ body {
         align-content: center;*/
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
-        /*width:90%;
-        left:50%;
+        width:99.999%;
+        /*left:50%;
         margin-left: -46%
         height:20%;*/
 }
@@ -573,8 +573,8 @@ button.toast-close-button {
 }
 
 .otherclass {
-    top:7.5% !important;
-    left:82% !important;
+    top:10% !important;
+    left:75% !important;
 }
 
 

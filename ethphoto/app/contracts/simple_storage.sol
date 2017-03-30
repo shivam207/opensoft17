@@ -243,12 +243,12 @@ contract ethPhoto {
     _actualTags = _finalTags;
   }
 
-  function deleteImage_1(string hash){
+  function deleteImage_1(string hash,string lat,string lng){
     uint deleteIndex;
     uint status = 0;
     for(uint i=0;i<noOfImages;i++)
     {
-      if(compare(_images[i].hash,hash) && _images[i].userid==msg.sender){
+      if(compare(_images[i].hash,hash) && compare(_images[i].latitude,lat) && compare(_images[i].longitude,lng) && _images[i].userid==msg.sender){
         _images[i].hash = _images[noOfImages-1].hash;
         _images[i].latitude = _images[noOfImages-1].latitude;
         _images[i].longitude = _images[noOfImages-1].longitude;

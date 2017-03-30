@@ -51,6 +51,10 @@ function CenterControl(controlDiv, map) {
 
 }
 
+function zoomComplete() {
+  map.setZoom(0);
+
+}
 function initMap() {
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -193,6 +197,36 @@ function searchBox(id="pac-input") {
 }
 var markerCluster ;
 var flag = 0;
+
+var loading = "../images/load_new.png";
+var color1 = '../images/animal_icon.png';
+var color2 = '../images/nature_icon.png';
+var color3 = '../images/object_icon.png';
+var color4 = '../images/people_icon.png';
+var color5 = '../images/bird_icon.png';
+var color6 = 'http://maps.google.com/mapfiles/ms/icons/pink-dot.png';
+var color7 = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
+var color8 = 'http://maps.google.com/mapfiles/ms/icons/paleblue-dot.png';
+var color9 = 'http://maps.google.com/mapfiles/ms/icons/darkgreen-dot.png';
+var color10 = 'http://maps.google.com/mapfiles/ms/icons/brown-dot.png';
+
+var tag_color = [color1,color2,color3,color4,color5,color6,color7,color8,color9,color10];
+var singleMarker ;
+function singleSetMarker(location){
+        var marker = new google.maps.Marker({
+            position: { lat: location.lat, lng: location.lng },
+            map: map,
+            icon: loading
+        });
+
+
+       //gmarkers.push(marker);
+       singleMarker = marker;
+}
+
+function deleteSingleMarker(){
+  singleMarker.setMap(null);
+}
 function setMarkers(locations, add = 0) {
 
     console.log("IN SET MARKERS")
@@ -212,6 +246,7 @@ function setMarkers(locations, add = 0) {
         }
         gmarkers = [];
     }
+    var tags = getTags();
     for (var i = 0; i < locations.length; i++) {
         var location = locations[i];
         console.log("printing locations");
@@ -219,7 +254,8 @@ function setMarkers(locations, add = 0) {
         flag = 1;
         var marker = new google.maps.Marker({
             position: { lat: location.lat, lng: location.lng },
-            map: map
+            map: map,
+            icon:tag_color[tags[i]]
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -228,7 +264,7 @@ function setMarkers(locations, add = 0) {
                 var y = marker.getPosition().lng();
                 console.log("marker clicked");
                 images = getImage1();
-                tags = getTags();
+                
                 console.log(locations.length)
                 console.log(x,y);
                 for(var i=0;i<locations.length;i++){

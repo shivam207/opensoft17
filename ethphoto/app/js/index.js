@@ -110,7 +110,7 @@ function toggle(checked, checkboxId) {
     }
 }
 
-function load_slider(images) {
+function load_slider(images,locations) {
 
     // $("#mycarousel").destroy();
 
@@ -118,7 +118,7 @@ function load_slider(images) {
 
     var template = '<div>  \
                         <div class="thumbnails_map" data-markerid={{idx}}>\
-                            <a class = "slider" data-lightbox="example-set" data-eth_lat={{lat}} href={{href}}>\
+                            <a class = "slider" data-lightbox="example-set" data-eth_lat={{lat}} data-eth_lng={{lng}} href={{href}}>\
                                 <img  data-lazy={{src}} height="130" alt="" />\
                             </a>\
                         </div>\
@@ -133,7 +133,8 @@ function load_slider(images) {
     accumulator = "<div><label id='hidebuttonclass' class='image_input_button mdl-button mdl-js-button mdl-js-ripple-effect' onclick='hide_slider()'>\
     <i class='material-icons' id='hidebutton'>expand_more</i></label></div><div id='mycarousel'>";
     $(images).each(function(index) {
-       element = Mustache.render(template, { "src": this, "lat": "'Some random shit'", "idx": index, "href": this});
+       element = Mustache.render(template, { "src": this, "lat": locations[index].lat, "lng": locations[index].lng, "idx": index, "href": this});
+        //console.log("index is " + index);
         // element = '<div><div class="image"><img data-lazy="' + this + '"/></div></div>';
         accumulator += element;
     });
@@ -142,7 +143,7 @@ function load_slider(images) {
     // Slider
     if (len > 0) {
         $("#carousel_container").html(accumulator);
-        var initialSlide = 2;
+        var initialSlide = 0;
         if(len < 5)
             initialSlide = 0;
         else if(len == 5)
@@ -152,7 +153,7 @@ function load_slider(images) {
             infinite: false,
             slidesToShow: 5,
             lazyLoad: 'ondemand',
-            slidesToScroll: 4,
+            slidesToScroll: 1,
             autoplay: false,
             autoplaySpeed: 2000,
             variableWidth: true,
@@ -225,12 +226,14 @@ $(function() {
         dialog.showModal();
     });
     dialog.querySelector('#cancel_button').addEventListener('click', function() {
+        $(".pac-container").addClass('otherclass');
+        $(".pac-container").removeClass('class');
         dialog.close();
         dialogOriginalState();
     });
     dialog.querySelector('#ok_button').addEventListener('click', okclicked);
 
-    $("#viewphotoBtn").on('click', myImages);
+    $("#viewphotoBtn").on('click', myImages1);
 
     //$("#categoryBtn").on('click', getTags);
 
@@ -255,8 +258,8 @@ $(function() {
     /*For managing Searchbox Locations*/
     document.getElementById("manualLocation").addEventListener('click', function() {
         $(".pac-container").appendTo("#upload_box");
-        // $(".pac-container").removeClass('otherclass');
-        // $(".pac-container").addClass('class');
+        $(".pac-container").removeClass('otherclass');
+        $(".pac-container").addClass('class');
     });
 
     document.getElementById("pac-input").addEventListener('click', function() {
@@ -318,6 +321,8 @@ function okclicked(){
     var final_checked;
     var lat, lon;
     var input = $("#takeimage input[type=file]")
+    $(".pac-container").addClass('otherclass');
+    $(".pac-container").removeClass('class');
     if (document.getElementById('geotag_loc').checked == true){
         final_checked = 1;
         EXIF.getData(input[0].files[0], function() {
@@ -427,12 +432,14 @@ function hide_slider(){
     }
 }
 
-function myImages()
+function myImages1()
 {
     var x = retParam();
     var elm = document.getElementById("viewphotoBtn");
     if (elm.checked)
-        $(".lb-close").removeClass("myhidden");
+        {$(".lb-close").removeClass("myhidden");
+        zoomComplete();
+    }
     else
         $(".lb-close").addClass("myhidden");
     
@@ -440,9 +447,15 @@ function myImages()
     //     //console.log("setScreenPoints")
     //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
     // }
-    setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+    //setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
 }
 
+// function myImages1()
+// {   var elm = document.getElementById("viewphotoBtn");
+//     if (elm.checked)
+//         zoomComplete();
+
+// }
 function notifyMe(message, bodytext, icon_loc) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
@@ -484,44 +497,6 @@ function test(){
 }
 
 function callScreenAgain() {
-    // var i;
-    // var tags = [];
-    // var hashes=[]
-    // //data contains an object where data[i].text contains name of tags
-    // var data = $('#select2').select2('data');
-    // console.log("inside get tags");
-    // for (i = 0; i < data.length; ++i) {
-    //     tags.push(data[i].text);
-    //     //console.log(data[i].text);
-    //     switch (data[i].text){
-    //         case "Animals":
-    //             hashes.push(ethPhoto.searchImageByCategory(0)[0]);
-    //             break;
-    //         case "Nature":
-    //             ethPhoto.searchImageByCategory(1).then(function(final) {
-    //                 //console.log(final[0]);
-    //                 hashes.push(final[0]);
-                
-                
-
-                
-    //             });
-    //             break;
-    //         case "Objects":
-    //             hashes.push(ethPhoto.searchImageByCategory(2)[0]);
-    //             break;
-    //         case "People":
-    //             hashes.push(ethPhoto.searchImageByCategory(3)[0]);
-    //             break;
-    //         case "Birds":
-    //             hashes.push(ethPhoto.searchImageByCategory(4)[0]);
-    //             break;
-    //     }
-
-    // }
-    // console.log(hashes[0]);
-
-    // console.log(tags);
     var x = retParam();
-    setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
+    setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);  
 }
