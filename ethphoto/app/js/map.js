@@ -71,8 +71,10 @@ function initMap() {
       console.log(isExist);
       if(isExist){
         ethPhoto.getUserName().then(function(username){
-          _username = username;
-          console.log(username);
+          console.log("the username is " + username);
+          document.getElementById("Username").textContent=username;
+          //$("#Username").text(_username);
+          
         });
       }
       else{
@@ -159,9 +161,9 @@ function initMap() {
             map.setCenter(pos);
         });
     }
-    $("#Username").val(_username);
+    //$("#Username").val(_username);
     searchBox("manualLocation")
-    console.log("the username is" + _username);
+    //console.log("the username is" + _username);
 }
 
 function searchBox(id="pac-input") {

@@ -131,12 +131,15 @@ function submitClicked(){
     //console.log(userName);
     console.log(userName);
     _username = username;
+
     ethPhoto.setUserName(userName.toString(),{"gas":4712388}).then(function(){
         ethPhoto.getUserName().then(function(username){
             console.log("the username is " + username)
           });
         });
+    document.getElementById("Username").textContent=userName;
     modal.style.display = "none";
+
     //return userName;
 }
 
