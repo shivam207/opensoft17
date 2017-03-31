@@ -2,10 +2,9 @@
 var user_hide=false;
 
 function readURL(files) {
-    var input = $("#takeimage input[type=file]")
+    
     console.log("---------")
     console.log(input)
-    input[0].files=files
     if (input && input[0].files[0]) {
         console.log("inside")
         var reader = new FileReader();
@@ -378,6 +377,8 @@ function makeDroppable(element, callback) {
 function callback(files) {
   // Here, we simply log the Array of files to the console.
   console.log(files);
+  var input = $("#takeimage input[type=file]")
+  input[0].files=files
   // readURL(files);
   readURL(files);
 }
