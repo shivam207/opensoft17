@@ -224,6 +224,19 @@ $(function() {
         dialog.showModal();
     });
 
+    document.getElementById("tag").addEventListener("change", function() {
+    var skillsSelect = document.getElementById("tag");
+    var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
+    if(category_input=="Other") {
+    console.log("Other True");
+    document.getElementById("othertag").className="mdl-textfield mdl-js-textfield otherTrue";
+    }
+    if(category_input!="Other") {
+    console.log("OtherFalse");
+    document.getElementById("othertag").className="mdl-textfield mdl-js-textfield otherFalse";
+    }
+    });
+    
     document.querySelector('#tourbtn').addEventListener('click', function() {
         taketour();
     });
@@ -252,6 +265,7 @@ $(function() {
           // mostly used event, fired to the original element when the value changes
           console.log("CHANGE_VALUE=" + e.val);
           callScreenAgain();
+          //tagChange();
         })
 
     $("#geotag_loc").on('click', clearGroup);
@@ -497,26 +511,17 @@ function myImages1()
 {
     var x = retParam();
     var elm = document.getElementById("viewphotoBtn");
-    if (elm.checked)
-        {$(".lb-close").removeClass("myhidden");
+    if (elm.checked){
+        // $(".lb-close").removeClass("myhidden");
         zoomComplete();
     }
-    else
-        $(".lb-close").addClass("myhidden");
+    else{
+        // $(".lb-close").addClass("myhidden");
+        zoomNormal();
+        }
     
-    // if(elm.checked){
-    //     //console.log("setScreenPoints")
-    //     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
-    // }
-    //setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);
 }
 
-// function myImages1()
-// {   var elm = document.getElementById("viewphotoBtn");
-//     if (elm.checked)
-//         zoomComplete();
-
-// }
 function notifyMe(message, bodytext, icon_loc) {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
@@ -561,3 +566,15 @@ function callScreenAgain() {
     var x = retParam();
     setScreenPoints(x.lat1, x.long1, x.lat2, x.long2);  
 }
+
+function tagChange() {
+
+    tagOutput = getTagandImage();
+    locations = tagOutput.loc;
+    images = tagOutput.img;
+    tags = tagOutput.cat;
+    names = tagOutput.name;
+    load_slider(images,locations);
+    setMarkers(locations,tags,images,names);
+}
+

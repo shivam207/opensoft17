@@ -78,7 +78,10 @@ var long2 = 50.3;
 
 var deleted = [];
 var arr=[];
-var actualTags = []
+var actualTags = [];
+var locations = [];
+var names = [];
+var deletable = [];
 // var tagImage = [];
 // var tagLocation = [];
 // var tagCategory = [];
@@ -92,7 +95,17 @@ function getTags(){
     //return tagCategory;
 }
 
+function getTagandImage(){
 
+    tagOutput = getTagOutput();
+    return {img:tagOutput.img,
+        loc:tagOutput.loc,
+        cat:tagOutput.cat,
+        name:tagOutput.name,
+        delete:tagOutput.delete
+    };
+
+}
 
 function InverseTag(tag)
 {
@@ -107,6 +120,29 @@ function InverseTag(tag)
     else if(tag==4)
         return 'Birds';
 }
+var userName;
+
+function getUserName() {
+    return userName;
+}
+function submitClicked(){
+    //console.log("manish");
+    userName=document.getElementById("txtBox").value;
+    //console.log(userName);
+    console.log(userName);
+    //_username = username;
+
+    ethPhoto.setUserName(userName.toString(),{"gas":4712388}).then(function(){
+        ethPhoto.getUserName().then(function(username){
+            console.log("the username is " + username)
+          });
+        });
+    document.getElementById("Username").textContent=userName;
+    modal.style.display = "none";
+
+    //return userName;
+}
+
 function retParam(){
     return {
         lat1 : lat1,
@@ -118,15 +154,63 @@ function retParam(){
 }
 
 function beforeUpload(){
-    document.querySelector('#show-dialog').disabled = true;
+    //document.querySelector('#show-dialog').disabled = true;
                 notifyMe("Uploading Photo", "You will be notified after the photo is uploaded.", '../images/upload2.png');   
 }
 
 function afterUpload(fileName){
-    document.querySelector('#show-dialog').disabled = false;
+    //document.querySelector('#show-dialog').disabled = false;
     notifyMe("Photo Uploaded", fileName, '../images/upload2.png');
     callScreenAgain();
 }
+function getTagOutput() {
+    var data = $('#select2').select2('data');
+    var tags = [];
+
+    for(var i=0;i<data.length;i++)
+    {   tags.push(data[i].text)
+    }
+
+    var tagImage = [];
+    var tagLocation = [];
+    var tagCategory = [];
+    var tagName = [];
+    var tagDelete = [];
+    if(tags.length == 0 )
+        {tagImage = arr;
+         tagLocation = locations;  
+         tagCategory = actualTags; 
+         tagName = names;
+         tagDelete = deletable;
+        }
+    else
+    {   
+        for(var i=0;i<arr.length;i++)
+        {
+        for(var j=0;j<tags.length;j++)
+        {
+            if(actualTags[i] == tags[j])
+                break;
+        }
+        if(j<tags.length)
+        {  
+            tagImage.push(arr[i]);
+            tagLocation.push(locations[i]);
+            tagCategory.push(actualTags[i]);
+            tagName.push(names[i]);
+            tagDelete.push(deletable[i]);
+        }
+        }
+    }
+
+    return {img:tagImage,
+        loc:tagLocation,
+        cat:tagCategory,
+        name:tagName,
+        delete:tagDelete
+    };
+} 
+
 function setScreenPoints(latne, longne, latsw, longsw) {
     lat1 = latne;
     long1 = longne;
@@ -139,23 +223,17 @@ function setScreenPoints(latne, longne, latsw, longsw) {
     var elm = document.getElementById("viewphotoBtn");
     var isAdmin = elm.checked;
     //console.log("\n\n Admin\n\n" + isAdmin);
-    var data = $('#select2').select2('data');
-    var tags = [];
-    for(var i=0;i<data.length;i++)
-    {   if(data[i].text=='Animals') tags.push(0);
-        else if(data[i].text == 'Nature') tags.push(1);
-        else if(data[i].text == 'Objects') tags.push(2);
-        else if(data[i].text == 'People') tags.push(3);
-        else if(data[i].text == 'Birds') tags.push(4);
-    }
+    
+    
     console.log("printing tags");
-    console.log(tags)
-    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString(),isAdmin,tags).then(function(final) {
+    //console.log(tags)
+    //var temp = []
+    ethPhoto.browseImageOnMap(lat2.toString(), long2.toString(), lat1.toString(), long1.toString(),isAdmin).then(function(final) {
         // console.log("the url retrieved is :");
         if (final[0] != "") {
-            var locations = [];
+            locations = [];
 
-            actualTags = final[3];
+            
             arr = final[0].split(' ');
             for (var i = 0; i < arr.length; i++) {
                 arr[i] = EmbarkJS.Storage.getUrl(arr[i]);
@@ -163,35 +241,26 @@ function setScreenPoints(latne, longne, latsw, longsw) {
             };
             var arr1 = final[1].split(' ');
             var arr2 = final[2].split(' ');
+            actualTags = final[3].split(' ');
+
+            console.log("the tags is " + actualTags + 'and length is '+actualTags.length);
             for (var i = 0; i < arr2.length; i++) {
                 locations.push({ lat: Number(arr1[i]), lng: Number(arr2[i]) });
             }
+            names = final[4].split(' ');
+            deletable = final[5];
+            tagResult = getTagOutput();
+            arr = tagResult.img;
+            locations = tagResult.loc;
+            actualTags = tagResult.cat;
+
+            names = tagResult.name;
             
-             
-            // if(tags.length == 0 )
-            //     {tagImage = arr;
-            //      tagLocation = locations;  
-            //      tagCategory = actualTags; 
-            //  }
-            //     else
-            //     {   for(var i=0;i<arr.length;i++)
-            //         {
-            //         for(var j=0;j<tags.length;j++)
-            //         {
-            //             if(actualTags[i] == tags[j])
-            //                 break;
-            //         }
-            //         if(j<tags.length)
-            //         {
-            //             tagImage.push(arr[i]);
-            //             tagLocation.push(locations[i]);
-            //             tagCategory.push(actualTags[i]);
-            //         }
-            //         }
-            //     } 
-            
+            console.log("can be deleted or not");
+            console.log(Number(deletable[0]));
+            //console.log("the new tags is " + actualTags + 'and length is '+actualTags.length);
             load_slider(arr,locations);
-            setMarkers(locations)
+            setMarkers(locations,actualTags,arr,names);
         } else {
             load_slider([],[]);
             setMarkers([]);
@@ -227,32 +296,18 @@ function upload(x, y) {
         // console.log(input)
     var skillsSelect = document.getElementById("tag");
     var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
+    if(category_input == 'Other')
+        category_input = document.getElementById("othertext").value;
+    console.log(category_input);
     var category = 0
-    switch (category_input) {
-        case "Animals":
-            category=0;
-            break;
-        case "Nature":
-            category=1;
-            break;
-        case "Objects":
-            category=2;
-            break;
-        case "People":
-            category=3;
-            break;
-        case "Birds":
-            category=4;
-            break;
-    }
 
     EmbarkJS.Storage.uploadFile(input).then(function(hash) {
         console.log("BEFORE")
         beforeUpload();
         singleSetMarker({lat:Number(x),lng:Number(y)});
-        ethPhoto.saveImage(hash,x.toString(), y.toString(),category,{"gas":4712388}).then(function() {
+        ethPhoto.saveImage(hash,x.toString(), y.toString(),category_input,{"gas":4712388}).then(function() {
             console.log("uploaded1");
-            deleteSingleMarker();
+            deleteSingleMarker(x,y);
             afterUpload(input[0].files[0].name);
         });
 

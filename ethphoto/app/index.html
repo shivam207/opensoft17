@@ -56,34 +56,31 @@
 </head>
 
 <body>
-    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
         <!-- <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
             <input id="pac-input" style="width: auto;" class="controls" type="text" placeholder="Search any location">
         </header> -->
-        <div class="demo-drawer mdl-layout__drawer">
-            <header class="demo-drawer-header">
-                <span><h4>Welcome</h4></span>
-                <div class="demo-avatar-dropdown">
-                    <span>Username</span>
-                    <div class="mdl-layout-spacer"></div>
-                    <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                        <i class="material-icons" role="presentation">arrow_drop_down</i>
-                        <span class="visuallyhidden">Accounts</span>
-                    </button>
-                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                        <li class="mdl-menu__item">Account Settings</li>
-                        <li class="mdl-menu__item">Log out</li>
-                    </ul>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <h4>New User</h4>
+                <form action="#">
+                  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input id = "txtBox" class="mdl-textfield__input" type="text" id="sample3">
+                      <label class="mdl-textfield__label" for="sample3">Username</label>
+                  </div>
+                </form>
+                <button id= "okButton "class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="submitClicked()">Submit</button>
+            </div>
+            </div>
+            
+        <dialog id="dialog" class="mdl-dialog" data-backdrop="false">
+                <div class="mdl-dialog__title" style="text-align: center;">
+                    <span>Upload Image</span>
                 </div>
-            </header>
-            <button id="show-dialog" type="button" class="mdl-button">Add Photos</button>
-            <dialog id="dialog" class="mdl-dialog" data-backdrop="false">
-                <div class="mdl-dialog__title">
-                    Upload Image
-                </div>
+                <br>
                 <div class="mdl-dialog__content">
-                    <div id="takeimage" class="droppable">
-                        Drop Files here or Click to Upload
+                     <div id="takeimage" class="droppable">
+                        <strong>Click to Upload </strong> or Drop Files here .
                         <!--          <span style="padding-left: 50px">-->
                         <!-- <label class="image_input_button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored droppable">
                             <i class="material-icons droppable">file_upload</i>
@@ -94,32 +91,39 @@
                         </span>
                     </div>
                     <form id=upload_box>
-                        <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-                            <select class="mdl-selectfield__select" id="tag">
-                                <option value="option1">Animals </option>
-                                <option value="option2">Nature </option>
-                                <option value="option3">Objects </option>
-                                <option value="option3">People </option>
-                                <option value="option3">Birds </option>
-                            </select>
-                            <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect geotag" for="geotag_loc">
-                                <input type="checkbox" id="geotag_loc" name="loc_selector" class="mdl-checkbox__input">
-                                <span class="mdl-checkbox__label">Geotag</span>
-                            </label>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect current" for="current_loc">
-                                <input type="checkbox" id="current_loc" name="loc_selector" class="mdl-checkbox__input">
-                                <span class="mdl-checkbox__label">Current Location</span>
-                            </label>
-                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect manual" for="enter_loc">
-                                <input type="checkbox" id="enter_loc" name="loc_selector" class="mdl-checkbox__input">
-                                <span class="mdl-checkbox__label">Enter Location</span>
-                            </label>
-                            <div class="mdl-textfield mdl-js-textfield" id="upload_text">
-                                <input class="mdl-textfield__input" type="text" id="manualLocation">
-                                <label class="mdl-textfield__label" for="manualLocation">Enter location</label>
-                            </div>
+                    <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label" style="width:99%">
+                      <h4><span>Add tags:</span></h4>
+                        <select class="mdl-selectfield__select" id="tag" >
+                            <option value="option1">Animals </option>
+                            <option value="option2">Nature </option>
+                            <option value="option3">Objects </option>
+                            <option value="option3">People </option>
+                            <option value="option3">Birds </option>
+                            <option value="6">Other </option>
+                        </select>
+                        <div class="mdl-textfield mdl-js-textfield otherFalse" style="width:100%" id="othertag">
+                         <input class="mdl-textfield__input" type="text" placeholder="Enter a tag" id="othertext">
                         </div>
+                        <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
+                        <h4><span>Get Location from</span></h4>
+                        <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect geotag" for="geotag_loc">
+                            <input type="checkbox" id="geotag_loc" name="loc_selector" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Geotag</span>
+                        </label>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect current" for="current_loc">
+                            <input type="checkbox" id="current_loc" name="loc_selector" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Current Location</span>
+                        </label>
+                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect manual" for="enter_loc">
+                            <input type="checkbox" id="enter_loc" name="loc_selector" class="mdl-checkbox__input">
+                            <span class="mdl-checkbox__label">Enter Location</span>
+                        </label>
+                        <div class="mdl-textfield mdl-js-textfield" id="upload_text " style="width:100%">
+                            <input class="mdl-textfield__input" type="text" id="manualLocation">
+                            <label class="mdl-textfield__label" for="manualLocation">Enter location</label>
+                        </div>
+                    </div>
                     </form>
                 </div>
                 <div class="mdl-dialog__actions">
@@ -127,21 +131,28 @@
                     <button type="button" class="mdl-button" id="cancel_button">Cancel</button>
                 </div>
             </dialog>
+        <div class="demo-drawer mdl-layout__drawer mdl-shadow--16dp" >
+            <header class="demo-drawer-header mdl-shadow--4dp">
+                <span><h4>Welcome</h4></span>
+                <span id="Username">lellol</span>
+            </header>
+            
             <nav class="demo-navigation mdl-navigation">
+                <button id="show-dialog" type="button" class="mdl-button">Add Photos</button>
                 <div class=parentOfTag>
-                    <select class="js-example-responsive searchBytags" id="select2" style="width:100%; color:#000" multiple="multiple">
-                        <!-- <optgroup label="All">
+                <select class="js-example-responsive searchBytags" id="select2" multiple="multiple">
+                  <!-- <optgroup label="All">
                     <option value="0">All</option>
                   </optgroup> -->
-                        <optgroup label="Categories">
-                            <option value="1">Animals</option>
-                            <option value="2">Nature</option>
-                            <option value="3">Objects</option>
-                            <option value="4">People</option>
-                            <option value="5">Birds</option>
-                            <!-- <option value="6">Other</option> -->
-                        </optgroup>
-                    </select>
+                  <optgroup label="Categories">
+                    <option value="1">Animals</option>
+                    <option value="2">Nature</option>
+                    <option value="3">Objects</option>
+                    <option value="4">People</option>
+                    <option value="5">Birds</option>
+                    <!-- <option value="6">Other</option> -->
+                  </optgroup>
+                </select>
                 </div>
                 <!-- <form>
                     
@@ -156,7 +167,7 @@
                     </label>
                 </form>
             </nav>
-            <button id="tourbtn" type="button" class="mdl-button">Take website tour</button>
+                <button id="tourbtn" type="button" class="mdl-button">Take website tour</button>
         </div>
         <main class="mdl-layout__content">
             <div class="demo-card-wide mdl-card mdl-shadow--2dp">
@@ -170,7 +181,7 @@
                     <div class="mdl-textfield mdl-js-textfield">
                         <input class="mdl-textfield__input" type="text" id="pac-input">
                         <!-- <label class="mdl-textfield__label" for="pac-input" id="location-label">Text...</label> -->
-                    </div>
+                      </div>
                 </div>
                 <div id="map"></div>
                 <div class="floating-panel" id="carousel_container"></div>
