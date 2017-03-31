@@ -130,7 +130,7 @@ function submitClicked(){
     userName=document.getElementById("txtBox").value;
     //console.log(userName);
     console.log(userName);
-    _username = username;
+    //_username = username;
 
     ethPhoto.setUserName(userName.toString(),{"gas":4712388}).then(function(){
         ethPhoto.getUserName().then(function(username){
