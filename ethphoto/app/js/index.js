@@ -1,10 +1,10 @@
 // File Upload
 var user_hide=false;
 
-function readURL(files) {
+function readURL(input) {
     
     console.log("---------")
-    console.log(input)
+    // console.log(input)
     if (input && input[0].files[0]) {
         console.log("inside")
         var reader = new FileReader();
@@ -380,7 +380,7 @@ function callback(files) {
   var input = $("#takeimage input[type=file]")
   input[0].files=files
   // readURL(files);
-  readURL(files);
+  readURL(input);
 }
 
 function clearGroup() {
