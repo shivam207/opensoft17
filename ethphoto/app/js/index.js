@@ -8,9 +8,9 @@ function readURL(input) {
     if (input && input[0].files[0]) {
         console.log("inside")
         var reader = new FileReader();
-        $("#filename").text(input[0].files[0].name);
+        // $("#filename").text(input[0].files[0].name);
         console.log(input[0].files[0].name);
-        $("#filename").removeClass("hidden");
+        // $("#filename").removeClass("hidden");
         photoLocation(input);
     }
 
@@ -335,7 +335,17 @@ function makeDroppable(element, callback) {
   // input.setAttribute('multiple', true);
   input.style.display = 'none';
 
-  input.addEventListener('change', triggerCallback);
+  var input2 = document.createElement('input');
+  input2.setAttribute('type', 'file');
+  input2.setAttribute('accept', 'image/*');
+  // input.setAttribute('multiple', true);
+  input2.style.display = 'none';
+
+  input.addEventListener('change', function(e){
+    console.log("Manually");
+    console.log(e);
+    // readURL($("#takeimage input[type=file]"));
+  });;
   element.appendChild(input);
   
   element.addEventListener('dragover', function(e) {
@@ -351,6 +361,7 @@ function makeDroppable(element, callback) {
   });
 
   element.addEventListener('drop', function(e) {
+    console.log("2 times")
     e.preventDefault();
     e.stopPropagation();
     element.classList.remove('dragover');
@@ -377,10 +388,10 @@ function makeDroppable(element, callback) {
 function callback(files) {
   // Here, we simply log the Array of files to the console.
   console.log(files);
-  var input = $("#takeimage input[type=file]")
-  input[0].files=files
+  var input2 = $("#takeimage input[type=file]")
+  input2[0].files=files
   // readURL(files);
-  readURL(input);
+  readURL(input2);
 }
 
 function clearGroup() {

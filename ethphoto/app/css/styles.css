@@ -622,7 +622,27 @@ button.toast-close-button {
     color:#000;
 }
 
+.select2-container{
+  margin-left: 5px;
+  margin-right:5px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
 
+.mdl-button{
+  margin-left: 5px;
+  margin-right:5px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
+
+.myphoto{
+  margin-left: 5px;
+  margin-right:5px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  /*text-align: center;*/
+}
 /*For managing Searchbox Locations*/
 
 .class {
