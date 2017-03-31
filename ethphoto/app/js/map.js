@@ -2,6 +2,8 @@ var map;
 var gmarkers = [];
 
 var infowindow = null;
+
+var _username;
 // console.log("REACHED HERE!!!");
 
 function CenterControl(controlDiv, map) {
@@ -55,7 +57,31 @@ function zoomComplete() {
   map.setZoom(0);
 
 }
+
+function zoomNormal() {
+  map.setZoom(5);
+}
+
+var modal;
+
 function initMap() {
+
+    ethPhoto.isUserRegistered().then(function(isExist){
+      //isExist = false;
+      console.log(isExist);
+      if(isExist){
+        ethPhoto.getUserName().then(function(username){
+          _username = username;
+          console.log(username);
+        });
+      }
+      else{
+        console.log("nsnanskankans");
+        modal = document.getElementById('myModal');
+        modal.style.display = "block";
+      
+      }
+    });
 
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
@@ -103,14 +129,6 @@ function initMap() {
         map.setCenter(place.geometry.location);
         map.setZoom(17);  // Why 17? Because it looks good.
       }
-      // marker.setPosition(place.geometry.location);
-      // marker.setVisible(true);
-
-
-      // infowindowContent.children['place-icon'].src = place.icon;
-      // infowindowContent.children['place-name'].textContent = place.name;
-      // infowindowContent.children['place-address'].textContent = address;
-      // infowindow.open(map, marker);
     });
     infowindow = new google.maps.InfoWindow({
                 content: "loading..."
@@ -141,8 +159,9 @@ function initMap() {
             map.setCenter(pos);
         });
     }
+    $("#Username").val(_username);
     searchBox("manualLocation")
-
+    console.log("the username is" + _username);
 }
 
 function searchBox(id="pac-input") {
@@ -210,33 +229,68 @@ var color8 = 'http://maps.google.com/mapfiles/ms/icons/paleblue-dot.png';
 var color9 = 'http://maps.google.com/mapfiles/ms/icons/darkgreen-dot.png';
 var color10 = 'http://maps.google.com/mapfiles/ms/icons/brown-dot.png';
 
-var tag_color = [color1,color2,color3,color4,color5,color6,color7,color8,color9,color10];
-var singleMarker ;
+var tag_color = {"Animals":color1,"Nature":color2,"Objects":color3,"People":color4,"Birds":color5,"def1":color6,"def2":color7,"def3":color8,"def4":color9,"def5":color10};
+function getIcon(tag) {
+  if(tag == "Animals")
+    return color1;
+  else if(tag == "Nature")
+    return color2;
+  else if(tag == "Objects")
+    return color3;
+  else if(tag =="People")
+    return color4;
+  else if(tag =="Birds")
+    return color5;
+  else
+    return color6;
+}
+var singleMarker = [];
 function singleSetMarker(location){
         var marker = new google.maps.Marker({
             position: { lat: location.lat, lng: location.lng },
             map: map,
             icon: loading
         });
-
-
-       //gmarkers.push(marker);
-       singleMarker = marker;
+       //singleMarker = marker;
+       singleMarker.push(marker);
 }
 
-function deleteSingleMarker(){
-  singleMarker.setMap(null);
+function deleteSingleMarker(x,y){
+  if(singleMarker.length==1)
+    {singleMarker[0].setMap(null);
+    singleMarker = [];
+    }
+  else
+  {
+    console.log("the single marker length is " + singleMarker.length);
+    console.log("actual");
+    console.log(x,y);
+  for(var i=0;i<singleMarker.length;i++){
+    //console.log(singleMarker[i].getPosition().lat(),singleMarker[i].getPosition().lng());
+    var latPos = Number(singleMarker[i].getPosition().lat());
+    var lngPos = Number(singleMarker[i].getPosition().lng());
+    if(Number(latPos.toFixed(7)) == Number(x.toFixed(7)) && Number(lngPos.toFixed(7)) == Number(y.toFixed(7)))
+    {
+      console.log("found");
+      singleMarker[i].setMap(null);
+      singleMarker[i] = singleMarker[singleMarker.length-1];
+      singleMarker.length--;
+      break;
+    }
+  }
+  }
+  //singleMarker.setMap(null);
 }
-function setMarkers(locations, add = 0) {
+function setMarkers(locations,tags,images,names,add = 0) {
 
     console.log("IN SET MARKERS")
     if (add == 0) {
         //console.log("\n\n\nHello");
         //console.log(gmarkers.length + " " + locations.length + "\n\n\n");
-        console.log("the length is "+locations.length)
+        //console.log("the length is "+locations.length)
         for (i = 0; i < gmarkers.length; i++) {
             
-            console.log("hi"+i);
+            //console.log("hi"+i);
             gmarkers[i].setMap(null);
         }
         
@@ -246,16 +300,13 @@ function setMarkers(locations, add = 0) {
         }
         gmarkers = [];
     }
-    var tags = getTags();
     for (var i = 0; i < locations.length; i++) {
         var location = locations[i];
-        console.log("printing locations");
-        console.log(location.lat,location.lng);
         flag = 1;
         var marker = new google.maps.Marker({
             position: { lat: location.lat, lng: location.lng },
             map: map,
-            icon:tag_color[tags[i]]
+            icon:getIcon(tags[i])
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -263,7 +314,7 @@ function setMarkers(locations, add = 0) {
                 var x = marker.getPosition().lat();
                 var y = marker.getPosition().lng();
                 console.log("marker clicked");
-                images = getImage1();
+                //images = getImage1();
                 
                 console.log(locations.length)
                 console.log(x,y);
@@ -278,7 +329,7 @@ function setMarkers(locations, add = 0) {
                 }
                 
                         
-                infowindow.setContent("<p>Category= "+InverseTag(tags[i])+"</p><IMG width = 'auto' height = '150' SRC="+images[i]+">");
+                infowindow.setContent("<p>Category= "+tags[i]+"and username= "+names[i]+ "</p><IMG width = 'auto' height = '150' SRC="+images[i]+">");
                 infowindow.open(map,marker);
 
             }
