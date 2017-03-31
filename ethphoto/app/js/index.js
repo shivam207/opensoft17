@@ -1,20 +1,16 @@
 // File Upload
 var user_hide=false;
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
+function readURL(files) {
+    var input = $("#takeimage input[type=file]")
+    console.log("---------")
+    console.log(input)
+    input[0].files=files
+    if (input && input[0].files[0]) {
+        console.log("inside")
         var reader = new FileReader();
-
-        // reader.onload = function(e) {
-        //     $('#blah')
-        //         .attr('src', e.target.result)
-        //         .width(150)
-        //         .height(200);
-        // };
-
-        reader.readAsDataURL(input.files[0]);
-        $("#filename").text(input.files[0].name);
-        console.log(input.files[0].name);
+        $("#filename").text(input[0].files[0].name);
+        console.log(input[0].files[0].name);
         $("#filename").removeClass("hidden");
         photoLocation(input);
     }
@@ -43,7 +39,9 @@ function photoLocation(input){
     //     console.log("Location Not.");
     // }
 
-    EXIF.getData(input.files[0], function() {
+    console.log("photoloc");
+
+    EXIF.getData(input[0].files[0], function() {
         // console.log("Happy");
         var lat = EXIF.getTag(this, "GPSLatitude");
         // var lon = EXIF.getTag(this, "GPSLongitude");
@@ -227,9 +225,7 @@ $(function() {
     });
 
     document.querySelector('#tourbtn').addEventListener('click', function() {
-        console.log("dsds")
-        // tour_website.init();
-        tour_website.start();
+        taketour();
     });
 
     dialog.querySelector('#cancel_button').addEventListener('click', function() {
@@ -285,6 +281,9 @@ $(function() {
         }
     });
 
+    var element = document.querySelector('.droppable');
+    makeDroppable(element, callback);
+
 
     // test();
 
@@ -314,6 +313,60 @@ $(function() {
 */
     // End Modal
 });
+
+function makeDroppable(element, callback) {
+  console.log("file UP")
+  var input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  // input.setAttribute('multiple', true);
+  input.style.display = 'none';
+
+  input.addEventListener('change', triggerCallback);
+  element.appendChild(input);
+  
+  element.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    element.classList.add('dragover');
+  });
+
+  element.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    element.classList.remove('dragover');
+  });
+
+  element.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    element.classList.remove('dragover');
+    triggerCallback(e);
+  });
+  
+  element.addEventListener('click', function() {
+    input.value = null;
+    input.click();
+  });
+
+  function triggerCallback(e) {
+    console.log("file UP2")
+    if(e.dataTransfer) {
+      files = e.dataTransfer.files;
+    } else if(e.target) {
+      files = e.target.files;
+    }
+    callback.call(null, files);
+  }
+}
+
+
+function callback(files) {
+  // Here, we simply log the Array of files to the console.
+  console.log(files);
+  // readURL(files);
+  readURL(files);
+}
 
 function clearGroup() {
     var checkbox = ['geotag_loc', 'enter_loc', 'current_loc'];

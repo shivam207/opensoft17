@@ -82,42 +82,44 @@
                     Upload Image
                 </div>
                 <div class="mdl-dialog__content">
-                    <div id="takeimage">
+                    <div id="takeimage" class="droppable">
+                        Drop Files here or Click to Upload
                         <!--          <span style="padding-left: 50px">-->
-                        <label class="image_input_button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
-                            <i class="material-icons">file_upload</i>
+                        <!-- <label class="image_input_button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored droppable">
+                            <i class="material-icons droppable">file_upload</i>
                             <input type="file" class="hidden" accept="image/*" onchange="readURL(this);"> Choose File
-                        </label>
+                            Drop Files here or Click to Upload
+                        </label> -->
                         <span id="filename" class="hidden">
                         </span>
                     </div>
                     <form id=upload_box>
-                    <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
-                        <select class="mdl-selectfield__select" id="tag">
-                            <option value="option1">Animals </option>
-                            <option value="option2">Nature </option>
-                            <option value="option3">Objects </option>
-                            <option value="option3">People </option>
-                            <option value="option3">Birds </option>
-                        </select>
-                        <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect geotag" for="geotag_loc">
-                            <input type="checkbox" id="geotag_loc" name="loc_selector" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Geotag</span>
-                        </label>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect current" for="current_loc">
-                            <input type="checkbox" id="current_loc" name="loc_selector" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Current Location</span>
-                        </label>
-                        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect manual" for="enter_loc">
-                            <input type="checkbox" id="enter_loc" name="loc_selector" class="mdl-checkbox__input">
-                            <span class="mdl-checkbox__label">Enter Location</span>
-                        </label>
-                        <div class="mdl-textfield mdl-js-textfield" id="upload_text">
-                            <input class="mdl-textfield__input" type="text" id="manualLocation">
-                            <label class="mdl-textfield__label" for="manualLocation">Enter location</label>
+                        <div class="mdl-selectfield mdl-js-selectfield mdl-selectfield--floating-label">
+                            <select class="mdl-selectfield__select" id="tag">
+                                <option value="option1">Animals </option>
+                                <option value="option2">Nature </option>
+                                <option value="option3">Objects </option>
+                                <option value="option3">People </option>
+                                <option value="option3">Birds </option>
+                            </select>
+                            <!-- <label for="tag" class="mdl-selectfield__label">Tags</label> -->
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect geotag" for="geotag_loc">
+                                <input type="checkbox" id="geotag_loc" name="loc_selector" class="mdl-checkbox__input">
+                                <span class="mdl-checkbox__label">Geotag</span>
+                            </label>
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect current" for="current_loc">
+                                <input type="checkbox" id="current_loc" name="loc_selector" class="mdl-checkbox__input">
+                                <span class="mdl-checkbox__label">Current Location</span>
+                            </label>
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect manual" for="enter_loc">
+                                <input type="checkbox" id="enter_loc" name="loc_selector" class="mdl-checkbox__input">
+                                <span class="mdl-checkbox__label">Enter Location</span>
+                            </label>
+                            <div class="mdl-textfield mdl-js-textfield" id="upload_text">
+                                <input class="mdl-textfield__input" type="text" id="manualLocation">
+                                <label class="mdl-textfield__label" for="manualLocation">Enter location</label>
+                            </div>
                         </div>
-                    </div>
                     </form>
                 </div>
                 <div class="mdl-dialog__actions">
@@ -126,19 +128,21 @@
                 </div>
             </dialog>
             <nav class="demo-navigation mdl-navigation">
-                <select class="js-example-responsive searchBytags" id="select2" style="width:100%; color:#000" multiple="multiple">
-                  <!-- <optgroup label="All">
+                <div class=parentOfTag>
+                    <select class="js-example-responsive searchBytags" id="select2" style="width:100%; color:#000" multiple="multiple">
+                        <!-- <optgroup label="All">
                     <option value="0">All</option>
                   </optgroup> -->
-                  <optgroup label="Categories">
-                    <option value="1">Animals</option>
-                    <option value="2">Nature</option>
-                    <option value="3">Objects</option>
-                    <option value="4">People</option>
-                    <option value="5">Birds</option>
-                    <!-- <option value="6">Other</option> -->
-                  </optgroup>
-                </select>
+                        <optgroup label="Categories">
+                            <option value="1">Animals</option>
+                            <option value="2">Nature</option>
+                            <option value="3">Objects</option>
+                            <option value="4">People</option>
+                            <option value="5">Birds</option>
+                            <!-- <option value="6">Other</option> -->
+                        </optgroup>
+                    </select>
+                </div>
                 <!-- <form>
                     
                     <button id="categoryBtn" type="button" class="mdl-button">Submit</button>
@@ -151,9 +155,8 @@
                         <span class="mdl-checkbox__label">View only my photos</span>
                     </label>
                 </form>
-
             </nav>
-                <button id="tourbtn" type="button" class="mdl-button">Take website tour</button>
+            <button id="tourbtn" type="button" class="mdl-button">Take website tour</button>
         </div>
         <main class="mdl-layout__content">
             <div class="demo-card-wide mdl-card mdl-shadow--2dp">
@@ -167,7 +170,7 @@
                     <div class="mdl-textfield mdl-js-textfield">
                         <input class="mdl-textfield__input" type="text" id="pac-input">
                         <!-- <label class="mdl-textfield__label" for="pac-input" id="location-label">Text...</label> -->
-                      </div>
+                    </div>
                 </div>
                 <div id="map"></div>
                 <div class="floating-panel" id="carousel_container"></div>

@@ -581,4 +581,9 @@ button.toast-close-button {
 /*To hide delete button in Lightbox */
 .myhidden {
   display: none !important;
+
 }
+
+.droppable { background: #08c; color: #fff; padding: 100px 0; text-align: center; }
+
+.droppable.dragover { background: #00CC71; }
