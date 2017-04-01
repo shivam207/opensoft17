@@ -54,17 +54,28 @@ function CenterControl(controlDiv, map) {
 }
 
 function zoomComplete() {
-  map.setZoom(0);
+  map.setZoom(2);
 
 }
 
 function zoomNormal() {
   map.setZoom(5);
+  var pos = {
+                lat: 23.3440997,
+                lng: 85.30956200000003
+            };
+  map.setCenter(pos);
+
 }
 
 var modal;
 
 function initMap() {
+
+    //alert("Wait for ether");
+
+    // ethPhoto.getFund().then(function(result){
+    //   console.log("Rec fund and the result is " + result);
 
     ethPhoto.isUserRegistered().then(function(isExist){
       //isExist = false;
@@ -84,7 +95,7 @@ function initMap() {
       
       }
     });
-
+  // });
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 10,
         center: { lat: -37.363, lng: 150.044 },

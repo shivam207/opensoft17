@@ -148,7 +148,7 @@ function load_slider(images,locations) {
         $('#mycarousel').slick({
             initialSlide: initialSlide,
             infinite: false,
-            slidesToShow: 5,
+            slidesToShow: 8,
             lazyLoad: 'ondemand',
             slidesToScroll: 1,
             autoplay: false,
@@ -396,6 +396,19 @@ function clearGroup() {
 
 }
 
+$("upload_box").bind("keydown", function(e) {
+   if (e.keyCode === 13) return false;
+});
+
+$("manualLocation").bind("keydown", function(e) {
+   if (e.keyCode === 13) return false;
+});
+
+
+$("ok_button").bind("keydown", function(e) {
+   if (e.keyCode === 13) return false;
+});
+
 function okclicked(){
     console.log("ok...")
     var final_checked;
@@ -406,6 +419,12 @@ function okclicked(){
         var input = $("#dragdrop input[type=file]")
     $(".pac-container").addClass('otherclass');
     $(".pac-container").removeClass('class');
+
+    if (input[0].files[0]==undefined)
+    {
+        window.alert("No file uploaded. Please upload a file ....");
+        return;
+    }
     if (document.getElementById('geotag_loc').checked == true){
         final_checked = 1;
         EXIF.getData(input[0].files[0], function() {
@@ -450,6 +469,11 @@ function okclicked(){
         });
         final_checked = 3;
     }
+    else{
+        window.alert("Location not selected. Please choose a location ....");
+        return;
+    }
+
     console.log(final_checked);
     console.log(lat, lon);
     dialog.close();  

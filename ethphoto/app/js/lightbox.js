@@ -94,7 +94,7 @@
   Lightbox.prototype.build = function() {
     var self = this;
 
-    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span><span class="lb-download"><i class="material-icons md-36 md-light">  file_download</i></span></div><div class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
+    $('<div id="lightboxOverlay" class="lightboxOverlay"></div><div id="lightbox" class="lightbox"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" /><div class="lb-nav"><a class="lb-prev" href="" ></a><a class="lb-next" href="" ></a></div><div class="lb-loader"><a class="lb-cancel"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span><span class="lb-download"><i class="material-icons md-36 md-light">  file_download</i></span></div><div id="closebtn" class="lb-closeContainer"><i class="material-icons lb-close md-36 md-light">  delete_forever</i></a></div></div></div></div>').appendTo($('body'));
 
     // Cache jQuery objects
     this.$lightbox       = $('#lightbox');
@@ -472,7 +472,8 @@
     console.log(Number(deletable[self.currentImageIndex]))
     if(deletable[self.currentImageIndex] == 1)
     { console.log("muPhotos !!! ")
-      this.$lightbox.find('.lb-close').disabled=false;
+      // this.$lightbox.find('.lb-close').disabled=false;
+      document.getElementById("closebtn").style.visibility="visible";
     }
     // var myphotosIsChecked = document.getElementById("viewphotoBtn").checked;
     // if (myphotosIsChecked){
@@ -481,7 +482,8 @@
     // }
     else{
       console.log("Not muPhotos !!! ")
-      this.$lightbox.find('.lb-close').disabled=true;
+      // this.$lightbox.find('.lb-close').disabled=true;
+      document.getElementById("closebtn").style.visibility="hidden";
       this.$lightbox.find('.lb-loader, .lb-close').onclick = null;
       // this.$lightbox.find('.lb-loader, .lb-close').on('click', function(){
       //   console.log("Not ur photo u ");

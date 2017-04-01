@@ -23,7 +23,7 @@ function taketour(){
     {
       element: ".myphoto",
       title: "View your photos",
-      content: "own on map. You can also delete your photo now.",
+      content: "To view photos uploaded by you.",
       placement:"right"
       // onNext: function () {
       //   showDialog();

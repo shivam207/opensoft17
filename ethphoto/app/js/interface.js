@@ -125,20 +125,33 @@ var userName;
 function getUserName() {
     return userName;
 }
+
+$("txtBox").bind("keydown", function(e) {
+   if (e.keyCode === 13) return false;
+});
+
+
+
+$("myModal").bind("keydown", function(e) {
+   if (e.keyCode === 13) return false;
+});
+
 function submitClicked(){
     //console.log("manish");
     userName=document.getElementById("txtBox").value;
     //console.log(userName);
     console.log(userName);
-    //_username = username;
+    if(userName!=''){
+        //_username = username;
 
-    ethPhoto.setUserName(userName.toString(),{"gas":4712388}).then(function(){
-        ethPhoto.getUserName().then(function(username){
-            console.log("the username is " + username)
-          });
-        });
-    document.getElementById("Username").textContent=userName;
-    modal.style.display = "none";
+        ethPhoto.setUserName(userName.toString(),{"gas":4712388}).then(function(){
+            ethPhoto.getUserName().then(function(username){
+                console.log("the username is " + username)
+              });
+            });
+        document.getElementById("Username").textContent=userName;
+        modal.style.display = "none";
+    }
 
     //return userName;
 }
@@ -255,6 +268,18 @@ function setScreenPoints(latne, longne, latsw, longsw) {
             actualTags = tagResult.cat;
 
             names = tagResult.name;
+
+            // for (var i=0; i<arr.length; i++){
+            //     console.log(arr[i]);
+            //     imageExists(arr[i], function(exists){
+            //         console.log(arr);
+            //         console.log(arr[i]);
+            //         console.log('RESULT: url=' + arr[i] + ', exists=' + exists);
+            //         if (!exists){
+            //             arr[i]='../images/load.gif'
+            //         }
+            //     });
+            // }   
             
             console.log("can be deleted or not");
             console.log(Number(deletable[0]));
@@ -271,6 +296,15 @@ function setScreenPoints(latne, longne, latsw, longsw) {
     // locations = get_locations(lat1,lat2,long1,long2);
     // setMarkers(locations);
 }
+
+// function imageExists(url, callback) {
+//   var img = new Image();
+//   img.onload = function() { callback(true); };
+//   img.onerror = function() { callback(false); };
+//   img.src = url;
+//   console.log("-----")
+//   console.log(url)
+// }
 
 // function setLatLang(lat,long) {
 //   latitude = lat;
