@@ -1,16 +1,16 @@
 // File Upload
 var user_hide=false;
+var dragndrop=false;
 
 function readURL(input) {
     
     console.log("---------")
-    // console.log(input)
     if (input && input[0].files[0]) {
         console.log("inside")
         var reader = new FileReader();
-        // $("#filename").text(input[0].files[0].name);
+        $("#filename").text(input[0].files[0].name);
         console.log(input[0].files[0].name);
-        // $("#filename").removeClass("hidden");
+        $("#filename").removeClass("hidden");
         photoLocation(input);
     }
 
@@ -335,16 +335,10 @@ function makeDroppable(element, callback) {
   // input.setAttribute('multiple', true);
   input.style.display = 'none';
 
-  var input2 = document.createElement('input');
-  input2.setAttribute('type', 'file');
-  input2.setAttribute('accept', 'image/*');
-  // input.setAttribute('multiple', true);
-  input2.style.display = 'none';
-
   input.addEventListener('change', function(e){
     console.log("Manually");
-    console.log(e);
-    // readURL($("#takeimage input[type=file]"));
+    dragndrop=false;
+    readURL($("#takeimage input[type=file]"));
   });;
   element.appendChild(input);
   
@@ -361,10 +355,11 @@ function makeDroppable(element, callback) {
   });
 
   element.addEventListener('drop', function(e) {
-    console.log("2 times")
+    console.log("Drop")
     e.preventDefault();
     e.stopPropagation();
     element.classList.remove('dragover');
+    dragndrop=true;
     triggerCallback(e);
   });
   
@@ -374,7 +369,6 @@ function makeDroppable(element, callback) {
   });
 
   function triggerCallback(e) {
-    console.log("file UP2")
     if(e.dataTransfer) {
       files = e.dataTransfer.files;
     } else if(e.target) {
@@ -386,12 +380,11 @@ function makeDroppable(element, callback) {
 
 
 function callback(files) {
-  // Here, we simply log the Array of files to the console.
   console.log(files);
-  var input2 = $("#takeimage input[type=file]")
-  input2[0].files=files
-  // readURL(files);
-  readURL(input2);
+  var input = $("#dragdrop input[type=file]")
+  input[0].files=files
+  // console.log(input);
+  readURL(input);
 }
 
 function clearGroup() {
@@ -407,7 +400,10 @@ function okclicked(){
     console.log("ok...")
     var final_checked;
     var lat, lon;
-    var input = $("#takeimage input[type=file]")
+    if (dragndrop==false)
+        var input = $("#takeimage input[type=file]")
+    else
+        var input = $("#dragdrop input[type=file]")
     $(".pac-container").addClass('otherclass');
     $(".pac-container").removeClass('class');
     if (document.getElementById('geotag_loc').checked == true){
@@ -421,7 +417,7 @@ function okclicked(){
             lon = (lon[0] + lon[1] / 60 + lon[2] / 3600) * (lonRef == "W" ? -1 : 1);
             console.log(lat);
             console.log(lon);
-            upload(lat, lon);
+            upload(input, lat, lon);
         })
 
     }
@@ -436,7 +432,7 @@ function okclicked(){
                 lon=pos.lng;
                 console.log(lat, lon, "nav");
 
-                upload(lat, lon);
+                upload(input, lat, lon);
             })
     }
     else if (document.getElementById('enter_loc').  checked == true) {
@@ -449,7 +445,7 @@ function okclicked(){
                 lat=results[0].geometry.location.lat();
                 lon=results[0].geometry.location.lng();
                 console.log(lat, lon, "Enter");
-                upload(lat, lon);
+                upload(input, lat, lon);
             }
         });
         final_checked = 3;

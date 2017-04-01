@@ -278,7 +278,7 @@ function setScreenPoints(latne, longne, latsw, longsw) {
 //   // console.log("hiii" + latitude);
 // }
 
-function upload(x, y) {
+function upload(input, x, y) {
     /**** Upload
     Upload function is called by the arguments latitude,longitude, file, category.
     Hash of the image uploaded is obtained by calling the function eth_Photo.uploadFile()
@@ -292,8 +292,6 @@ function upload(x, y) {
     5. hashkey
     ****/
     // console.log("ARBIT")
-    var input = $("#takeimage input[type=file]")
-        // console.log(input)
     var skillsSelect = document.getElementById("tag");
     var category_input = skillsSelect.options[skillsSelect.selectedIndex].text;
     if(category_input == 'Other')
